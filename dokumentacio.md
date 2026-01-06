@@ -1,3 +1,1 @@
 # Étlap tervező
-
-zsolti
