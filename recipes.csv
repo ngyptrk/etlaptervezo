@@ -1,0 +1,51 @@
+id,name,description,picture,servings,meal_type
+1,Paprikás krumpli,Hagyományos magyar egytálétel kolbásszal,https://source.unsplash.com/featured/?paprikas,4,1
+2,Rántott hús burgonyával,Ropogós panírozott sertéshús körettel,https://source.unsplash.com/featured/?schnitzel,4,1
+3,Marhapörkölt,Szaftos marhapörkölt magyarosan,https://source.unsplash.com/featured/?goulash,4,1
+4,Spagetti bolognai,Paradicsomos húsos tésztaétel,https://source.unsplash.com/featured/?spaghetti,4,1
+5,Csirkepaprikás,Tejfölös-paprikás csirkés főétel,https://source.unsplash.com/featured/?chicken-paprika,4,1
+6,Lasagne,Olasz réteges tésztaétel,https://source.unsplash.com/featured/?lasagna,4,1
+7,Töltött káposzta,Káposztalevélbe töltött húsos étel,https://source.unsplash.com/featured/?stuffed-cabbage,4,1
+8,Rakott krumpli,Burgonyás-tejfölös sütött étel,https://source.unsplash.com/featured/?potato-casserole,4,1
+9,Grillezett csirkemell,Egészséges sült csirkehús,https://source.unsplash.com/featured/?grilled-chicken,4,1
+10,Rántott sajt,Bundázott sült sajt,https://source.unsplash.com/featured/?fried-cheese,4,1
+11,Gulyásleves,Hagyományos magyar leves,https://source.unsplash.com/featured/?goulash-soup,4,2
+12,Húsleves gazdagon,Lassan főzött klasszikus leves,https://source.unsplash.com/featured/?meat-soup,4,2
+13,Paradicsomleves,Édeskés paradicsomos leves,https://source.unsplash.com/featured/?tomato-soup,4,2
+14,Zöldségleves,Friss zöldségekből készült leves,https://source.unsplash.com/featured/?vegetable-soup,4,2
+15,Krémleves,Gazdag állagú krémes leves,https://source.unsplash.com/featured/?cream-soup,4,2
+16,Bableves,Tartalmas babos leves,https://source.unsplash.com/featured/?bean-soup,4,2
+17,Lencseleves,Hagyományos lencsés leves,https://source.unsplash.com/featured/?lentil-soup,4,2
+18,Halászlé,Fűszeres magyar halleves,https://source.unsplash.com/featured/?fisherman-soup,4,2
+19,Karfiolleves,Könnyű zöldségleves,https://source.unsplash.com/featured/?cauliflower-soup,4,2
+20,Almaleves,Hidegen is fogyasztható gyümölcsleves,https://source.unsplash.com/featured/?apple-soup,4,2
+21,Palacsinta,Édes töltött desszert,https://source.unsplash.com/featured/?pancakes,4,3
+22,Somlói galuska,Magyar klasszikus desszert,https://source.unsplash.com/featured/?hungarian-dessert,4,3
+23,Tiramisu,Olasz krémes desszert,https://source.unsplash.com/featured/?tiramisu,4,3
+24,Almás pite,Fahéjas almás sütemény,https://source.unsplash.com/featured/?apple-pie,4,3
+25,Chocolate brownie,Puha csokoládés sütemény,https://source.unsplash.com/featured/?brownie,4,3
+26,Sajttorta,Krémes sült desszert,https://source.unsplash.com/featured/?cheesecake,4,3
+27,Piskótatekercs,Krémmel töltött sütemény,https://source.unsplash.com/featured/?sponge-cake,4,3
+28,Muffin,Könnyű egyadagos sütemény,https://source.unsplash.com/featured/?muffin,4,3
+29,Rizskoch,Sült rizses desszert,https://source.unsplash.com/featured/?rice-pudding,4,3
+30,Aranygaluska,Diós kelt tészta desszert,https://source.unsplash.com/featured/?sweet-dough,4,3
+31,Cézár saláta,Klasszikus csirkés saláta,https://source.unsplash.com/featured/?caesar-salad,4,4
+32,Görög saláta,Friss zöldséges előétel,https://source.unsplash.com/featured/?greek-salad,4,4
+33,Bruschetta,Pirított kenyér paradicsommal,https://source.unsplash.com/featured/?bruschetta,4,4
+34,Hidegtál,Vegetáriánus falatkák,https://source.unsplash.com/featured/?appetizer-platter,4,4
+35,Tojáskrémes kenyér,Egyszerű hideg előétel,https://source.unsplash.com/featured/?egg-spread,4,4
+36,Sajttál,Válogatott sajtok,https://source.unsplash.com/featured/?cheese-plate,4,4
+37,Szalámis falatok,Hideg húsos előétel,https://source.unsplash.com/featured/?salami,4,4
+38,Caprese saláta,Mozzarella paradicsommal,https://source.unsplash.com/featured/?caprese,4,4
+39,Töltött tojás,Majonézes tojásétel,https://source.unsplash.com/featured/?deviled-eggs,4,4
+40,Sonkatekercs,Sonkába tekert krémes töltelék,https://source.unsplash.com/featured/?ham-rolls,4,4
+41,Rántotta,Egyszerű tojásos reggeli,https://source.unsplash.com/featured/?scrambled-eggs,4,5
+42,Tükörtojás,Serpenyőben sült tojás,https://source.unsplash.com/featured/?fried-egg,4,5
+43,Zabkása,Egészséges reggeli étel,https://source.unsplash.com/featured/?oatmeal,4,5
+44,Palacsinta reggelire,Édes reggeli palacsinta,https://source.unsplash.com/featured/?breakfast-pancakes,4,5
+45,Melegszendvics,Sütőben sült szendvics,https://source.unsplash.com/featured/?hot-sandwich,4,5
+46,Tojásrántotta zöldségekkel,Egészséges tojásos reggeli,https://source.unsplash.com/featured/?vegetable-omelette,4,5
+47,Avokádós pirítós,Modern reggeli fogás,https://source.unsplash.com/featured/?avocado-toast,4,5
+48,Joghurt müzlivel,Könnyű reggeli étel,https://source.unsplash.com/featured/?yogurt-muesli,4,5
+49,Kakaós csiga,Édes péksütemény,https://source.unsplash.com/featured/?chocolate-roll,4,5
+50,Croissant,Francia vajas péksütemény,https://source.unsplash.com/featured/?croissant,4,5
