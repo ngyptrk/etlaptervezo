@@ -1,0 +1,51 @@
+id;name;description;picture;servings;meal_type
+1;Paprikás krumpli;Hagyományos magyar egytálétel kolbásszal;;4;1
+2;Rántott hús burgonyával;Ropogós panírozott sertéshús körettel;;4;1
+3;Marhapörkölt;Szaftos marhapörkölt magyarosan;;4;1
+4;Spagetti bolognai;Paradicsomos húsos tésztaétel;;4;1
+5;Csirkepaprikás;Tejfölös-paprikás csirkés főétel;;4;1
+6;Lasagne;Olasz réteges tésztaétel;;4;1
+7;Töltött káposzta;Káposztalevélbe töltött húsos étel;;4;1
+8;Rakott krumpli;Burgonyás-tejfölös sütött étel;;4;1
+9;Grillezett csirkemell;Egészséges sült csirkehús;;4;1
+10;Rántott sajt;Bundázott sült sajt;;4;1
+11;Gulyásleves;Hagyományos magyar leves;;4;2
+12;Húsleves gazdagon;Lassan főzött klasszikus leves;;4;2
+13;Paradicsomleves;Édeskés paradicsomos leves;;4;2
+14;Zöldségleves;Friss zöldségekből készült leves;;4;2
+15;Krémleves;Gazdag állagú krémes leves;;4;2
+16;Bableves;Tartalmas babos leves;;4;2
+17;Lencseleves;Hagyományos lencsés leves;;4;2
+18;Halászlé;Fűszeres magyar halleves;;4;2
+19;Karfiolleves;Könnyű zöldségleves;;4;2
+20;Almaleves;Hidegen is fogyasztható gyümölcsleves;;4;2
+21;Palacsinta;Édes töltött desszert;;4;3
+22;Somlói galuska;Magyar klasszikus desszert;;4;3
+23;Tiramisu;Olasz krémes desszert;;4;3
+24;Almás pite;Fahéjas almás sütemény;;4;3
+25;Chocolate brownie;Puha csokoládés sütemény;;4;3
+26;Sajttorta;Krémes sült desszert;;4;3
+27;Piskótatekercs;Krémmel töltött sütemény;;4;3
+28;Muffin;Könnyű egyadagos sütemény;;4;3
+29;Rizskoch;Sült rizses desszert;;4;3
+30;Aranygaluska;Diós kelt tészta desszert;;4;3
+31;Cézár saláta;Klasszikus csirkés saláta;;4;4
+32;Görög saláta;Friss zöldséges előétel;;4;4
+33;Bruschetta;Pirított kenyér paradicsommal;;4;4
+34;Hidegtál;Vegetáriánus falatkák;;4;4
+35;Tojáskrémes kenyér;Egyszerű hideg előétel;;4;4
+36;Sajttál;Válogatott sajtok;;4;4
+37;Szalámis falatok;Hideg húsos előétel;;4;4
+38;Caprese saláta;Mozzarella paradicsommal;;4;4
+39;Töltött tojás;Majonézes tojásétel;;4;4
+40;Sonkatekercs;Sonkába tekert krémes töltelék;;4;4
+41;Rántotta;Egyszerű tojásos reggeli;;4;5
+42;Tükörtojás;Serpenyőben sült tojás;;4;5
+43;Zabkása;Egészséges reggeli étel;;4;5
+44;Palacsinta reggelire;Édes reggeli palacsinta;;4;5
+45;Melegszendvics;Sütőben sült szendvics;;4;5
+46;Tojásrántotta zöldségekkel;Egészséges tojásos reggeli;;4;5
+47;Avokádós pirítós;Modern reggeli fogás;;4;5
+48;Joghurt müzlivel;Könnyű reggeli étel;;4;5
+49;Kakaós csiga;Édes péksütemény;;4;5
+50;Croissant;Francia vajas péksütemény;;4;5

@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('meal_requirements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('meal_of_days_id')->constrained('meal_of_days')->cascadeOnDelete();
-            $table->foreignId('meal_id')->constrained('meals')->cascadeOnDelete();
-
+            $table->foreignId('meal_of_days_id')->constrained('meal_of_days')->restrictOnDelete();
+            $table->foreignId('meal_id')->constrained('meals')->restrictOnDelete();
             $table->unique(['meal_of_days_id', 'meal_id']);
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('raw_ingredients', function (Blueprint $table) {
             $table->id();
-            $table->string('raw_ingredient')->unique();
+            $table->string('raw_ingredient', 125)->unique();
             $table->timestamps();
         });
     }

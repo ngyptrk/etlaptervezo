@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('days', function (Blueprint $table) {
             $table->id();
-            $table->string('day');
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('meal_of_days_id')->constrained('meal_of_days');
-            $table->foreignId('recipe_id')->constrained('recipes');
-            $table->foreignId('meal_id')->constrained('meals');
+            $table->string('day', 15);
+            $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
+            $table->foreignId('meal_of_days_id')->constrained('meal_of_days')->restrictOnDelete();
+            $table->foreignId('recipe_id')->constrained('recipes')->restrictOnDelete();
+            $table->foreignId('meal_id')->constrained('meals')->restrictOnDelete();
 
             $table->unique([
                 'user_id',
