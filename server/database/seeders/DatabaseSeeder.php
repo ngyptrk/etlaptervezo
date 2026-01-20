@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Ingredient;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,6 +26,9 @@ class DatabaseSeeder extends Seeder
         DB::statement('DELETE FROM meals');
         DB::statement('DELETE FROM meal_of_days');
         DB::statement('DELETE FROM meal_requirements');
+        DB::statement('DELETE FROM recipes');
+        DB::statement('DELETE FROM ingredients');
+        DB::statement('DELETE FROM days');
 
 
 
@@ -36,6 +40,9 @@ class DatabaseSeeder extends Seeder
             MealSeeder::class,
             MealOfDaySeeder::class,
             MealRequirementSeeder::class,
+            RecipeSeeder::class,
+            IngredientSeeder::class,
+            DaySeeder::class
         ]);
     }
 }

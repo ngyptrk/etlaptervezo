@@ -1,410 +1,317 @@
-raw_ingredient
-só
-tengeri só
-himalája só
-füstölt só
-fokhagymás só
-zeller só
-bors
-fekete bors
-fehér bors
-zöld bors
-rózsabors
-színes bors
-citrombors
-cukor
-kristálycukor
-porcukor
-barnacukor
-nád­cukor
-kókuszcukor
-vaníliás cukor
-fahéjas cukor
-méz
-akácméz
-hársméz
-repce méz
-agávé szirup
-juharszirup
-datolya szirup
-stevia
-eritrit
-xilit
-ecet
-10%-os ecet
-almaecet
-balzsamecet
-fehérbor ecet
-vörösbor ecet
-rizsecet
-sherry ecet
-olaj
-napraforgóolaj
-repceolaj
-szőlőmagolaj
-olívaolaj
-extra szűz olívaolaj
-fokhagymaolaj
-chiliolaj
-szezámolaj
-kókuszolaj
-vaj
-sózott vaj
-tisztított vaj
-margarin
-sertészsír
-libazsír
-kacsazsír
-víz
-szénsavmentes víz
-szénsavas víz
-ásványvíz
-tej
-teljes tej
-félzsíros tej
-laktózmentes tej
-kecsketej
-mandulatej
-zabtej
-rizstej
-szójatej
-kókusztej
-tejszín
-főzőtejszín
-habtejszín
-tejföl
-joghurt
-natúr joghurt
-görög joghurt
-kefir
-író
-skyr
-liszt
-finomliszt
-rétesliszt
-kenyérliszt
-pizza liszt
-teljes kiőrlésű liszt
-tönkölyliszt
-rozsliszt
-kukoricaliszt
-rizsliszt
-zabliszt
-csicseriborsó liszt
-búzadara
-kukoricadara
-zabpehely
-apró zabpehely
-nagy szemű zabpehely
-zsemlemorzsa
-panko morzsa
-tojás
-M-es tojás
-L-es tojás
-fürjtojás
-tojásfehérje
-tojássárgája
-élesztő
-friss élesztő
-szárított élesztő
-instant élesztő
-kovász
-sütőpor
-szódabikarbóna
-borkősav
-vanília kivonat
-vanília rúd
-rum aroma
-citrom aroma
-kakaópor
-holland kakaópor
-csokoládé
-étcsokoládé
-70%-os csokoládé
-85%-os csokoládé
-tejcsokoládé
-fehér csokoládé
-csokicsepp
-hagyma
-vöröshagyma
-lilahagyma
-fehér hagyma
-salottahagyma
-fokhagyma
-újhagyma
-póréhagyma
-snidling
-burgonya
-újburgonya
-édesburgonya
-lila burgonya
-sárgarépa
-petrezselyemgyökér
-zeller
-zellergumó
-zellerszár
-cékla
-fehérrépa
-retek
-jégcsapretek
-paradicsom
-koktélparadicsom
-san marzano paradicsom
-paradicsompüré
-paradicsomszósz
-passata
-paprika
-zöldpaprika
-kaliforniai paprika
-piros paprika
-sárga paprika
-hegyes erős paprika
-csilipaprika
-jalapeno paprika
-habanero paprika
-uborka
-kovászos uborka
-csemegeuborka
-cukkini
-padlizsán
-brokkoli
-karfiol
-kelbimbó
-kelkáposzta
-fejes káposzta
-vörös káposzta
-savanyú káposzta
-spenót
-bébi spenót
-sóska
-rukkola
-madársaláta
-jégsaláta
-gomba
-csiperke
-barna csiperke
-laskagomba
-shiitake gomba
-portobello gomba
-vargánya
-szarvasgomba
-pirospaprika
-édes fűszerpaprika
-csípős fűszerpaprika
-füstölt paprika
-kömény
-egész kömény
-őrölt kömény
-fahéj
-ceyloni fahéj
-szegfűszeg
-szerecsendió
-szerecsendió virág
-gyömbér
-friss gyömbér
-őrölt gyömbér
-kurkuma
-koriander
-egész koriander
-őrölt koriander
-római kömény
-mustármag
-majoranna
-oregánó
-bazsalikom
-thai bazsalikom
-kakukkfű
-rozmaring
-babérlevél
-kapor
-petrezselyem
-menta
-citromfű
-mustár
-dijoni mustár
-magos mustár
-mézes mustár
-ketchup
-barbecue szósz
-majonéz
-aioli
-tartármártás
-szójaszósz
-tamari
-teriyaki szósz
-worcestershire szósz
-hoisin szósz
-osztrigaszósz
-csiliszósz
-csirkemell
-csirkecomb
-csirkeszárny
-csirkehús
-csirkemáj
-pulykamell
-pulykahús
-kacsamell
-libamell
-sertéshús
-sertéscomb
-sertéstarja
-sertésszűz
-malachús
-marhahús
-marhalábszár
-marhacomb
-bélszín
-rostélyos
-darált sertéshús
-darált marhahús
-darált pulykahús
-kolbász
-csabai kolbász
-gyulai kolbász
-füstölt kolbász
-virsli
-sonka
-főtt sonka
-füstölt sonka
-prosciutto
-bacon
-pancetta
-szalonna
-abált szalonna
-libamáj
-kacsamáj
-hal
-halfélék
-halfilé
-harcsa filé
-ponty
-hekk
-tőkehal
-lazac
-lazacfilé
-pisztráng
-tonhal
-tonhalkonzerv
-makréla
-szardínia
-hering
-rák
-garnéla
-tintahal
-polip
-rizs
-fehér rizs
-jázmin rizs
-basmati rizs
-barna rizs
-vad rizs
-arborio rizs
-sushi rizs
-tészta
-száraztészta
-friss tészta
-spagetti
-penne
-fusilli
-farfalle
-tagliatelle
-linguine
-lasagne lap
-gnocchi
-tarhonya
-bulgur
-kuszkusz
-quinoa
-köles
-hajdina
-árpagyöngy
-lencse
-vöröslencse
-zöld lencse
-fekete lencse
-csicseriborsó
-fehér bab
-vörös bab
-fekete bab
-szójabab
-zöldborsó
-cukorborsó
-sárgaborsó
-kukorica
-csemegekukorica
-sajt
-trappista sajt
-edami sajt
-emmentáli sajt
-gouda sajt
-cheddar sajt
-parmezán
-grana padano
-pecorino
-mozzarella
-buffalo mozzarella
-burrata
-ricotta
-mascarpone
-feta sajt
-kecskesajt
-camembert
-brie
-túró
-krémsajt
-citrom
-citromlé
-lime
-lime lé
-narancs
-mandarin
-grapefruit
-alma
-zöld alma
-körte
-banán
-eper
-málna
-áfonya
-ribizli
-szeder
-barack
-őszibarack
-sárgabarack
-szilva
-cseresznye
-meggy
-ananász
-mangó
-papaya
-kivi
-gránátalma
-szőlő
-mazsola
-datolya
-füge
-dió
-darált dió
-pekándió
-mogyoró
-földimogyoró
-mandula
-kesudió
-pisztácia
-makadámdió
-kókuszreszelék
-kókusztejpor
-chia mag
-lenmag
-napraforgómag
-tökmag
-szezámmag
-mák
-lekvár
-baracklekvár
-eperlekvár
-szilvalekvár
-dzsem
-narancslekvár
-nutella
-mogyorókrém
+id;raw_ingredient
+1;tojás
+2;só
+3;fekete bors
+4;bors
+5;vaj
+6;olaj
+7;napraforgóolaj
+8;olívaolaj
+9;extra szűz olívaolaj
+10;zabpehely
+11;apró zabpehely
+12;nagy szemű zabpehely
+13;tej
+14;teljes tej
+15;félzsíros tej
+16;laktózmentes tej
+17;kecsketej
+18;mandulatej
+19;rizstej
+20;szójatej
+21;kókusztej
+22;méz
+23;akácméz
+24;hársméz
+25;repce méz
+26;agávé szirup
+27;juharszirup
+28;datolya szirup
+29;stevia
+30;eritrit
+31;xilit
+32;liszt
+33;finomliszt
+34;rétesliszt
+35;kenyérliszt
+36;pizza liszt
+37;teljes kiőrlésű liszt
+38;tönkölyliszt
+39;rozsliszt
+40;kukoricaliszt
+41;rizsliszt
+42;cukor
+43;kristálycukor
+44;porcukor
+45;barnacukor
+46;nád­cukor
+47;kókuszcukor
+48;vaníliás cukor
+49;fahéjas cukor
+50;kakaópor
+51;holland kakaópor
+52;csokoládé
+53;étcsokoládé
+54;70%-os csokoládé
+55;85%-os csokoládé
+56;tejcsokoládé
+57;fehér csokoládé
+58;csokicsepp
+59;fokhagyma
+60;vöröshagyma
+61;lilahagyma
+62;póréhagyma
+63;újhagyma
+64;snidling
+65;burgonya
+66;újburgonya
+67;édesburgonya
+68;lila burgonya
+69;sárgarépa
+70;petrezselyemgyökér
+71;zeller
+72;zellergumó
+73;zellerszár
+74;cékla
+75;fehérrépa
+76;retek
+77;jégcsapretek
+78;paradicsom
+79;koktélparadicsom
+80;san marzano paradicsom
+81;paradicsompüré
+82;paradicsomszósz
+83;passata
+84;paprika
+85;zöldpaprika
+86;kaliforniai paprika
+87;piros paprika
+88;sárga paprika
+89;hegyes erős paprika
+90;csilipaprika
+91;jalapeno paprika
+92;habanero paprika
+93;pirospaprika
+94;füstölt paprika
+95;kömény
+96;egész kömény
+97;őrölt kömény
+98;fahéj
+99;ceyloni fahéj
+100;szegfűszeg
+101;szerecsendió
+102;szerecsendió virág
+103;gyömbér
+104;friss gyömbér
+105;őrölt gyömbér
+106;kurkuma
+107;koriander
+108;egész koriander
+109;őrölt koriander
+110;római kömény
+111;mustármag
+112;majoranna
+113;oregánó
+114;bazsalikom
+115;thai bazsalikom
+116;kakukkfű
+117;rozmaring
+118;babérlevél
+119;kapor
+120;petrezselyem
+121;menta
+122;citromfű
+123;citromlé
+124;lime
+125;lime lé
+126;narancs
+127;mandarin
+128;grapefruit
+129;alma
+130;zöld alma
+131;körte
+132;banán
+133;eper
+134;málna
+135;áfonya
+136;ribizli
+137;szeder
+138;barack
+139;őszibarack
+140;sárgabarack
+141;szilva
+142;cseresznye
+143;meggy
+144;ananász
+145;mangó
+146;papaya
+147;kivi
+148;gránátalma
+149;szőlő
+150;mazsola
+151;datolya
+152;füge
+153;dió
+154;darált dió
+155;pekándió
+156;mogyoró
+157;földimogyoró
+158;mandula
+159;kesudió
+160;pisztácia
+161;makadámdió
+162;kókuszreszelék
+163;kókusztejpor
+164;chia mag
+165;lenmag
+166;napraforgómag
+167;tökmag
+168;szezámmag
+169;mák
+170;lekvár
+171;baracklekvár
+172;eperlekvár
+173;szilvalekvár
+174;dzsem
+175;narancslekvár
+176;nutella
+177;mogyorókrém
+178;tojásfehérje
+179;tojássárgája
+180;főzőtejszín
+181;habtejszín
+182;tejföl
+183;joghurt
+184;natúr joghurt
+185;görög joghurt
+186;kefir
+187;író
+188;skyr
+189;sózott vaj
+190;tisztított vaj
+191;margarin
+192;sertészsír
+193;libazsír
+194;kacsazsír
+195;fokhagymaolaj
+196;chiliolaj
+197;szezámolaj
+198;kókuszolaj
+199;csirkehús
+200;csirkecomb
+201;csirkemell
+202;pulykamell
+203;pulykahús
+204;kacsamell
+205;libamell
+206;sertéshús
+207;sertéscomb
+208;sertéstarja
+209;sertésszűz
+210;malachús
+211;marhahús
+212;marhalábszár
+213;marhacomb
+214;bélszín
+215;rostélyos
+216;darált sertéshús
+217;darált marhahús
+218;darált pulykahús
+219;kolbász
+220;csabai kolbász
+221;gyulai kolbász
+222;füstölt kolbász
+223;virsli
+224;sonka
+225;füstölt sonka
+226;prosciutto
+227;bacon
+228;pancetta
+229;szalonna
+230;abált szalonna
+231;libamáj
+232;kacsamáj
+233;hal
+234;halfélék
+235;halfilé
+236;harcsa filé
+237;ponty
+238;hekk
+239;tőkehal
+240;lazac
+241;lazacfilé
+242;pisztráng
+243;tonhal
+244;tonhalkonzerv
+245;makréla
+246;szardínia
+247;rák
+248;garnéla
+249;tintahal
+250;polip
+251;rizs
+252;fehér rizs
+253;jázmin rizs
+254;basmati rizs
+255;barna rizs
+256;vad rizs
+257;arborio rizs
+258;sushi rizs
+259;tészta
+260;száraztészta
+261;friss tészta
+262;spagetti
+263;penne
+264;fusilli
+265;farfalle
+266;tagliatelle
+267;linguine
+268;lasagne lap
+269;gnocchi
+270;tarhonya
+271;bulgur
+272;kuszkusz
+273;quinoa
+274;köles
+275;hajdina
+276;árpagyöngy
+277;lencse
+278;vöröslencse
+279;zöld lencse
+280;fekete lencse
+281;csicseriborsó
+282;fehér bab
+283;vörös bab
+284;fekete bab
+285;szójabab
+286;zöldborsó
+287;cukorborsó
+288;sárgaborsó
+289;kukorica
+290;csemegekukorica
+291;sajt
+292;trappista sajt
+293;edami sajt
+294;emmentáli sajt
+295;gouda sajt
+296;cheddar sajt
+297;parmezán
+298;grana padano
+299;pecorino
+300;mozzarella
+301;buffalo mozzarella
+302;burrata
+303;ricotta
+304;mascarpone
+305;feta sajt
+306;kecskesajt
+307;camembert
+308;brie
+309;túró
+310;krémsajt
+311;savanyú káposzta
+312;zöldség
+313;kenyér
+314;uborka
+315;avokádó
+316;élesztő

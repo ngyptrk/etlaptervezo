@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\CsvReader;
 use App\Models\RawIngredient;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,31 +14,13 @@ class RawIngredientSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        //Seedelés tömbbel.
-        $data = [];
-        //Profibb megoldás (nagyon nagy fájlok esetén):
-        $filePath = database_path('csv/raw_ingredients.csv');
-        $data = [];
-        $header = []; // Fejlécek tárolására
-
-        if (($handle = fopen($filePath, 'r')) !== false) {
-            // 1. Beolvassuk a fejléceket (ha vannak)
-            $header = fgetcsv($handle, 0, ';');
-
-            // 2. Soronként beolvassuk az adatokat (0 azt jelenti, hogy nincs korlát a beolvasott sorra)
-            while (($cols = fgetcsv($handle, 0, ';')) !== false) {
-                if (count($header) === count($cols)) {
-                    // Asszociatív tömb létrehozása (jobb olvashatóság!)
-                    $data[] = array_combine($header, $cols);
-                }
-            }
-            // 3. Zárjuk a fájlt (itt kötelező!)
-            fclose($handle);
-        }
-
-        if (RawIngredient::count() === 0) {
-            RawIngredient::factory()->createMany($data);
-        }
+{
+        $fileName = 'csv/raw_ingredients.csv';
+        $delimeter = ';';
+        $data = CsvReader::csvToArray($fileName,$delimeter);
+        RawIngredient::factory()->createMany($data);
     }
+
+    
 }
+
