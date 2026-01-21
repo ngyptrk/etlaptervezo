@@ -9,4 +9,11 @@ class Unit extends Model
 {
     /** @use HasFactory<\Database\Factories\UnitFactory> */
     use HasFactory;
+    protected $fillable = [
+        'unit',
+    ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 }

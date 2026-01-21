@@ -9,4 +9,12 @@ class MealRequirement extends Model
 {
     /** @use HasFactory<\Database\Factories\MealRequirementFactory> */
     use HasFactory;
+     protected $fillable = [
+        'meal_of_days_id',
+        'meal_id',
+    ];
+        protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 }
