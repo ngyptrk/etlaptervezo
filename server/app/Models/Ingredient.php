@@ -9,4 +9,14 @@ class Ingredient extends Model
 {
     /** @use HasFactory<\Database\Factories\IngredientFactory> */
     use HasFactory;
+    protected $fillable = [
+        'recipe_id',
+        'raw_ingredient_id',
+        'amount',
+        'unit_id',
+    ];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 }

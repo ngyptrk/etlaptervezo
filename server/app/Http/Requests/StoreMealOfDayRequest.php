@@ -11,7 +11,7 @@ class StoreMealOfDayRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class StoreMealOfDayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'meal_of_day' => ['required', 'string', 'max:255', 'unique:meal_of_days,meal_of_day'],
         ];
     }
 }

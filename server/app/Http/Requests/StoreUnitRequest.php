@@ -22,7 +22,7 @@ class StoreUnitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'unit' => ['required', 'string', 'max:255', 'unique:units,unit'],
         ];
     }
 }
