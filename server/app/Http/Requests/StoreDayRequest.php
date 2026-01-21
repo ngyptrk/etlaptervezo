@@ -11,7 +11,7 @@ class StoreDayRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreDayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'day' => ['required', 'string', 'max:255'],
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'meal_of_days_id' => ['required', 'integer', 'exists:meal_of_days,id'],
+            'recipe_id' => ['required', 'integer', 'exists:recipes,id'],
+            'meal_id' => ['required', 'integer', 'exists:meals,id'],
         ];
     }
 }
