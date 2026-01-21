@@ -11,7 +11,7 @@ class UpdateRawIngredientRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateRawIngredientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'raw_ingredient' => ['required', 'string', 'max:255', 'unique:raw_ingredients,raw_ingredient'],
+
         ];
     }
 }

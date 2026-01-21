@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateIngredientRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateIngredientRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,31 @@ class UpdateIngredientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'recipe_id' => [
+                'required',
+                'integer',
+                'exists:recipes,id',
+            ],
+
+            'raw_ingredient_id' => [
+                'required',
+                'integer',
+                'exists:raw_ingredients,id',
+                Rule::unique('ingredients', 'raw_ingredient_id')
+                    ->where(fn($q) => $q->where('recipe_id', request('recipe_id'))),
+            ],
+
+            'amount' => [
+                'required',
+                'integer',
+                'min:1',
+            ],
+
+            'unit_id' => [
+                'required',
+                'integer',
+                'exists:units,id',
+            ],
         ];
     }
 }
