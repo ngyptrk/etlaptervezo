@@ -1,6 +1,7 @@
 # Étlap tervező
 - Github link: https://github.com/ngyptrk/etlaptervezo
 - Fejlesztők: Suki Zsolt, Nagy Patrik
+- Csoportvezető: Nagy Patrik
 
 ## A szoftver célja:
 - Egyedi étlap/recept ajánlás napokra/hetekre.
@@ -9,22 +10,43 @@
 
 
 ## Feladat felosztas:
-### S. Zsolti:
-### N. Patrik:
+### S. Zsolti: Dokumentáció, Frontend fejlesztése
+### N. Patrik: Backend fejlesztése, Frontend fejlesztése
 
 
 ## A szoftver használata:
+- A program indítása után a felhasználó kiválaszthatja, hogy hány napra vagy hétre szeretne étrendet összeállítani. A szoftver ezután az adatbázisban tárolt receptek közül automatikusan kiválasztja a megfelelő fogásokat, és napokra lebontva elkészíti az étrendet.
 
+A felhasználó lehetőséget kap arra, hogy:
+
+- Megtekintse az egyes napokra ajánlott ételeket,
+
+- Módosítsa vagy lecserélje az ajánlott recepteket,
+
+- Új, saját recepteket adjon hozzá az adatbázishoz.
+
+Továbbá a felhasználó saját recepteket is generálhat, ami az adatbázisba is bele kerül.
 
 ## Fejlesztési eszközök:
-### Adatbázis:
-- Folyamatban
+## Adatbázis:
+    - MySQL: Az adatok tárolása
 
-### Backend:
-- Folyamatban
+## Fejlesztői környezet: Visual Studio Code
 
-### Frontend:
-- Folyamatban
+    - Backend: 
+        - PHP, a szerveroldali logika megvalósítására szolgáló programozási nyelv. A backend felelős a receptek generálásáért, illetve a kezeléséért, valamint az adatbázissal való kommunikációért.
+
+    - Frontend:
+        - HTML: az alkalmazás felépítésének és szerkezetének kialakítására.
+        - CSS: a felhasználói felület megjelenésének és stílusának kialakítására.
+        - VueJS: a frontend logika megvalósítására szolgáló keretrendszer.
+        - Bootstrap: a dizájn elemek kialakítására szolgáló rendszer.
+
+    - JavaScript
+
+## Verziókezelés:
+    - GitHub
+
 
 ## Tesztek:
 
