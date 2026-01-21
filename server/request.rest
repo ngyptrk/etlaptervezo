@@ -13,8 +13,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "vasarlo1@example.com",
-    "password": "ronaldo"
+    "email": "felhasznalo@example.com",
+    "password": "123"
 }
 
 ###
