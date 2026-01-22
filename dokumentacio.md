@@ -63,4 +63,10 @@ Továbbá a felhasználó saját recepteket is generálhat, ami az adatbázisba 
 ## Tesztek:
 
 
- 
+## Menu generalas
+- 2 dolgot kell megadni
+1. Melyik User (kinek)
+2. Melyik napokra: Hétfőtől - Vasárnapig
+kell meg 1 tabla mint WeekDays (napok benne)
+
+get url/user_id/h;k;sz;cs;p;szo;v

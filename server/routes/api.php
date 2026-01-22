@@ -59,10 +59,11 @@ Route::get('usersme', [UserController::class, 'indexSelf'])
 //endregion
 
 //region datas
+
 Route::get('units', [UnitController::class, 'index']);
 Route::get('units/{id}', [UnitController::class, 'show']);
 Route::post('units', [UnitController::class, 'store'])
-    ->middleware(['auth:sanctum', 'ability:units:post']);
+    ->middleware(['auth:sanctum', 'ability:units:post']); //Abilitity probaljuk meg h megadjuk neki az admint es a felhasznalot
 Route::patch('units/{id}', [UnitController::class, 'update'])
     ->middleware(['auth:sanctum', 'ability:units:patch']);
 Route::delete('units/{id}', [UnitController::class, 'destroy'])

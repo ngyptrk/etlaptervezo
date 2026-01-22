@@ -26,11 +26,5 @@ class UserSeeder extends Seeder
             'password' => '123',
             'role' => 2
         ]);
-        User::factory()->create([
-            'name' => 'Látogató',
-            'email' => 'latogato@example.com',
-            'password' => '123',
-            'role' => 3
-        ]);
     }
 }

@@ -43,13 +43,13 @@ Accept: application/json
 Authorization: Bearer {{token}}
 
 {
-    "name":  "Vásárló2",
+    "name":  "Vásárlp1221",
     "email": "vasarlo2@example.com",
     "password": "123"
 }
 
 ### patch user
-PATCH {{host}}/api/users/2
+PATCH {{host}}/api/users/4
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {{token}}
@@ -122,7 +122,7 @@ Authorization: Bearer {{token}}
 
 
 ### get product by id
-get {{host}}/api/units/16
+get {{host}}/api/units/15
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -138,14 +138,14 @@ Authorization: Bearer {{token}}
 }
 
 ### delete product by id
-delete {{host}}/api/units/16
+delete {{host}}/api/units/11
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 ### post products
-PATCH {{host}}/api/units/16
+PATCH {{host}}/api/units/11
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}

@@ -6,13 +6,18 @@ use App\Models\Unit;
 use App\Http\Requests\StoreUnitRequest;
 use App\Http\Requests\UpdateUnitRequest;
 use Illuminate\Database\QueryException;
+use App\Http\Controllers\Controller;
+
 
 class UnitController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * GET /units
+     * admin + user -> lekérdezhet
+     * visitor -> semmit
      */
-    public function index()
+
+ public function index()
     {
         try {
             //code...
@@ -37,7 +42,7 @@ class UnitController extends Controller
      */
     public function store(StoreUnitRequest $request)
     {
-        try {
+         try {
             $row = Unit::create($request->all());
 
             $data = [
@@ -70,7 +75,7 @@ class UnitController extends Controller
      */
     public function show(int $id)
     {
-         $row = Unit::find($id);
+        $row = Unit::find($id);
         if ($row) {
             # code...
             $status = 200;
@@ -94,7 +99,7 @@ class UnitController extends Controller
      */
     public function update(UpdateUnitRequest $request, Unit $unit, int $id)
     {
-        $row = $unit::find($id);
+         $row = $unit::find($id);
         if ($row) {
             # code...
             $status = 200;
@@ -116,9 +121,9 @@ class UnitController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(Unit $unit, int $id)
     {
-         $row = Unit::find($id);
+        $row = Unit::find($id);
         if (!$row) {
             return response()->json([
                 'message' => "Not_Found id: $id",

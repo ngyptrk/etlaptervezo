@@ -8,55 +8,38 @@ use App\Models\User;
 class UnitPolicy
 {
     /**
-     * Admin mindent csinálhat
+     * Admin (role_id = 1) mindent tud.
      */
-    public function before(User $user, string $ability): bool|null
+    public function before(User $user, string $ability): ?bool
     {
-        // ADMIN ROLE (ha nem 1, írd át)
-        if ((int) $user->role === 1) {
+        if ((int) $user->role_id === 1) {
             return true;
         }
-
-        return false; // nem admin → minden tiltva
+        return null;
     }
-
-    /**
-     * Az alábbi metódusok technikailag már nem is futnak adminnál,
-     * de jó itt hagyni őket olvashatóság miatt.
-     */
 
     public function viewAny(User $user): bool
     {
-        return false;
+        return (int) $user->role_id === 2;
     }
 
     public function view(User $user, Unit $unit): bool
     {
-        return false;
+        return (int) $user->role_id === 2;
     }
 
     public function create(User $user): bool
     {
-        return false;
+        return (int) $user->role_id === 2;
     }
 
     public function update(User $user, Unit $unit): bool
     {
-        return false;
+        return (int) $user->role_id === 2 && (int) $unit->user_id === (int) $user->id;
     }
 
     public function delete(User $user, Unit $unit): bool
     {
-        return false;
-    }
-
-    public function restore(User $user, Unit $unit): bool
-    {
-        return false;
-    }
-
-    public function forceDelete(User $user, Unit $unit): bool
-    {
-        return false;
+        return (int) $user->role_id === 2 && (int) $unit->user_id === (int) $user->id;
     }
 }
