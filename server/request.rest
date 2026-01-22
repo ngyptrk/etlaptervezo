@@ -344,7 +344,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### post products
-POST  {{host}}/api/requirements
+POST  {{host}}/api/mealrequirements
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -358,14 +358,92 @@ Authorization: Bearer {{token}}
 }
 
 ### delete product by id
-delete {{host}}/api/requirements/9
+delete {{host}}/api/mealrequirements/9
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 ### post products
-PATCH {{host}}/api/requirements/9
+PATCH {{host}}/api/mealrequirements/9
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+{
+    "day": "Szerda"
+}
+
+//------------------------------------ Meal_of_day
+###get products
+get {{host}}/api/mealofday/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### post products
+POST  {{host}}/api/mealofday
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "day": "kedd",
+    "user_id": 1,
+    "meal_of_days_id": 1,
+    "recipe_id": 2,
+    "meal_id": 1
+}
+
+### delete product by id
+delete {{host}}/api/mealofday/9
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### post products
+PATCH {{host}}/api/mealofday/9
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+{
+    "day": "Szerda"
+}
+
+//------------------------------------ Raw_ingredients
+###get products
+get {{host}}/api/rawingredients/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### post products
+POST  {{host}}/api/rawingredients
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "day": "kedd",
+    "user_id": 1,
+    "meal_of_days_id": 1,
+    "recipe_id": 2,
+    "meal_id": 1
+}
+
+### delete product by id
+delete {{host}}/api/rawingredients/9
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### post products
+PATCH {{host}}/api/rawingredients/9
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
