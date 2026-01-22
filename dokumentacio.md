@@ -53,8 +53,7 @@ Továbbá a felhasználó saját recepteket is generálhat, ami az adatbázisba 
         - CSS: a felhasználói felület megjelenésének és stílusának kialakítására.
         - VueJS: a frontend logika megvalósítására szolgáló keretrendszer.
         - Bootstrap: a dizájn elemek kialakítására szolgáló rendszer.
-
-    - JavaScript
+        - JavaScript
 
 ## Verziókezelés:
     - GitHub
