@@ -10,7 +10,7 @@
 
 
 ## Feladat felosztas:
-### S. Zsolti: Dokumentáció, Frontend fejlesztése
+### S. Zsolt: Dokumentáció, Frontend fejlesztése
 ### N. Patrik: Backend fejlesztése, Frontend fejlesztése
 
 
@@ -30,6 +30,18 @@ Továbbá a felhasználó saját recepteket is generálhat, ami az adatbázisba 
 ## Fejlesztési eszközök:
 ## Adatbázis:
     - MySQL: Az adatok tárolása
+
+    Táblák: összesen 9 tábla
+    - User: Ez a tábla tartalmazza a felhasználót, admint, látogatót
+    - Ingredients: Ez a tábla tartalmazza a hozzávalók id, mennyiségét, egységét
+    - Raw_ingredients_id: Ez a tábla tartalmazza a nyers hozzávalókat
+    - Units: Ez a tábla tartalmazza a hozzávalók egységét.
+    - Days: Ez a tábla tartalmazza a napi ajánlatoknak a paramétereit.
+    - Recipes: Ez a tábla tartalmazza a recepteket, ételeket
+    - Meals: Ez a tábla tartalmazza a napi fogásokat.
+    - Meals_of_day: Ez a tábla tartalmazza a reggeli, ebéd, vacsora id-t.
+    - Meals_requirements: Az ételek követelménye
+
 
 ## Fejlesztői környezet: Visual Studio Code
 
