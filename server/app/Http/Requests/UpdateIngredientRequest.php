@@ -24,13 +24,13 @@ class UpdateIngredientRequest extends FormRequest
     {
         return [
             'recipe_id' => [
-                'required',
+                'nullable',
                 'integer',
                 'exists:recipes,id',
             ],
 
             'raw_ingredient_id' => [
-                'required',
+                'nullable',
                 'integer',
                 'exists:raw_ingredients,id',
                 Rule::unique('ingredients', 'raw_ingredient_id')
@@ -38,13 +38,13 @@ class UpdateIngredientRequest extends FormRequest
             ],
 
             'amount' => [
-                'required',
+                'nullable',
                 'integer',
                 'min:1',
             ],
 
             'unit_id' => [
-                'required',
+                'nullable',
                 'integer',
                 'exists:units,id',
             ],

@@ -67,3 +67,66 @@ Route::patch('units/{id}', [UnitController::class, 'update'])
     ->middleware(['auth:sanctum', 'ability:units:patch']);
 Route::delete('units/{id}', [UnitController::class, 'destroy'])
     ->middleware(['auth:sanctum', 'ability:units:delete']);
+
+Route::get('days', [DayController::class, 'index']);
+Route::get('days/{id}', [DayController::class, 'show']);
+Route::post('days', [DayController::class, 'store'])
+    ->middleware(['auth:sanctum', 'ability:days:post']);
+Route::patch('days/{id}', [DayController::class, 'update'])
+    ->middleware(['auth:sanctum', 'ability:days:patch']);
+Route::delete('days/{id}', [DayController::class, 'destroy'])
+    ->middleware(['auth:sanctum', 'ability:days:delete']);
+
+Route::get('meals', [MealController::class, 'index']);
+Route::get('meals/{id}', [MealController::class, 'show']);
+Route::post('meals', [MealController::class, 'store'])
+    ->middleware(['auth:sanctum', 'ability:meals:post']);
+Route::patch('meals/{id}', [MealController::class, 'update'])
+    ->middleware(['auth:sanctum', 'ability:meals:patch']);
+Route::delete('meals/{id}', [MealController::class, 'destroy'])
+    ->middleware(['auth:sanctum', 'ability:meals:delete']);
+
+Route::get('ingredients', [IngredientController::class, 'index']);
+Route::get('ingredients/{id}', [IngredientController::class, 'show']);
+Route::post('ingredients', [IngredientController::class, 'store'])
+    ->middleware(['auth:sanctum', 'ability:ingredients:post']);
+Route::patch('ingredients/{id}', [IngredientController::class, 'update'])
+    ->middleware(['auth:sanctum', 'ability:ingredients:patch']);
+Route::delete('ingredients/{id}', [IngredientController::class, 'destroy'])
+    ->middleware(['auth:sanctum', 'ability:ingredients:delete']);
+
+Route::get('mealofdays', [MealOfDayController::class, 'index']);
+Route::get('mealofdays/{id}', [MealOfDayController::class, 'show']);
+Route::post('mealofdays', [MealOfDayController::class, 'store'])
+    ->middleware(['auth:sanctum', 'ability:mealofdays:post']);
+Route::patch('mealofdays/{id}', [MealOfDayController::class, 'update'])
+    ->middleware(['auth:sanctum', 'ability:mealofdays:patch']);
+Route::delete('mealofdays/{id}', [MealOfDayController::class, 'destroy'])
+    ->middleware(['auth:sanctum', 'ability:mealofdays:delete']);
+
+Route::get('mealrequirements', [MealRequirementController::class, 'index']);
+Route::get('mealrequirements/{id}', [MealRequirementController::class, 'show']);
+Route::post('mealrequirements', [MealRequirementController::class, 'store'])
+    ->middleware(['auth:sanctum', 'ability:mealrequirements:post']);
+Route::patch('mealrequirements/{id}', [MealRequirementController::class, 'update'])
+    ->middleware(['auth:sanctum', 'ability:mealrequirements:patch']);
+Route::delete('mealrequirements/{id}', [MealRequirementController::class, 'destroy'])
+    ->middleware(['auth:sanctum', 'ability:mealrequirements:delete']);
+
+Route::get('rawingredients', [RawIngredientController::class, 'index']);
+Route::get('rawingredients/{id}', [RawIngredientController::class, 'show']);
+Route::post('rawingredients', [RawIngredientController::class, 'store'])
+    ->middleware(['auth:sanctum', 'ability:rawingredients:post']);
+Route::patch('rawingredients/{id}', [RawIngredientController::class, 'update'])
+    ->middleware(['auth:sanctum', 'ability:rawingredients:patch']);
+Route::delete('rawingredients/{id}', [RawIngredientController::class, 'destroy'])
+    ->middleware(['auth:sanctum', 'ability:rawingredients:delete']);
+
+Route::get('recipes', [RecipeController::class, 'index']);
+Route::get('recipes/{id}', [RecipeController::class, 'show']);
+Route::post('recipes', [RecipeController::class, 'store'])
+    ->middleware(['auth:sanctum', 'ability:recipes:post']);
+Route::patch('recipes/{id}', [RecipeController::class, 'update'])
+    ->middleware(['auth:sanctum', 'ability:recipes:patch']);
+Route::delete('recipes/{id}', [RecipeController::class, 'destroy'])
+    ->middleware(['auth:sanctum', 'ability:recipes:delete']);

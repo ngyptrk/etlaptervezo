@@ -111,8 +111,8 @@ Authorization: Bearer {{token}}
 
 
 
-### teszt
-get {{host}}/api/x
+//-------------------------------------UNITS
+
 
 ### get products
 get {{host}}/api/units
@@ -122,7 +122,7 @@ Authorization: Bearer {{token}}
 
 
 ### get product by id
-get {{host}}/api/units/1
+get {{host}}/api/units/16
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -134,24 +134,167 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "unit": "gerezd"
+    "unit": "gerezdd"
 }
 
 ### delete product by id
-delete {{host}}/api/units/15
+delete {{host}}/api/units/16
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 ### post products
-PATCH {{host}}/api/units/1
+PATCH {{host}}/api/units/16
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 {
-    "price": 1002,
-    "stock": "eee"
+    "unit": "eee"
 }
+
+
+//------------------------------------------------ DAYS
+
+
+###get products
+get {{host}}/api/days
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### get product by id
+get {{host}}/api/days/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### post products
+POST  {{host}}/api/days
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "day": "kedd",
+    "user_id": 1,
+    "meal_of_days_id": 1,
+    "recipe_id": 2,
+    "meal_id": 1
+}
+
+### delete product by id
+delete {{host}}/api/days/9
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### post products
+PATCH {{host}}/api/days/9
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+{
+    "day": "Szerda"
+}
+
+
+
+//--------------------------------------------------- RECIPES
+
+
+###get products
+get {{host}}/api/recipes
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### get product by id
+get {{host}}/api/recipes/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### post products
+POST  {{host}}/api/recipes
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "day": "kedd",
+    "user_id": 1,
+    "meal_of_days_id": 1,
+    "recipe_id": 2,
+    "meal_id": 1
+}
+
+### delete product by id
+delete {{host}}/api/recipes/9
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### post products
+PATCH {{host}}/api/recipes/9
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+{
+    "day": "Szerda"
+}
+
+
+//---------------------------------------------- MEALS
+
+
+
+###get products
+get {{host}}/api/meals/1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### post products
+POST  {{host}}/api/meals
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "day": "kedd",
+    "user_id": 1,
+    "meal_of_days_id": 1,
+    "recipe_id": 2,
+    "meal_id": 1
+}
+
+### delete product by id
+delete {{host}}/api/meals/9
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### post products
+PATCH {{host}}/api/meals/9
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+{
+    "day": "Szerda"
+}
+
+
+//------------------------------------ INGREDIENTS

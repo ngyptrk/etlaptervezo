@@ -22,11 +22,11 @@ class UpdateDayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'day' => ['required', 'string', 'max:255'],
-            'user_id' => ['required', 'integer', 'exists:users,id'],
-            'meal_of_days_id' => ['required', 'integer', 'exists:meal_of_days,id'],
-            'recipe_id' => ['required', 'integer', 'exists:recipes,id'],
-            'meal_id' => ['required', 'integer', 'exists:meals,id'],
+            'day' => ['nullable', 'string', 'max:255'],
+            'user_id' => ['nullable', 'integer', 'exists:users,id'],
+            'meal_of_days_id' => ['nullable', 'integer', 'exists:meal_of_days,id'],
+            'recipe_id' => ['nullable', 'integer', 'exists:recipes,id'],
+            'meal_id' => ['nullable', 'integer', 'exists:meals,id'],
         ];
     }
 }

@@ -25,13 +25,13 @@ class UpdateMealRequirementRequest extends FormRequest
     {
         return [
              'meal_of_days_id' => [
-            'required',
+            'nullable',
             'integer',
             'exists:meal_of_days,id',
         ],
 
         'meal_id' => [
-            'required',
+            'nullable',
             'integer',
             'exists:meals,id',
             Rule::unique('meal_requirements', 'meal_id')

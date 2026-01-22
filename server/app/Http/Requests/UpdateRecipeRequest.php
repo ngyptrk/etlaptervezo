@@ -22,11 +22,11 @@ class UpdateRecipeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'], // TEXT
-            'picture' => ['required', 'string', 'max:255'], // vagy 'image' ha fájl
-            'person' => ['required', 'integer', 'min:1', 'max:255'], // TINYINT
-            'meal_id' => ['required', 'integer', 'exists:meals,id'],
+            'name' => ['nullable', 'string', 'max:255'],
+            'description' => ['nullable', 'string'], // TEXT
+            'picture' => ['nullable', 'string', 'max:255'], // vagy 'image' ha fájl
+            'person' => ['nullable', 'integer', 'min:1', 'max:255'], // TINYINT
+            'meal_id' => ['nullable', 'integer', 'exists:meals,id'],
         ];
     }
 }
