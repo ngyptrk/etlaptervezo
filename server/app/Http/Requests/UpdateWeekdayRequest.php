@@ -11,7 +11,7 @@ class UpdateWeekdayRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class UpdateWeekdayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'day' => ['required', 'string', 'max:25', 'unique:weekdays,day'],
         ];
     }
 }

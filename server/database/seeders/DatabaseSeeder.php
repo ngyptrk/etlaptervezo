@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         //Mielőtt seedelünk, minden táblát töröljünk le.
         DB::statement('DELETE FROM users');
         DB::statement('DELETE FROM units');
+        DB::statement('DELETE FROM weekdays');
         DB::statement('DELETE FROM raw_ingredients');
         DB::statement('DELETE FROM meals');
         DB::statement('DELETE FROM meal_of_days');
@@ -38,6 +39,7 @@ class DatabaseSeeder extends Seeder
             UnitSeeder::class,
             RawIngredientSeeder::class,
             MealSeeder::class,
+            WeekdaySeeder::class,
             MealOfDaySeeder::class,
             MealRequirementSeeder::class,
             RecipeSeeder::class,

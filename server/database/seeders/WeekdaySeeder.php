@@ -17,11 +17,11 @@ class WeekdaySeeder extends Seeder
          $sql = "INSERT INTO `weekdays` (`id`,`day`) VALUES
         (1, 'Hétfő'), 
         (2, 'Kedd'), 
-        (2, 'Szerda'), 
-        (2, 'Csütörtök'), 
-        (2, 'Péntek'), 
-        (3, 'Szombat'), 
-        (3, 'Vasárnap')
+        (3, 'Szerda'), 
+        (4, 'Csütörtök'), 
+        (5, 'Péntek'), 
+        (6, 'Szombat'), 
+        (7, 'Vasárnap')
         
         ";
         DB::statement($sql);

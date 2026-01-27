@@ -13,15 +13,14 @@ return new class extends Migration
     {
         Schema::create('days', function (Blueprint $table) {
             $table->id();
-            $table->string('day', 15);
             $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
+            $table->foreignId('day_id')->constrained('weekdays')->restrictOnDelete();
             $table->foreignId('meal_of_days_id')->constrained('meal_of_days')->restrictOnDelete();
             $table->foreignId('recipe_id')->constrained('recipes')->restrictOnDelete();
             $table->foreignId('meal_id')->constrained('meals')->restrictOnDelete();
 
             $table->unique([
                 'user_id',
-                'day',
                 'meal_of_days_id',
                 'recipe_id'
             ]);

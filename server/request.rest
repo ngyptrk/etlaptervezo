@@ -5,7 +5,7 @@
 @host = {{protocol}}{{hostname}}:{{port}}
 ### @token = 12|ibiwTdr77o8ppToh1tBxIkckBNb8ECjIjLgaweTaa757cdef
 
-
+### --- users
 ### login
 # @name login
 POST {{host}}/api/users/login
@@ -13,7 +13,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "admin@example.com",
+    "email": "felhasznalo@example.com",
     "password": "123"
 }
 
@@ -111,23 +111,21 @@ Authorization: Bearer {{token}}
 
 
 
-//-------------------------------------UNITS
-
-
-### get products
+### --- units
+### get units
 get {{host}}/api/units
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
-### get product by id
+### get unit by id
 get {{host}}/api/units/15
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-### post products
+### post units
 POST  {{host}}/api/units
 Accept: application/json
 Content-Type: application/json
@@ -137,14 +135,14 @@ Authorization: Bearer {{token}}
     "unit": "gerezdd"
 }
 
-### delete product by id
+### delete unit by id
 delete {{host}}/api/units/11
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
-### post products
+### post units
 PATCH {{host}}/api/units/11
 Accept: application/json
 Content-Type: application/json
@@ -156,23 +154,23 @@ Authorization: Bearer {{token}}
 }
 
 
-//------------------------------------------------ DAYS
+### --- days
 
 
-###get products
+###get days
 get {{host}}/api/days
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
-### get product by id
+### get day by id
 get {{host}}/api/days/1
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-### post products
+### post days
 POST  {{host}}/api/days
 Accept: application/json
 Content-Type: application/json
@@ -186,14 +184,14 @@ Authorization: Bearer {{token}}
     "meal_id": 1
 }
 
-### delete product by id
+### delete day by id
 delete {{host}}/api/days/9
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
-### post products
+### post days
 PATCH {{host}}/api/days/9
 Accept: application/json
 Content-Type: application/json
@@ -206,22 +204,22 @@ Authorization: Bearer {{token}}
 
 
 
-//--------------------------------------------------- RECIPES
+### --- recipes
 
 
-###get products
+###get recipes
 get {{host}}/api/recipes
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-### get product by id
+### get recipe by id
 get {{host}}/api/recipes/1
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-### post products
+### post recipes
 POST  {{host}}/api/recipes
 Accept: application/json
 Content-Type: application/json
@@ -235,14 +233,14 @@ Authorization: Bearer {{token}}
     "meal_id": 1
 }
 
-### delete product by id
+### delete recipe by id
 delete {{host}}/api/recipes/9
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
-### post products
+### post recipe
 PATCH {{host}}/api/recipes/9
 Accept: application/json
 Content-Type: application/json
@@ -254,17 +252,17 @@ Authorization: Bearer {{token}}
 }
 
 
-//---------------------------------------------- MEALS
+### --- meals
 
 
 
-###get products
+###get meals
 get {{host}}/api/meals/1
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-### post products
+### post meals
 POST  {{host}}/api/meals
 Accept: application/json
 Content-Type: application/json
@@ -278,14 +276,14 @@ Authorization: Bearer {{token}}
     "meal_id": 1
 }
 
-### delete product by id
+### delete meal by id
 delete {{host}}/api/meals/9
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
-### post products
+### post meals
 PATCH {{host}}/api/meals/9
 Accept: application/json
 Content-Type: application/json
@@ -297,14 +295,14 @@ Authorization: Bearer {{token}}
 }
 
 
-//------------------------------------ INGREDIENTS
-###get products
+### --- ingridients
+### get ingridients
 get {{host}}/api/ingredients/1
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-### post products
+### post ingridients
 POST  {{host}}/api/ingredients
 Accept: application/json
 Content-Type: application/json
@@ -318,14 +316,14 @@ Authorization: Bearer {{token}}
     "meal_id": 1
 }
 
-### delete product by id
+### delete ingridient by id
 delete {{host}}/api/ingredients/9
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
-### post products
+### post ingridients
 PATCH {{host}}/api/ingredients/9
 Accept: application/json
 Content-Type: application/json
@@ -336,14 +334,14 @@ Authorization: Bearer {{token}}
     "day": "Szerda"
 }
 
-//------------------------------------ Meal_REQUIREMENTS
-###get products
+### --- meal_requirements
+###get mealrequirements
 get {{host}}/api/mealrequirements/1
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-### post products
+### post mealrequirements
 POST  {{host}}/api/mealrequirements
 Accept: application/json
 Content-Type: application/json
@@ -357,14 +355,14 @@ Authorization: Bearer {{token}}
     "meal_id": 1
 }
 
-### delete product by id
+### delete mealrequirement by id
 delete {{host}}/api/mealrequirements/9
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
-### post products
+### post mealrequirements
 PATCH {{host}}/api/mealrequirements/9
 Accept: application/json
 Content-Type: application/json
@@ -375,14 +373,14 @@ Authorization: Bearer {{token}}
     "day": "Szerda"
 }
 
-//------------------------------------ Meal_of_day
-###get products
+### --- meal_of_days
+###get mealofdays
 get {{host}}/api/mealofday/1
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-### post products
+### post mealofdays
 POST  {{host}}/api/mealofday
 Accept: application/json
 Content-Type: application/json
@@ -396,14 +394,14 @@ Authorization: Bearer {{token}}
     "meal_id": 1
 }
 
-### delete product by id
+### delete mealofday by id
 delete {{host}}/api/mealofday/9
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
-### post products
+### post mealofdays
 PATCH {{host}}/api/mealofday/9
 Accept: application/json
 Content-Type: application/json
@@ -414,14 +412,14 @@ Authorization: Bearer {{token}}
     "day": "Szerda"
 }
 
-//------------------------------------ Raw_ingredients
-###get products
+### --- raw_ingridients
+###get rawingredients
 get {{host}}/api/rawingredients/1
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-### post products
+### post rawingredients
 POST  {{host}}/api/rawingredients
 Accept: application/json
 Content-Type: application/json
@@ -435,15 +433,56 @@ Authorization: Bearer {{token}}
     "meal_id": 1
 }
 
-### delete product by id
+### delete rawingredient by id
 delete {{host}}/api/rawingredients/9
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
-### post products
+### post rawingredients
 PATCH {{host}}/api/rawingredients/9
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+{
+    "day": "Szerda"
+}
+
+### --- weekdays
+###get weekdays
+get {{host}}/api/weekdays
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### get weekday by id
+get {{host}}/api/weekdays/12
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### post weekdays
+POST  {{host}}/api/weekdays
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "day": "keSzerddd"
+}
+
+### delete weekday by id
+delete {{host}}/api/weekdays/7
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+
+### post weekdays
+PATCH {{host}}/api/weekdays/6
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}

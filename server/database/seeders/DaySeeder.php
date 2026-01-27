@@ -13,14 +13,14 @@ class DaySeeder extends Seeder
      */
     public function run(): void
     {
-        $sql = "INSERT INTO `days` (`day`, `user_id`, `meal_of_days_id`, `recipe_id`,`meal_id`) VALUES
-        ('Hétfő', 1 , 1 , 2, 1),
-        ('Hétfő', 1 , 2 , 11, 2),
-        ('Hétfő', 1 , 2 , 23, 3),
-        ('Hétfő', 1 , 2 , 31, 4),
-        ('Hétfő', 1 , 2 , 41, 5),
-        ('Hétfő', 1 , 3 , 31, 5),
-        ('Hétfő', 1 , 3 , 41, 5)
+        $sql = "INSERT INTO `days` (`day_id`, `user_id`, `meal_of_days_id`, `recipe_id`,`meal_id`) VALUES
+        (1, 1 , 1 , 2, 1),
+        (1, 1 , 2 , 11, 2),
+        (1, 1 , 2 , 23, 3),
+        (1, 1 , 2 , 31, 4),
+        (1, 1 , 2 , 41, 5),
+        (1, 1 , 3 , 31, 5),
+        (1, 1 , 3 , 41, 5)
         ";
         DB::statement($sql);
     }
