@@ -269,29 +269,25 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "day": "kedd",
-    "user_id": 1,
-    "meal_of_days_id": 1,
-    "recipe_id": 2,
-    "meal_id": 1
+    "meal": "tizorai"
 }
 
 ### delete meal by id
-delete {{host}}/api/meals/9
+delete {{host}}/api/meals/6
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 ### post meals
-PATCH {{host}}/api/meals/9
+PATCH {{host}}/api/meals/6
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 {
-    "day": "Szerda"
+    "meal": "ucsonna"
 }
 
 
