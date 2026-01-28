@@ -226,29 +226,33 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "day": "kedd",
-    "user_id": 1,
-    "meal_of_days_id": 1,
-    "recipe_id": 2,
-    "meal_id": 1
+    "name": "Szarvas hús",
+    "description": "husi",
+    "picture": "asddsdssad",
+    "person": 4,
+    "meal_id": 2
 }
 
 ### delete recipe by id
-delete {{host}}/api/recipes/9
+delete {{host}}/api/recipes/51
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 ### post recipe
-PATCH {{host}}/api/recipes/9
+PATCH {{host}}/api/recipes/51
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 {
-    "day": "Szerda"
+    "name": "Szarvas hússi",
+    "description": "husiői",
+    "picture": "asddsdssőadi",
+    "person": 8,
+    "meal_id": 1
 }
 
 
