@@ -370,41 +370,37 @@ Authorization: Bearer {{token}}
 
 ### --- meal_of_days
 ###get mealofdays
-get {{host}}/api/mealofday/1
+get {{host}}/api/mealofdays/1
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### post mealofdays
-POST  {{host}}/api/mealofday
+POST  {{host}}/api/mealofdays
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "day": "kedd",
-    "user_id": 1,
-    "meal_of_days_id": 1,
-    "recipe_id": 2,
-    "meal_id": 1
+    "meal_of_day": 
 }
 
 ### delete mealofday by id
-delete {{host}}/api/mealofday/9
+delete {{host}}/api/mealofdays/4
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 ### post mealofdays
-PATCH {{host}}/api/mealofday/9
+PATCH {{host}}/api/mealofdays/4
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 {
-    "day": "Szerda"
+    "meal_of_day": "ucsonna"
 }
 
 ### --- raw_ingridients
