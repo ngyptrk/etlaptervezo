@@ -309,29 +309,28 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "day": "kedd",
-    "user_id": 1,
-    "meal_of_days_id": 1,
-    "recipe_id": 2,
-    "meal_id": 1
+    "recipe_id": 3,
+    "raw_ingredient_id": 9,
+    "amount": 300,
+    "unit_id": 12
 }
 
 ### delete ingridient by id
-delete {{host}}/api/ingredients/9
+delete {{host}}/api/ingredients/312
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 ### post ingridients
-PATCH {{host}}/api/ingredients/9
+PATCH {{host}}/api/ingredients/312
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 {
-    "day": "Szerda"
+    "recipe": 32
 }
 
 ### --- meal_requirements
