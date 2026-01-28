@@ -13,7 +13,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-    "email": "felhasznalo@example.com",
+    "email": "admin@example.com",
     "password": "123"
 }
 
@@ -185,14 +185,14 @@ Authorization: Bearer {{token}}
 }
 
 ### delete day by id
-delete {{host}}/api/days/9
+delete {{host}}/api/days/7
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 ### post days
-PATCH {{host}}/api/days/9
+PATCH {{host}}/api/days/3
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
