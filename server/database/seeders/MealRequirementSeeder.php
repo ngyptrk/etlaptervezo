@@ -14,7 +14,7 @@ class MealRequirementSeeder extends Seeder
     public function run(): void
     {
         //
-        $sql = "INSERT INTO meal_requirements (meal_of_days_id, meal_id) VALUES
+        $sql = "INSERT INTO meal_requirements (meal_of_day_id, meal_id) VALUES
         (1, 1), 
         (2, 2), 
         (2, 3), 

@@ -335,13 +335,13 @@ Authorization: Bearer {{token}}
 
 ### --- meal_requirements
 ###get mealrequirements
-get {{host}}/api/mealrequirements/1
+get {{host}}/api/mealrequirements
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 ### post mealrequirements
-POST  {{host}}/api/mealrequirements
+POST  {{host}}/api/mealrequirements/1
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -359,14 +359,14 @@ Authorization: Bearer {{token}}
 
 
 ### post mealrequirements
-PATCH {{host}}/api/mealrequirements/2
+PATCH {{host}}/api/mealrequirements/1
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
-
 {
-    "day": "Szerda"
+    "meal_of_day_id": 1,
+    "meal_id": 5
 }
 
 ### --- meal_of_days
