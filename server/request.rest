@@ -463,7 +463,7 @@ Authorization: Bearer {{token}}
 }
 
 ### delete weekday by id
-delete {{host}}/api/weekdays/7
+delete {{host}}/api/weekdays/6
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -477,5 +477,5 @@ Authorization: Bearer {{token}}
 
 
 {
-    "day": "Szerda"
+    "day": "asdSzerda"
 }
