@@ -343,22 +343,19 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "day": "kedd",
-    "user_id": 1,
     "meal_of_days_id": 1,
-    "recipe_id": 2,
-    "meal_id": 1
+    "meal_id": 2
 }
 
 ### delete mealrequirement by id
-delete {{host}}/api/mealrequirements/9
+delete {{host}}/api/mealrequirements/2
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 ### post mealrequirements
-PATCH {{host}}/api/mealrequirements/9
+PATCH {{host}}/api/mealrequirements/2
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
