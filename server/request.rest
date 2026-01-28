@@ -414,29 +414,25 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "day": "kedd",
-    "user_id": 1,
-    "meal_of_days_id": 1,
-    "recipe_id": 2,
-    "meal_id": 1
+    "raw_ingredient": "tejecske"
 }
 
 ### delete rawingredient by id
-delete {{host}}/api/rawingredients/9
+delete {{host}}/api/rawingredients/324
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 ### post rawingredients
-PATCH {{host}}/api/rawingredients/9
+PATCH {{host}}/api/rawingredients/324
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
 {
-    "day": "Szerda"
+    "raw_ingredient": "mézecske"
 }
 
 ### --- weekdays
