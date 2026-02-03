@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -33,6 +34,21 @@ class IngredientTableTest extends TestCase
     #[DataProvider('expectedSchemaDataProvider')]
     public function test_ingredients_table_column_types(string $column, string $type): void
     {
+        $driver = DB::getDriverName();
+
+        // SQLite-n a bigint/foreignId jellegű mezők gyakran "integer"-ként jelennek meg
+        // Schema::getColumnType() szerint.
+        if ($driver === 'sqlite') {
+            if (in_array($type, ['bigint'], true)) {
+                $this->assertEquals(
+                    'integer',
+                    Schema::getColumnType($this->table, $column),
+                    "A '{$column}' oszlop típusa nem megfelelő (sqlite normalizálás)"
+                );
+                return;
+            }
+        }
+
         $this->assertEquals(
             $type,
             Schema::getColumnType($this->table, $column),
