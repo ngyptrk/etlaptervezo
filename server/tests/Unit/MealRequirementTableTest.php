@@ -13,9 +13,9 @@ class MealRequirementTableTest extends TestCase
     public static function expectedSchemaDataProvider(): array
     {
         return [
-            ['id', 'bigint'],
-            ['meal_of_day_id', 'bigint'],
-            ['meal_id', 'bigint'],
+            ['id', 'int'],
+            ['meal_of_day_id', 'int'],
+            ['meal_id', 'int'],
         ];
     }
 
