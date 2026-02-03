@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Test Documentation</title>
+        <style>
+            body {
+                text-rendering: optimizeLegibility;
+                font-family: Source SansSerif Pro, Arial, sans-serif;
+                font-variant-ligatures: common-ligatures;
+                font-kerning: normal;
+                margin-left: 2rem;
+                background-color: #fff;
+                color: #000;
+            }
+
+            body > ul > li {
+                font-size: larger;
+            }
+
+            h2 {
+                font-size: larger;
+                text-decoration-line: underline;
+                text-decoration-thickness: 2px;
+                margin: 0;
+                padding: 0.5rem 0;
+            }
+
+            ul {
+                list-style: none;
+                margin: 0 0 2rem;
+                padding: 0 0 0 1rem;
+                text-indent: -1rem;
+            }
+
+            .success:before {
+                color: #4e9a06;
+                content: '✓';
+                padding-right: 0.5rem;
+            }
+
+            .defect {
+                color: #a40000;
+            }
+
+            .defect:before {
+                color: #a40000;
+                content: '✗';
+                padding-right: 0.5rem;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Database Service (Tests\Unit\DatabaseService)</h2>
+        <ul>
+            <li class="success">Example</li>
+        </ul>
+        <h2>Day Table (Tests\Unit\DayTable)</h2>
+        <ul>
+            <li class="success">Days table exists</li>
+            <li class="success">Days table has columns with data set "id"</li>
+            <li class="success">Days table has columns with data set "user_id"</li>
+            <li class="success">Days table has columns with data set "day_id"</li>
+            <li class="success">Days table has columns with data set "meal_of_days_id"</li>
+            <li class="success">Days table has columns with data set "recipe_id"</li>
+            <li class="success">Days table has columns with data set "meal_id"</li>
+            <li class="success">Days table has columns with data set "created_at"</li>
+            <li class="success">Days table has columns with data set "updated_at"</li>
+            <li class="success">Days table column types with data set "id"</li>
+            <li class="success">Days table column types with data set "user_id"</li>
+            <li class="success">Days table column types with data set "day_id"</li>
+            <li class="success">Days table column types with data set "meal_of_days_id"</li>
+            <li class="success">Days table column types with data set "recipe_id"</li>
+            <li class="success">Days table column types with data set "meal_id"</li>
+            <li class="success">Days table column types with data set "created_at"</li>
+            <li class="success">Days table column types with data set "updated_at"</li>
+            <li class="success">Days table has unique index for user mealofday recipe</li>
+            <li class="success">Days table has expected foreign key columns present</li>
+        </ul>
+        <h2>Example (Tests\Feature\Example)</h2>
+        <ul>
+            <li class="success">The application returns a successful response</li>
+        </ul>
+        <h2>Example (Tests\Unit\Example)</h2>
+        <ul>
+            <li class="success">That true is true</li>
+        </ul>
+        <h2>Ingredient Table (Tests\Unit\IngredientTable)</h2>
+        <ul>
+            <li class="success">Ingredients table exists</li>
+            <li class="success">Ingredients table has columns with data set "id"</li>
+            <li class="success">Ingredients table has columns with data set "recipe_id"</li>
+            <li class="success">Ingredients table has columns with data set "raw_ingredient_id"</li>
+            <li class="success">Ingredients table has columns with data set "amount"</li>
+            <li class="success">Ingredients table has columns with data set "unit_id"</li>
+            <li class="success">Ingredients table has columns with data set "created_at"</li>
+            <li class="success">Ingredients table has columns with data set "updated_at"</li>
+            <li class="success">Ingredients table column types with data set "id"</li>
+            <li class="success">Ingredients table column types with data set "recipe_id"</li>
+            <li class="success">Ingredients table column types with data set "raw_ingredient_id"</li>
+            <li class="success">Ingredients table column types with data set "amount"</li>
+            <li class="success">Ingredients table column types with data set "unit_id"</li>
+            <li class="success">Ingredients table column types with data set "created_at"</li>
+            <li class="success">Ingredients table column types with data set "updated_at"</li>
+            <li class="success">Ingredients table has unique index for recipe and raw ingredient</li>
+            <li class="success">Ingredients table has expected foreign key columns present</li>
+        </ul>
+        <h2>Meal Of Day Table (Tests\Unit\MealOfDayTable)</h2>
+        <ul>
+            <li class="success">Meal of days table exists</li>
+            <li class="success">Meal of days table has columns with data set "id"</li>
+            <li class="success">Meal of days table has columns with data set "meal_of_day"</li>
+            <li class="success">Meal of days table has columns with data set "created_at"</li>
+            <li class="success">Meal of days table has columns with data set "updated_at"</li>
+            <li class="success">Meal of days table column types with data set "id"</li>
+            <li class="success">Meal of days table column types with data set "meal_of_day"</li>
+            <li class="success">Meal of days table column types with data set "created_at"</li>
+            <li class="success">Meal of days table column types with data set "updated_at"</li>
+            <li class="success">Meal of days meal of day column is unique</li>
+        </ul>
+        <h2>Meal Requirement Table (Tests\Unit\MealRequirementTable)</h2>
+        <ul>
+            <li class="success">Meal requirements table exists</li>
+            <li class="success">Meal requirements table has columns with data set "id"</li>
+            <li class="success">Meal requirements table has columns with data set "meal_of_day_id"</li>
+            <li class="success">Meal requirements table has columns with data set "meal_id"</li>
+            <li class="success">Meal requirements table has columns with data set "created_at"</li>
+            <li class="success">Meal requirements table has columns with data set "updated_at"</li>
+            <li class="success">Meal requirements table column types with data set "id"</li>
+            <li class="success">Meal requirements table column types with data set "meal_of_day_id"</li>
+            <li class="success">Meal requirements table column types with data set "meal_id"</li>
+            <li class="success">Meal requirements table column types with data set "created_at"</li>
+            <li class="success">Meal requirements table column types with data set "updated_at"</li>
+            <li class="success">Meal requirements unique index exists</li>
+            <li class="success">Meal requirements fk columns exist</li>
+        </ul>
+        <h2>Meal Table (Tests\Unit\MealTable)</h2>
+        <ul>
+            <li class="success">Meals table exists</li>
+            <li class="success">Meals table has columns</li>
+            <li class="success">Meals meal column is unique</li>
+        </ul>
+        <h2>Raw Ingredient Table (Tests\Unit\RawIngredientTable)</h2>
+        <ul>
+            <li class="success">Raw ingredients table exists</li>
+            <li class="success">Raw ingredients table has columns with data set "id"</li>
+            <li class="success">Raw ingredients table has columns with data set "raw_ingredient"</li>
+            <li class="success">Raw ingredients table has columns with data set "created_at"</li>
+            <li class="success">Raw ingredients table has columns with data set "updated_at"</li>
+            <li class="success">Raw ingredients table column types with data set "id"</li>
+            <li class="success">Raw ingredients table column types with data set "raw_ingredient"</li>
+            <li class="success">Raw ingredients table column types with data set "created_at"</li>
+            <li class="success">Raw ingredients table column types with data set "updated_at"</li>
+            <li class="success">Raw ingredient column is unique</li>
+        </ul>
+        <h2>Recipe Table (Tests\Unit\RecipeTable)</h2>
+        <ul>
+            <li class="success">Recipes table exists</li>
+            <li class="success">Recipes table has columns</li>
+            <li class="success">Recipes name column is unique</li>
+            <li class="success">Recipes picture column is unique</li>
+            <li class="success">Recipes meal id foreign key</li>
+        </ul>
+        <h2>Unit Table (Tests\Unit\UnitTable)</h2>
+        <ul>
+            <li class="success">Units table exists</li>
+            <li class="success">Units table has columns with data set "id"</li>
+            <li class="success">Units table has columns with data set "unit"</li>
+            <li class="success">Units table has columns with data set "created_at"</li>
+            <li class="success">Units table has columns with data set "updated_at"</li>
+            <li class="success">Units table column types with data set "id"</li>
+            <li class="success">Units table column types with data set "unit"</li>
+            <li class="success">Units table column types with data set "created_at"</li>
+            <li class="success">Units table column types with data set "updated_at"</li>
+            <li class="success">Unit column is unique</li>
+        </ul>
+        <h2>Weekday Table (Tests\Unit\WeekdayTable)</h2>
+        <ul>
+            <li class="success">Weekdays table exists</li>
+            <li class="success">Weekdays table has columns with data set "id"</li>
+            <li class="success">Weekdays table has columns with data set "day"</li>
+            <li class="success">Weekdays table has columns with data set "created_at"</li>
+            <li class="success">Weekdays table has columns with data set "updated_at"</li>
+            <li class="success">Weekdays table column types with data set "id"</li>
+            <li class="success">Weekdays table column types with data set "day"</li>
+            <li class="success">Weekdays table column types with data set "created_at"</li>
+            <li class="success">Weekdays table column types with data set "updated_at"</li>
+            <li class="success">Weekdays day column is unique</li>
+        </ul>
+    </body>
+</html>

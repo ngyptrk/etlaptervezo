@@ -60,7 +60,7 @@ Továbbá a felhasználó saját recepteket is generálhat, ami az adatbázisba 
 
 
 ## Tesztek:
-
+A Teszteket HTML Fileba illesztettük. Hibátlanúl lefutott minden teszt.
 
 ## Menu generalas
 - 2 dolgot kell megadni
