@@ -190,46 +190,112 @@ class RecipeTableTest extends TestCase
         $this->say("✅ [PASSED] Unique index check skipped (driver={$driver})");
     }
 
-    public function test_recipes_meal_id_foreign_key(): void
+ public function test_recipes_meal_id_foreign_key(): void
 {
-    $this->assertTrue(Schema::hasColumn($this->table, 'meal_id'));
+    $this->assertTrue(
+        Schema::hasColumn($this->table, 'meal_id'),
+        "A meal_id oszlop nem létezik a {$this->table} táblában"
+    );
 
-    // Ha SQLite-t használsz, az idegen kulcsokat nem lehet lekérdezni a SHOW CREATE TABLE paranccsal.
-    // Az SQLite-ban az idegen kulcsok jelenlétét az sqlite_master táblából ellenőrizhetjük.
     $driver = DB::getDriverName();
-    
+
+    // -------------------------
+    // SQLITE
+    // -------------------------
     if ($driver === 'sqlite') {
-        $foreignKeys = DB::select(
-            "SELECT sql
-            FROM sqlite_master
-            WHERE type = 'table' AND name = 'recipes'"
+        $foreignKeys = DB::select("PRAGMA foreign_key_list({$this->table})");
+
+        $foreignKeyFound = false;
+        foreach ($foreignKeys as $fk) {
+            if (
+                $fk->from === 'meal_id' &&
+                $fk->table === 'meals' &&
+                $fk->to === 'id'
+            ) {
+                $foreignKeyFound = true;
+                break;
+            }
+        }
+
+        $this->assertTrue(
+            $foreignKeyFound,
+            "Nem található FK: meal_id → meals(id) (sqlite)"
+        );
+
+        $this->say("✅ [PASSED] Foreign key exists (sqlite): meal_id → meals(id)");
+        return;
+    }
+
+    // -------------------------
+    // MYSQL / MARIADB
+    // -------------------------
+    if (in_array($driver, ['mysql', 'mariadb'], true)) {
+        $rows = DB::select("SHOW CREATE TABLE {$this->table}");
+
+        $foreignKeyFound = false;
+        foreach ($rows as $row) {
+            $sql = $row->{'Create Table'} ?? '';
+
+            if (
+                stripos($sql, 'foreign key') !== false &&
+                stripos($sql, 'meal_id') !== false &&
+                stripos($sql, 'references meals') !== false
+            ) {
+                $foreignKeyFound = true;
+                break;
+            }
+        }
+
+        $this->assertTrue(
+            $foreignKeyFound,
+            "Nem található FK: meal_id → meals(id) (mysql/mariadb)"
+        );
+
+        $this->say("✅ [PASSED] Foreign key exists (mysql/mariadb): meal_id → meals(id)");
+        return;
+    }
+
+    // -------------------------
+    // POSTGRESQL
+    // -------------------------
+    if ($driver === 'pgsql') {
+        $rows = DB::select(
+            "SELECT
+                conname,
+                pg_get_constraintdef(c.oid) AS definition
+             FROM pg_constraint c
+             JOIN pg_class t ON t.oid = c.conrelid
+             WHERE c.contype = 'f'
+               AND t.relname = ?",
+            [$this->table]
         );
 
         $foreignKeyFound = false;
-        foreach ($foreignKeys as $fk) {
-            if (stripos($fk->sql, 'FOREIGN KEY (`meal_id`) REFERENCES meals(`id`)') !== false) {
+        foreach ($rows as $row) {
+            if (
+                stripos($row->definition, '(meal_id)') !== false &&
+                stripos($row->definition, 'references meals(id)') !== false
+            ) {
                 $foreignKeyFound = true;
                 break;
             }
         }
 
-        $this->assertTrue($foreignKeyFound);
-        $this->say("✅ [PASSED] Foreign key exists for meal_id referencing meals(id) in SQLite");
-    } else {
-        // Más adatbázisok esetén a SHOW CREATE TABLE-t használjuk
-        $foreignKeys = DB::select("SHOW CREATE TABLE {$this->table}");
-        $foreignKeyFound = false;
-        
-        foreach ($foreignKeys as $fk) {
-            if (stripos($fk->{'Create Table'}, 'FOREIGN KEY (`meal_id`) REFERENCES meals(`id`)') !== false) {
-                $foreignKeyFound = true;
-                break;
-            }
-        }
+        $this->assertTrue(
+            $foreignKeyFound,
+            "Nem található FK: meal_id → meals(id) (pgsql)"
+        );
 
-        $this->assertTrue($foreignKeyFound);
-        $this->say("✅ [PASSED] Foreign key exists for meal_id referencing meals(id)");
+        $this->say("✅ [PASSED] Foreign key exists (pgsql): meal_id → meals(id)");
+        return;
     }
+
+    // -------------------------
+    // FALLBACK
+    // -------------------------
+    $this->assertTrue(true);
+    $this->say("✅ [PASSED] Foreign key check skipped (unknown driver={$driver})");
 }
+
 
 }
