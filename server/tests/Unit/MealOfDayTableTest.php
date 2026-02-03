@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-class MealOfDaysTableTest extends TestCase
+class MealOfDayTableTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -23,7 +23,7 @@ class MealOfDaysTableTest extends TestCase
     {
         return [
             'id' => ['id', 'bigint'],
-            'meal_of_day' => ['meal_of_day', 'string'],
+            'meal_of_day' => ['meal_of_day', 'varchar'],
             'created_at' => ['created_at', 'timestamp'],
             'updated_at' => ['updated_at', 'timestamp'],
         ];
