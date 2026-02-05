@@ -66,6 +66,10 @@ A Teszteket HTML Fileba illesztettük. Hibátlanúl lefutott minden teszt.
 - 2 dolgot kell megadni
 1. Melyik User (kinek)
 2. Melyik napokra: Hétfőtől - Vasárnapig
-kell meg 1 tabla mint WeekDays (napok benne)
+kell meg 1 tabla mint WeekDays (napok 
+benne)
 
 get url/user_id/h;k;sz;cs;p;szo;v
+
+Csinalni kell magyar hibakodokat.
+Pl: Rules/message/requestek/Min,max,string,unqiue,required
