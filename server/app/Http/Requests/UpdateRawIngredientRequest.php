@@ -26,4 +26,13 @@ class UpdateRawIngredientRequest extends FormRequest
 
         ];
     }
+    public function messages(): array
+    {
+        return [
+            'raw_ingredient.required' => 'Az alapanyag megnevezése kötelező.',
+            'raw_ingredient.string' => 'Az alapanyag megnevezése csak szöveg lehet.',
+            'raw_ingredient.max' => 'Az alapanyag megnevezése legfeljebb 255 karakter hosszú lehet.',
+            'raw_ingredient.unique' => 'Ez az alapanyag már létezik.',
+        ];
+    }
 }

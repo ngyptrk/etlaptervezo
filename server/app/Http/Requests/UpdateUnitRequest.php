@@ -26,4 +26,13 @@ class UpdateUnitRequest extends FormRequest
 
         ];
     }
+    public function messages(): array
+    {
+        return [
+            'unit.required' => 'A mértékegység megnevezése kötelező.',
+            'unit.string' => 'A mértékegység megnevezése csak szöveg lehet.',
+            'unit.max' => 'A mértékegység megnevezése legfeljebb 255 karakter hosszú lehet.',
+            'unit.unique' => 'Ez a mértékegység már létezik.',
+        ];
+    }
 }

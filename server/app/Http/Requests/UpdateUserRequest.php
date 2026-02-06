@@ -29,4 +29,16 @@ class UpdateUserRequest extends FormRequest
             
         ];
     }
+    // public function messages(): array
+    // {
+    //     return [
+    //         'name.string' => 'A név csak szöveg lehet.',
+
+    //         'email.email' => 'Az e-mail cím formátuma nem megfelelő.',
+
+    //         'password.string' => 'A jelszó csak szöveg lehet.',
+
+    //         'role.string' => 'A szerepkör csak szöveg lehet.',
+    //     ];
+    // }
 }

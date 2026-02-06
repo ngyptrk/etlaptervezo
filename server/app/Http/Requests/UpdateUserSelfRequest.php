@@ -43,22 +43,21 @@ class UpdateUserSelfRequest extends FormRequest
             'role' => 'prohibited',
             'password' => 'prohibited',
         ];
-        // return [
-        //     'name' => 'nullable|string',
-        //     'email' => 'nullable|email',
-        //     'password' => [
-        //         'nullable',
-        //         'string',
-        //         Password::min(10) // Minimum 10 karakter
-        //             ->mixedCase() // Kevert kis- és nagybetű
-        //             ->letters()   // Legalább egy betű
-        //             ->numbers()   // Legalább egy szám
-        //             ->symbols()   // Legalább egy szimbólum
-        //             ->uncompromised(), // Ne legyen kiszivárgott
-        //     ],
-        //     // Tiltott mező: Ha a role mező megérkezik a kérésben, a validáció elbukik.
-        //     'role' => 'prohibited',
-        // ];
+    }
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'A név megadása kötelező, ha az e-mail nincs megadva.',
+            'name.string' => 'A név csak szöveg lehet.',
+            'name.required_without_all' => 'A név megadása kötelező, ha nincs e-mail.',
 
+            'email.required' => 'Az e-mail megadása kötelező, ha a név nincs megadva.',
+            'email.email' => 'Az e-mail cím formátuma nem megfelelő.',
+            'email.required_without_all' => 'Az e-mail megadása kötelező, ha nincs név.',
+            'email.unique' => 'Ez az e-mail cím már foglalt.',
+
+            'role.prohibited' => 'A szerepkör mező nem módosítható.',
+            'password.prohibited' => 'A jelszó mező nem módosítható ezen a kérésen keresztül.',
+        ];
     }
 }

@@ -50,4 +50,22 @@ class UpdateIngredientRequest extends FormRequest
             ],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'recipe_id.integer' => 'A recept azonosítónak számnak kell lennie.',
+            'recipe_id.exists' => 'A megadott recept nem létezik.',
+
+            'raw_ingredient_id.integer' => 'Az alapanyag azonosítónak számnak kell lennie.',
+            'raw_ingredient_id.exists' => 'A megadott alapanyag nem létezik.',
+            'raw_ingredient_id.unique' => 'Ez az alapanyag már hozzá van adva ehhez a recepthez.',
+
+            'amount.integer' => 'Az mennyiségnek számnak kell lennie.',
+            'amount.min' => 'A mennyiség legalább 1 kell legyen.',
+
+            'unit_id.integer' => 'A mértékegység azonosítónak számnak kell lennie.',
+            'unit_id.exists' => 'A megadott mértékegység nem létezik.',
+        ];
+    }
 }

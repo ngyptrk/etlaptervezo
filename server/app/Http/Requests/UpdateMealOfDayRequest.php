@@ -25,4 +25,13 @@ class UpdateMealOfDayRequest extends FormRequest
             'meal_of_day' => ['required', 'string', 'max:255', 'unique:meal_of_days,meal_of_day'],
         ];
     }
+    public function messages(): array
+    {
+        return [
+            'meal_of_day.required' => 'Az étkezés megnevezése kötelező.',
+            'meal_of_day.string' => 'Az étkezés megnevezése csak szöveg lehet.',
+            'meal_of_day.max' => 'Az étkezés megnevezése legfeljebb 255 karakter hosszú lehet.',
+            'meal_of_day.unique' => 'Ez az étkezés már létezik.',
+        ];
+    }
 }

@@ -38,4 +38,14 @@ class UpdateMealRequirementRequest extends FormRequest
 
         ];
     }
+
+    public function messages(): array
+{
+    return [
+        'meal_of_day_id.integer' => 'Az étkezés időpontjának azonosítója csak szám lehet.',
+
+        'meal_id.integer' => 'Az étel azonosítónak számnak kell lennie.',
+        'meal_id.unique' => 'Ez az étel már hozzá van rendelve ehhez az étkezéshez.',
+    ];
+}
 }

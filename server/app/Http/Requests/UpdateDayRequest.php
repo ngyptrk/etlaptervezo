@@ -29,4 +29,23 @@ class UpdateDayRequest extends FormRequest
             'meal_id' => ['nullable', 'integer', 'exists:meals,id'],
         ];
     }
+    public function messages(): array
+{
+    return [
+        'day.string' => 'A nap mező csak szöveg lehet.',
+        'day.max' => 'A nap mező legfeljebb 255 karakter hosszú lehet.',
+
+        'user_id.integer' => 'A felhasználó azonosítónak számnak kell lennie.',
+        'user_id.exists' => 'A megadott felhasználó nem létezik.',
+
+        'meal_of_days_id.integer' => 'Az étkezés napjának azonosítója csak szám lehet.',
+        'meal_of_days_id.exists' => 'A megadott étkezési nap nem létezik.',
+
+        'recipe_id.integer' => 'A recept azonosítónak számnak kell lennie.',
+        'recipe_id.exists' => 'A megadott recept nem létezik.',
+
+        'meal_id.integer' => 'Az étel azonosítónak számnak kell lennie.',
+        'meal_id.exists' => 'A megadott étel nem létezik.',
+    ];
+}
 }

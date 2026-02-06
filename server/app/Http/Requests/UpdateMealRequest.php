@@ -26,4 +26,13 @@ class UpdateMealRequest extends FormRequest
 
         ];
     }
+    public function messages(): array
+    {
+        return [
+            'meal.required' => 'Az étel megnevezése kötelező.',
+            'meal.string' => 'Az étel megnevezése csak szöveg lehet.',
+            'meal.max' => 'Az étel megnevezése legfeljebb 255 karakter hosszú lehet.',
+            'meal.unique' => 'Ez az étel már létezik.',
+        ];
+    }
 }
