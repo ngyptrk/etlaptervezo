@@ -25,4 +25,13 @@ class StoreWeekdayRequest extends FormRequest
             'day' => ['required', 'string', 'max:25'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'day.required' => 'A nap megadása kötelező.',
+            'day.string'   => 'A nap csak szöveg lehet.',
+            'day.max'      => 'A nap legfeljebb 25 karakter lehet.',
+        ];
+    }
 }

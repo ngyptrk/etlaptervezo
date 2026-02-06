@@ -29,4 +29,29 @@ class StoreDayRequest extends FormRequest
             'meal_id' => ['required', 'integer', 'exists:meals,id'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'day.required' => 'A nap megadása kötelező.',
+            'day.string'   => 'A nap csak szöveg lehet.',
+            'day.max'      => 'A nap legfeljebb 255 karakter lehet.',
+
+            'user_id.required' => 'A felhasználó megadása kötelező.',
+            'user_id.integer'  => 'A felhasználó azonosítója érvénytelen.',
+            'user_id.exists'   => 'A kiválasztott felhasználó nem létezik.',
+
+            'meal_of_days_id.required' => 'Az étkezés időpontjának megadása kötelező.',
+            'meal_of_days_id.integer'  => 'Az étkezés időpontja érvénytelen.',
+            'meal_of_days_id.exists'   => 'A kiválasztott étkezés időpontja nem létezik.',
+
+            'recipe_id.required' => 'A recept kiválasztása kötelező.',
+            'recipe_id.integer'  => 'A recept azonosítója érvénytelen.',
+            'recipe_id.exists'   => 'A kiválasztott recept nem létezik.',
+
+            'meal_id.required' => 'Az étkezés kiválasztása kötelező.',
+            'meal_id.integer'  => 'Az étkezés azonosítója érvénytelen.',
+            'meal_id.exists'   => 'A kiválasztott étkezés nem létezik.',
+        ];
+    }
 }

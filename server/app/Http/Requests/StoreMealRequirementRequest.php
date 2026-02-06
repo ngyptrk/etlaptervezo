@@ -24,17 +24,29 @@ class StoreMealRequirementRequest extends FormRequest
     {
         return [
             'meal_of_day_id' => [
-            'required',
-            'integer',
-        ],
+                'required',
+                'integer',
+            ],
 
-        'meal_id' => [
-            'required',
-            'integer',
-            Rule::unique('meal_requirements', 'meal_id')
-                ->where(fn ($q) => $q->where('meal_of_day_id', request('meal_of_day_id'))),
-        ],
+            'meal_id' => [
+                'required',
+                'integer',
+                Rule::unique('meal_requirements', 'meal_id')
+                    ->where(fn($q) => $q->where('meal_of_day_id', request('meal_of_day_id'))),
+            ],
 
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'meal_of_day_id.required' => 'Az étkezés időpontjának megadása kötelező.',
+            'meal_of_day_id.integer'  => 'Az étkezés időpontja érvénytelen.',
+
+            'meal_id.required' => 'Az étkezés kiválasztása kötelező.',
+            'meal_id.integer'  => 'Az étkezés azonosítója érvénytelen.',
+            'meal_id.unique'   => 'Ez az étkezés már hozzá van rendelve ehhez az étkezési időponthoz.',
         ];
     }
 }

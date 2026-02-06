@@ -25,4 +25,14 @@ class StoreRawIngredientRequest extends FormRequest
             'raw_ingredient' => ['required', 'string', 'max:255', 'unique:raw_ingredients,raw_ingredient'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'raw_ingredient.required' => 'Az alapanyag megadása kötelező.',
+            'raw_ingredient.string'   => 'Az alapanyag neve csak szöveg lehet.',
+            'raw_ingredient.max'      => 'Az alapanyag neve legfeljebb 255 karakter lehet.',
+            'raw_ingredient.unique'   => 'Ez az alapanyag már létezik.',
+        ];
+    }
 }

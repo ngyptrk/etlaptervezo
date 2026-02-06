@@ -50,4 +50,26 @@ class StoreIngredientRequest extends FormRequest
             ],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'recipe_id.required' => 'A recept kiválasztása kötelező.',
+            'recipe_id.integer'  => 'A recept azonosítója érvénytelen.',
+            'recipe_id.exists'   => 'A kiválasztott recept nem létezik.',
+
+            'raw_ingredient_id.required' => 'Az alapanyag kiválasztása kötelező.',
+            'raw_ingredient_id.integer'  => 'Az alapanyag azonosítója érvénytelen.',
+            'raw_ingredient_id.exists'   => 'A kiválasztott alapanyag nem létezik.',
+            'raw_ingredient_id.unique'   => 'Ez az alapanyag már hozzá van adva ehhez a recepthez.',
+
+            'amount.required' => 'A mennyiség megadása kötelező.',
+            'amount.integer'  => 'A mennyiség csak egész szám lehet.',
+            'amount.min'      => 'A mennyiségnek legalább 1-nek kell lennie.',
+
+            'unit_id.required' => 'A mértékegység kiválasztása kötelező.',
+            'unit_id.integer'  => 'A mértékegység azonosítója érvénytelen.',
+            'unit_id.exists'   => 'A kiválasztott mértékegység nem létezik.',
+        ];
+    }
 }

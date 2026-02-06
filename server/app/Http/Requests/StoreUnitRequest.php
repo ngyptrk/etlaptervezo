@@ -25,4 +25,14 @@ class StoreUnitRequest extends FormRequest
             'unit' => ['required', 'string', 'max:255', 'unique:units,unit'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'unit.required' => 'A mértékegység megadása kötelező.',
+            'unit.string'   => 'A mértékegység csak szöveg lehet.',
+            'unit.max'      => 'A mértékegység legfeljebb 255 karakter lehet.',
+            'unit.unique'   => 'Ez a mértékegység már létezik.',
+        ];
+    }
 }
