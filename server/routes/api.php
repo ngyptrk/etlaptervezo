@@ -11,6 +11,7 @@ use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\RawIngredientController;
 use App\Http\Controllers\MealRequirementController;
 use App\Http\Controllers\WeekdayController;
+use App\Http\Controllers\WeeklyFoodGeneratorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -141,3 +142,7 @@ Route::patch('weekdays/{id}', [WeekdayController::class, 'update'])
     ->middleware(['auth:sanctum', 'ability:weekdays:patch']);
 Route::delete('weekdays/{id}', [WeekdayController::class, 'destroy'])
     ->middleware(['auth:sanctum', 'ability:weekdays:delete']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('weeklyfood/generate', [WeeklyFoodGeneratorController::class, 'generate']);
+});

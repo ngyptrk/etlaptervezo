@@ -479,3 +479,8 @@ Authorization: Bearer {{token}}
 {
     "day": "asdSzerda"
 }
+### generator
+POST {{host}}/api/weeklyfood/generate
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
