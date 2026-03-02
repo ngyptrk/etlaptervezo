@@ -1,1 +1,0 @@
-import{_ as n,c as a,a as t,f as s,w as r,r as l,o as p,y as c}from"./index-BB6RB61e.js";const d={};function u(_,e,f,i,m,x){const o=l("RouterLink");return p(),a("div",null,[e[1]||(e[1]=t("h1",null,"Ez az oldal nem található",-1)),t("p",null,[s(o,{to:"/"},{default:r(()=>[...e[0]||(e[0]=[c("Home",-1)])]),_:1})])])}const $=n(d,[["render",u]]);export{$ as default};

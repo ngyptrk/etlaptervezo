@@ -1,1 +1,0 @@
-import{_ as o,c as t,a as r,o as s}from"./index-BB6RB61e.js";const n={};function a(c,e,l,p,_,d){return s(),t("div",null,[...e[0]||(e[0]=[r("h1",null,"Sportolás",-1)])])}const i=o(n,[["render",a]]);export{i as default};
