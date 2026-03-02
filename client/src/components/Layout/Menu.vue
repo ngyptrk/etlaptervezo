@@ -1,224 +1,150 @@
 <template>
-  <div>
-    <nav class="navbar navbar-expand-md bg-primary" data-bs-theme="dark">
-      <div class="container-fluid">
-        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+  <div class="menu-container">
+    <!-- Logó -->
+    <RouterLink to="/" class="logo-link mb-4">
+      <!-- <img src="/path/to/logo.jpg" alt="Logó"/> -->
+    </RouterLink>
+
+    <!-- Menü -->
+    <nav class="nav flex-column">
+      <RouterLink to="/" class="nav-link sidebar-link">Főoldal</RouterLink>
+      <RouterLink to="/rolunk" class="nav-link sidebar-link">Rólunk</RouterLink>
+
+      <!-- Beállítások dropdown -->
+      <div>
         <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+          class="btn btn-toggle sidebar-link w-100 text-start d-flex justify-content-between"
+          @click="toggleSettings"
         >
-          <span class="navbar-toggler-icon"></span>
+          Beállítások
+          <span :class="{ rotate: settingsOpen }">▾</span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <RouterLink class="nav-link" to="/">Főoldal</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link" to="/about">Rólunk</RouterLink>
-            </li>
-            <li class="nav-item dropdown" v-if="hasMenuAccess('/adatok')">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Adatok
-              </a>
-              <ul class="dropdown-menu">
-                <li v-if="hasMenuAccess('/adatok/sport')">
-                  <RouterLink class="dropdown-item" to="/adatok/sport"
-                    >Sportok</RouterLink
-                  >
-                </li>
-                <li v-if="hasMenuAccess('/adatok/schoolclass')">
-                  <RouterLink class="dropdown-item" to="/adatok/schoolclass"
-                    >Osztályok</RouterLink
-                  >
-                </li>
-                <li v-if="hasMenuAccess('/adatok/student')">
-                  <RouterLink class="dropdown-item" to="/adatok/student"
-                    >Tanulók</RouterLink
-                  >
-                </li>
-                <li><hr class="dropdown-divider" /></li>
-                <li v-if="hasMenuAccess('/adatok/plaingsport')">
-                  <RouterLink class="dropdown-item" to="/adatok/plaingsport"
-                    >Sportolás</RouterLink
-                  >
-                </li>
-                <li><hr class="dropdown-divider" /></li>
-                <li v-if="hasMenuAccess('/adatok/users')">
-                  <RouterLink class="dropdown-item" to="/adatok/users"
-                    >Userek</RouterLink
-                  >
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <RouterLink class="nav-link" to="/login" v-if="!isLoggedIn">
-                Login
-              </RouterLink>
-              <div v-if="isLoggedIn" class="d-flex align-items-center">
-                <RouterLink class="nav-link" to="/userprofil">
-                  <i class="bi bi-person"></i>
-                  {{ userNameWithRole }}
-                </RouterLink>
 
-                <!-- logout -->
-                <i
-                  class="bi bi-box-arrow-right ms-2 my-pointer tight-icon"
-                  style="font-size: 2rem"
-                  @click="onClickLogut()"
-                ></i>
-              </div>
-            </li>
-          </ul>
-          <form class="d-flex" role="search">
-            <input
-              id="search"
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              v-model="searchWordInput"
-            />
-
-            <label for="search" class="form-label m-0">
-              <i
-                @click="onClickSearchButton"
-                class="bi bi-search fs-4 my-pointer"
-              ></i>
-            </label>
-          </form>
+        <div class="collapse" :class="{ show: settingsOpen }">
+          <nav class="btn-toggle-nav list-unstyled ps-3">
+            <RouterLink v-for="i in 5" :key="i" :to="`/settings/template/${i}`" class="nav-link sidebar-sub-link">
+              Template {{ i }}
+            </RouterLink>
+          </nav>
         </div>
+        <button class="btn btn-warning w-100 mt-2" @click="onGenerate">Generálás</button>
       </div>
     </nav>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "pinia";
-import { useSearchStore } from "@/stores/searchStore";
-import { useUserLoginLogoutStore } from "@/stores/userLoginLogoutStore";
-import userLoginLogoutService from "@/api/userLoginLogoutService";
 export default {
+  name: "Menu",
   data() {
     return {
-      searchWordInput: "",
-      timeout: null,
+      settingsOpen: false,
     };
   },
-  watch: {
-    //Keresőszó késleltetés
-    // searchWordInput(value) {
-    //   //töröljük az éppen futó setTimeout-ot
-    //   //hogy újraindíthassuk
-    //   clearTimeout(this.timeout);
-    //   //x-re kattintva kiürül az kereső input
-    //   if (value === "") {
-    //     this.setSearchWord("");
-    //     return;
-    //   }
-    //   //500ms késleltetés után tárolja
-    //   this.timeout = setTimeout(() => {
-    //     this.setSearchWord(value);
-    //   }, 1000);
-    // },
-
-    searchWordInput(value) {
-      if (!value) {
-        this.resetSearchWord();
-      }
-    },
-    searchWord(value) {
-      this.searchWordInput = value;
-    },
-  },
-  computed: {
-    ...mapState(useSearchStore, ["searchWord"]),
-    ...mapState(useUserLoginLogoutStore, ['isLoggedIn','userNameWithRole'])
-  },
   methods: {
-    ...mapActions(useSearchStore, ["resetSearchWord", "setSearchWord"]),
-    onClickSearchButton() {
-      this.setSearchWord(this.searchWordInput);
+    toggleSettings() {
+      this.settingsOpen = !this.settingsOpen;
     },
-    ...mapActions(useUserLoginLogoutStore, ['logout']),
-    hasMenuAccess(targetPath) {
-      //A jogosultsági szintnek megfelelően engedélyezi, vagy tiltja a menüt
-      const userStore = useUserLoginLogoutStore();
-      const resolved = this.$router.resolve(targetPath);
-
-      if (!resolved || !resolved.matched.length) return false;
-
-      // Végigmeneteltetjük a szabályt az összes szülőn keresztül (adatok -> sports)
-      // Az 'every' akkor igaz, ha minden egyes elemre igaz a feltétel
-      return resolved.matched.every((route) => {
-        const requiredRoles = route.meta?.roles;
-
-        // A már meglévő Pinia getterünket hívjuk meg minden szinten
-        return userStore.canAccess(requiredRoles);
-      });
-    },
-    async onClickLogut(){
-      try {
-        await this.logout();
-        this.$router.push('/');
-      } catch (error) {
-        console.log('Kijelentkezési hiba!');
-      }
-
+    onGenerate() {
+      alert("Generálás elindítva!");
     },
   },
 };
 </script>
 
 <style scoped>
-/* 1. A sima .active ÉS a router által adott osztály is legyen sárga */
-.nav-link.active,
-.nav-link.router-link-exact-active {
-  color: #ffff00 !important;
-  font-weight: bold;
-  border-bottom: 2px solid yellow;
+.menu-container {
+  width: 250px;
+  height: 100vh;
+  background: linear-gradient(135deg, #111000, #222a00);
+  padding: 1rem;
+  box-shadow: 3px 0 15px rgba(249, 211, 66, 0.3);
+  overflow-y: auto;
 }
 
-/* 2. Az "Adatok" gomb sárgítása, ha az alatta lévő listában van aktív elem */
-/* Azt mondjuk: "Színezd a .nav-item-et, ha van benne aktív router-link" */
-.nav-item:has(.dropdown-item.router-link-active) .nav-link.dropdown-toggle {
-  color: #ffff00 !important;
-  font-weight: bold;
-  border-bottom: 2px solid yellow;
+.logo-link img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #f9d342;
+  object-fit: cover;
+  cursor: pointer;
+  transition: box-shadow 0.3s;
+}
+.logo-link img:hover {
+  box-shadow: 0 0 15px #f9d342;
 }
 
-/* 3. A lenyíló menüben a konkrét aktív elem (pl. Sportok) kijelölése */
-.dropdown-item.router-link-active {
-  /* background-color: #ffff00 !important; */
-  /* color: #000 !important; */
-  background-color: transparent !important; /* Levesszük a teli hátteret */
-  color: #ffff00 !important; /* Csak a szöveg lesz sárga */
-  font-weight: bold;
+.sidebar-link {
+  padding: 0.6rem 1.5rem;
+  border-radius: 30px;
+  margin: 0.3rem 0;
+  background: rgba(249, 211, 66, 0.1);
+  font-weight: 600;
+  transition: 0.3s;
+  cursor: pointer;
+  color: #f9d342;
+  display: flex;
+  justify-content: space-between;
+}
+.sidebar-link:hover,
+.sidebar-link.router-link-active {
+  background: #f9d342;
+  color: #111000;
+  box-shadow: 0 0 10px #f9d342, 0 0 20px #f9d342;
 }
 
-.tight-icon {
-  line-height: 1 !important;
-  display: inline-flex;
-  vertical-align: middle;
+.sidebar-sub-link {
+  padding: 0.4rem 1.5rem;
+  margin: 0.15rem 0;
+  border-radius: 20px;
+  color: #f9d342;
+  text-decoration: none;
+}
+.sidebar-sub-link:hover,
+.sidebar-sub-link.router-link-active {
+  background: #f9d342;
+  color: #111000;
 }
 
-.navbar {
-  position: relative;
-  z-index: 1060 !important; /* A Bootstrap modalok 1050-nél kezdődnek */
+.btn-toggle {
+  background: transparent;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.6rem 1.5rem;
+  border-radius: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.btn-toggle:hover {
+  background: #f9d342;
+  color: #111000;
 }
 
-.dropdown-menu {
-  z-index: 1060 !important;
+.rotate {
+  transition: transform 0.3s;
+  transform-origin: center;
+  transform: rotate(180deg);
+}
+
+.btn-warning {
+  border-radius: 25px;
+  font-weight: 700;
+  color: #111000;
+  box-shadow: 0 0 8px #f9d342;
+  transition: background-color 0.3s;
+}
+.btn-warning:hover {
+  background-color: #e1c530;
+}
+
+/* Mobil nézet */
+@media (max-width: 768px) {
+  .menu-container {
+    width: 100%;
+    height: auto;
+  }
 }
 </style>
