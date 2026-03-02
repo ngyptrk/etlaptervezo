@@ -11,9 +11,9 @@ class Day extends Model
     use HasFactory;
   protected $fillable = [
         'user_id',
-        'day_id',
+        'weekday_id',          // ← EZ KELL
         'recipe_id',
-        'meal_id'
+        'meal_requirement_id', // ← EZ IS KELL
     ];
     protected $hidden = [
         'created_at',

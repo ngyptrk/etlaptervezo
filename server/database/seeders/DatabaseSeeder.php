@@ -2,38 +2,35 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ingredient;
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // FK kikapcsolás
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        //Mielőtt seedelünk, minden táblát töröljünk le.
-        DB::statement('DELETE FROM users');
-        DB::statement('DELETE FROM units');
-        DB::statement('DELETE FROM weekdays');
-        DB::statement('DELETE FROM raw_ingredients');
-        DB::statement('DELETE FROM meals');
-        DB::statement('DELETE FROM meal_of_days');
-        DB::statement('DELETE FROM meal_requirements');
-        DB::statement('DELETE FROM recipes');
-        DB::statement('DELETE FROM ingredients');
-        DB::statement('DELETE FROM days');
+        // Child táblák törlése először
+        DB::table('days')->truncate();
+        DB::table('ingredients')->truncate();
+        DB::table('recipes')->truncate();
+        DB::table('meal_requirements')->truncate();
+        DB::table('meal_of_days')->truncate();
+        DB::table('meals')->truncate();
+        DB::table('raw_ingredients')->truncate();
+        DB::table('units')->truncate();
+        DB::table('weekdays')->truncate();
+        DB::table('users')->truncate();
 
+        // FK visszakapcsolás
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-
-        //Ami Seeder osztály itt fel van sorolva, annak lefut a run() metódusa
+        // Seederek helyes sorrendben
         $this->call([
             UserSeeder::class,
             UnitSeeder::class,
@@ -44,7 +41,7 @@ class DatabaseSeeder extends Seeder
             MealRequirementSeeder::class,
             RecipeSeeder::class,
             IngredientSeeder::class,
-            DaySeeder::class
+            DaySeeder::class,
         ]);
     }
 }

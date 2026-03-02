@@ -6,31 +6,37 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('days', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
-            $table->foreignId('day_id')->constrained('weekdays')->restrictOnDelete();
-            $table->foreignId('meal_of_days_id')->constrained('meal_of_days')->restrictOnDelete();
-            $table->foreignId('recipe_id')->constrained('recipes')->restrictOnDelete();
-            $table->foreignId('meal_id')->constrained('meals')->restrictOnDelete();
 
-            $table->unique([
-                'user_id',
-                'meal_of_days_id',
-                'recipe_id'
-            ]);
+            $table->foreignId('weekday_id')
+                ->constrained('weekdays')
+                ->cascadeOnDelete();
+
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('recipe_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('meal_requirement_id')
+                ->constrained('meal_requirements')
+                ->cascadeOnDelete();
+
             $table->timestamps();
+
+            // Egyedi kombináció
+            $table->unique(
+                ['user_id', 'weekday_id', 'meal_requirement_id'],
+                'days_user_weekday_mealreq_unique'
+            );
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('days');

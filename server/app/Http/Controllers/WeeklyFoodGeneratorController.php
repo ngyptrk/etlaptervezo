@@ -2,23 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Day;
 use App\Models\Recipe;
 use App\Models\Weekday;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-
 class WeeklyFoodGeneratorController extends Controller
 {
-    
     public function generate()
     {
-        $usedRecipes = [];
         $user = Auth::user();
-
 
         if (!$user) {
             return response()->json(['message' => 'Nincs bejelentkezve'], 401);
@@ -27,35 +21,75 @@ class WeeklyFoodGeneratorController extends Controller
         DB::beginTransaction();
 
         try {
-
-            // Régi heti terv törlése (ha csak 1 lehet)
+            // Régi heti terv törlése
             Day::where('user_id', $user->id)->delete();
 
-            // Lekérjük a hét napjait (Hétfő–Vasárnap)
+            // Lekérjük a hét napjait (1 = Hétfő, 7 = Vasárnap)
             $weekdays = Weekday::all();
 
             foreach ($weekdays as $weekday) {
 
-                // Az 5 kötelező meal_id
-                $mealTypes = [1, 2, 3, 4, 5];
+                // ===== REGGELI =====
+                $breakfast = Recipe::whereBetween('id', [1, 10])
+                    ->inRandomOrder()
+                    ->first();
 
-                foreach ($mealTypes as $mealId) {
+                Day::create([
+                    'user_id' => $user->id,
+                    'weekday_id' => $weekday->id,
+                    'recipe_id' => $breakfast->id,
+                    'meal_requirement_id' => 1, // reggeli
+                ]);
 
-                    $recipe = Recipe::where('meal_id', $mealId)
-                        ->inRandomOrder()
-                        ->first();
+                // ===== EBÉD =====
+                $starter = Recipe::whereBetween('id', [11, 20])->inRandomOrder()->first();
+                Day::create([
+                    'user_id' => $user->id,
+                    'weekday_id' => $weekday->id,
+                    'recipe_id' => $starter->id,
+                    'meal_requirement_id' => 2, // ebéd előétel
+                ]);
 
-                    if (!$recipe) {
-                        throw new \Exception("Nincs recept a meal_id: {$mealId} kategóriában");
-                    }
+                $soup = Recipe::whereBetween('id', [21, 30])->inRandomOrder()->first();
+                Day::create([
+                    'user_id' => $user->id,
+                    'weekday_id' => $weekday->id,
+                    'recipe_id' => $soup->id,
+                    'meal_requirement_id' => 3, // ebéd leves
+                ]);
 
-                    Day::create([
-                        'user_id' => $user->id,
-                        'day_id' => $weekday->id,
-                        'recipe_id' => $recipe->id,
-                        'meal_id' => $mealId,
-                    ]);
-                }
+                $mainLunch = Recipe::whereBetween('id', [31, 40])->inRandomOrder()->first();
+                Day::create([
+                    'user_id' => $user->id,
+                    'weekday_id' => $weekday->id,
+                    'recipe_id' => $mainLunch->id,
+                    'meal_requirement_id' => 4, // ebéd főétel
+                ]);
+
+                $dessertLunch = Recipe::whereBetween('id', [41, 50])->inRandomOrder()->first();
+                Day::create([
+                    'user_id' => $user->id,
+                    'weekday_id' => $weekday->id,
+                    'recipe_id' => $dessertLunch->id,
+                    'meal_requirement_id' => 5, // ebéd desszert
+                ]);
+
+                // ===== VACSORA =====
+                $mainDinner = Recipe::whereBetween('id', [31, 40])->inRandomOrder()->first();
+                Day::create([
+                    'user_id' => $user->id,
+                    'weekday_id' => $weekday->id,
+                    'recipe_id' => $mainDinner->id,
+                    'meal_requirement_id' => 6, // vacsora főétel
+                ]);
+
+                $dessertDinner = Recipe::whereBetween('id', [41, 50])->inRandomOrder()->first();
+                Day::create([
+                    'user_id' => $user->id,
+                    'weekday_id' => $weekday->id,
+                    'recipe_id' => $dessertDinner->id,
+                    'meal_requirement_id' => 7, // vacsora desszert
+                ]);
             }
 
             DB::commit();
@@ -65,7 +99,6 @@ class WeeklyFoodGeneratorController extends Controller
             ]);
 
         } catch (\Exception $e) {
-
             DB::rollBack();
 
             return response()->json([
