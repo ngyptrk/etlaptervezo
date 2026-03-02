@@ -1,14 +1,14 @@
 <template>
   <div class="menu-container">
     <!-- Logó -->
-    <RouterLink to="/" class="logo-link mb-4">
-      <!-- <img src="/path/to/logo.jpg" alt="Logó"/> -->
+    <RouterLink to="/" class="logo-link d-flex justify-content-center mb-2">
+      <img src="../../pictures/logo.png" alt="Logó"/>
     </RouterLink>
-
     <!-- Menü -->
-    <nav class="nav flex-column">
-      <RouterLink to="/" class="nav-link sidebar-link">Főoldal</RouterLink>
-      <RouterLink to="/rolunk" class="nav-link sidebar-link">Rólunk</RouterLink>
+    <nav class="nav flex-column m-3">
+      <RouterLink to="/" class="nav-link d-flex justify-content-center sidebar-link">Főoldal</RouterLink>
+      <RouterLink to="/rolunk" class="nav-link d-flex justify-content-center sidebar-link">Rólunk</RouterLink>
+      <RouterLink to="/login" class="nav-link d-flex justify-content-center sidebar-link">Belépés</RouterLink>
 
       <!-- Beállítások dropdown -->
       <div>
