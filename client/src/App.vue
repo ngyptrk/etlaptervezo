@@ -42,9 +42,46 @@ export default {
 .app-container {
   display: flex;
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+
   background: #111000;
   color: #f9d342;
 }
+
+/* Animált háttér réteg */
+.app-container::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+
+  background: radial-gradient(circle at 20% 30%, rgba(249, 211, 66, 0.15), transparent 40%),
+              radial-gradient(circle at 80% 70%, rgba(249, 211, 66, 0.1), transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(249, 211, 66, 0.08), transparent 60%);
+
+  animation: backgroundMove 15s linear infinite;
+  z-index: 0;
+}
+
+/* Tartalom mindig a háttér fölött */
+.app-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Mozgás */
+@keyframes backgroundMove {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+  50% {
+    transform: rotate(180deg) translate(5%, 5%);
+  }
+  100% {
+    transform: rotate(360deg) translate(0, 0);
+  }
+}
+
 
 /* Bal oldali menü */
 .sidebar {
