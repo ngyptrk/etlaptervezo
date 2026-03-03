@@ -9,7 +9,7 @@ export const useUserLoginLogoutStore = defineStore("userLoginLogout", {
     item: JSON.parse(localStorage.getItem("user_data")) || null,
     loading: false,
     error: null,
-    rolNames: ["Admin", "Tanár", "Diák"],
+    rolNames: ["Admin", "Felhasználó"],
   }),
   //valamilyen formában visszaadja
   getters: {
@@ -32,11 +32,10 @@ export const useUserLoginLogoutStore = defineStore("userLoginLogout", {
       return this.item.name;
     },
     userNameWithRole() {
-      if (!this.item) {
-        return null;
-      }
-      const userInfo = `${this.item.name}: ${this.rolNames[this.item.role - 1]}`;
-      return userInfo;
+      if (!this.item) return null;
+
+      // \n sortörést ad, ami majd a CSS-ben működni fog
+      return `${this.rolNames[this.item.role - 1]}`;
     },
     isLoggedIn() {
       return this.item != null ? true : false;
