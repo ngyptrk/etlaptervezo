@@ -8,7 +8,6 @@
       <Header/>
       <Breadcrumb/>
       <RouterView/>
-      <Footer :content="footerContent"/>
     </div>
 
     <ToastContanier/>
@@ -31,9 +30,6 @@ export default {
     ToastContanier,
   },
   data() {
-    return {
-      footerContent: "Ez egy másik lábléc szöveg",
-    }
   }
 };
 </script>

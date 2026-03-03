@@ -1,6 +1,9 @@
 <template>
   <div class="menu-container">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
     <!-- Logó -->
     <RouterLink to="/" class="logo-link d-flex justify-content-center mb-2">
       <img src="../../pictures/logo.png" alt="Logó" />
@@ -19,44 +22,122 @@
       >
 
       <!-- Beállítások dropdown -->
-      <div>
+      <div v-if="isLoggedIn" class="hidden">
         <button
           class="btn sidebar-link w-100 text-start d-flex justify-content-center mt-1"
           @click="toggleSettings"
         >
           <i class="bi bi-gear"><strong> Adatok</strong></i>
-          <span :class="{ rotate: settingsOpen}" class="ps-1"></span>
+          <span :class="{ rotate: settingsOpen }" class="ps-1"></span>
         </button>
 
-        <div class="collapse ps-1" :class="{ show: settingsOpen }">
+        <div class="collapse mt-2" :class="{ show: settingsOpen }">
           <nav class="btn-toggle-nav list-unstyled ps-3">
             <RouterLink
-              v-for="i in 5"
-              :key="i"
-              :to="`/settings/template/${i}`"
-              class="nav-link sidebar-sub-link sidebar-link mt-2"
+              :to="{ name: 'day' }"
+              class="nav-link d-flex justify-content-center sidebar-link"
             >
-              Template {{ i }}
+              Napok
+            </RouterLink>
+
+            <RouterLink
+              :to="{ name: 'ingredient' }"
+              class="nav-link d-flex justify-content-center sidebar-link"
+            >
+              Hozzávalók
+            </RouterLink>
+
+            <RouterLink
+              :to="{ name: 'rawingredient' }"
+              class="nav-link d-flex justify-content-center sidebar-link"
+            >
+              Nyers hozzávalók
+            </RouterLink>
+
+            <RouterLink
+              :to="{ name: 'meal' }"
+              class="nav-link d-flex justify-content-center sidebar-link"
+            >
+              Étkezések
+            </RouterLink>
+
+            <RouterLink
+              :to="{ name: 'unit' }"
+              class="nav-link d-flex justify-content-center sidebar-link"
+            >
+              Mértékegységek
+            </RouterLink>
+
+            <RouterLink
+              :to="{ name: 'weekday' }"
+              class="nav-link d-flex justify-content-center sidebar-link"
+            >
+              Hét napjai
+            </RouterLink>
+
+            <RouterLink
+              :to="{ name: 'mealofday' }"
+              class="nav-link d-flex justify-content-center sidebar-link"
+            >
+              Napi étkezések
+            </RouterLink>
+
+            <RouterLink
+              :to="{ name: 'mealreq' }"
+              class="nav-link d-flex justify-content-center sidebar-link"
+            >
+              Étkezés elvárás
+            </RouterLink>
+
+            <RouterLink
+              :to="{ name: 'recipe' }"
+              class="nav-link d-flex justify-content-center sidebar-link"
+            >
+              Receptek
             </RouterLink>
           </nav>
         </div>
-        <button class="nav-link d-flex justify-content-center sidebar-link w-100 mt-2" @click="onGenerate">
+        <button
+          class="nav-link d-flex justify-content-center sidebar-link w-100 mt-2"
+          @click="onGenerate"
+        >
           Generálás
         </button>
       </div>
       <div class="mt-auto">
+      <div v-if="!isLoggedIn" class="hidden">
         <RouterLink
           to="/login"
           class="nav-link d-flex justify-content-center sidebar-link mb-2"
-          ><i class="bi bi-person-fill"><strong> Belépés</strong></i></RouterLink
+          ><i class="bi bi-person-fill"
+            ><strong> Belépés</strong></i
+          ></RouterLink
         >
-        <RouterLink to="/login" class="logout-btn"><i class="bi bi-box-arrow-right"><strong> Kijelentkezés</strong></i> </RouterLink>
+        </div>
       </div>
+      <!-- Kilépés gomb csak bejelentkezett felhasználónak -->
+      <!-- Kilépés gomb a sidebar legalján, csak bejelentkezett felhasználónak -->
+      <div v-if="isLoggedIn">
+        <RouterLink
+          to="/login"
+          class="logout-btn w-100 d-flex justify-content-center align-items-center"
+          @click="onClickLogout()"
+        >
+          <i class="bi bi-box-arrow-right me-2"></i>
+          <strong>Kijelentkezés</strong>
+        </RouterLink>
+      </div>
+
+      <!-- Ha nincs bejelentkezve, nem jelenik meg semmi -->
     </nav>
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from "pinia";
+import { useSearchStore } from "@/stores/searchStore";
+import { useUserLoginLogoutStore } from "@/stores/userLoginLogoutStore";
+import userLoginLogoutService from "@/api/userLoginLogoutService";
 export default {
   name: "Menu",
   data() {
@@ -65,12 +146,26 @@ export default {
     };
   },
   methods: {
+    ...mapActions(useUserLoginLogoutStore, ['logout']),
     toggleSettings() {
       this.settingsOpen = !this.settingsOpen;
     },
     onGenerate() {
       alert("Generálás elindítva!");
     },
+    async onClickLogout(){
+      try {
+        await this.logout();
+        this.$router.push('/');
+      } catch (error) {
+        console.log('Kijelentkezési hiba!');
+      }
+
+    },
+  },
+  computed: {
+    ...mapState(useSearchStore, ["searchWord"]),
+    ...mapState(useUserLoginLogoutStore, ["isLoggedIn", "userNameWithRole"]),
   },
 };
 </script>
