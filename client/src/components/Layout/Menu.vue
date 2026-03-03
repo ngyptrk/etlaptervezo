@@ -22,18 +22,25 @@
       >
 
       <!-- Beállítások dropdown -->
-      <div v-if="isLoggedIn" class="hidden">
+      <div>
         <button
           class="btn sidebar-link w-100 text-start d-flex justify-content-center mt-1"
           @click="toggleSettings"
         >
-          <i class="bi bi-gear"><strong> Adatok</strong></i>
+          <i class="bi bi-gear">
+            <strong> Adatok</strong>
+          </i>
           <span :class="{ rotate: settingsOpen }" class="ps-1"></span>
         </button>
 
-        <div class="collapse mt-2" :class="{ show: settingsOpen }">
+        <div
+          class="collapse mt-2"
+          :class="{ show: settingsOpen }"
+          v-if="hasMenuAccess('/adatok')"
+        >
           <nav class="btn-toggle-nav list-unstyled ps-3">
             <RouterLink
+              v-if="hasMenuAccess('/day')"
               :to="{ name: 'day' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -41,6 +48,7 @@
             </RouterLink>
 
             <RouterLink
+              v-if="hasMenuAccess('/ingredient')"
               :to="{ name: 'ingredient' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -48,6 +56,7 @@
             </RouterLink>
 
             <RouterLink
+              v-if="hasMenuAccess('/rawingredient')"
               :to="{ name: 'rawingredient' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -55,6 +64,7 @@
             </RouterLink>
 
             <RouterLink
+              v-if="hasMenuAccess('/meal')"
               :to="{ name: 'meal' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -62,6 +72,7 @@
             </RouterLink>
 
             <RouterLink
+              v-if="hasMenuAccess('/unit')"
               :to="{ name: 'unit' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -69,6 +80,7 @@
             </RouterLink>
 
             <RouterLink
+              v-if="hasMenuAccess('/weekday')"
               :to="{ name: 'weekday' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -76,6 +88,7 @@
             </RouterLink>
 
             <RouterLink
+              v-if="hasMenuAccess('/mealofday')"
               :to="{ name: 'mealofday' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -83,6 +96,7 @@
             </RouterLink>
 
             <RouterLink
+              v-if="hasMenuAccess('/mealreq')"
               :to="{ name: 'mealreq' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -90,6 +104,7 @@
             </RouterLink>
 
             <RouterLink
+              v-if="hasMenuAccess('/recipe')"
               :to="{ name: 'recipe' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -101,18 +116,18 @@
           class="nav-link d-flex justify-content-center sidebar-link w-100 mt-2"
           @click="onGenerate"
         >
-          Generálás
+          <strong>Generálás</strong>
         </button>
       </div>
       <div class="mt-auto">
-      <div v-if="!isLoggedIn" class="hidden">
-        <RouterLink
-          to="/login"
-          class="nav-link d-flex justify-content-center sidebar-link mb-2"
-          ><i class="bi bi-person-fill"
-            ><strong> Belépés</strong></i
-          ></RouterLink
-        >
+        <div v-if="!isLoggedIn" class="hidden">
+          <RouterLink
+            to="/login"
+            class="nav-link d-flex justify-content-center sidebar-link mb-2"
+            ><i class="bi bi-person-fill"
+              ><strong> Belépés</strong></i
+            ></RouterLink
+          >
         </div>
       </div>
       <!-- Kilépés gomb csak bejelentkezett felhasználónak -->
@@ -146,21 +161,36 @@ export default {
     };
   },
   methods: {
-    ...mapActions(useUserLoginLogoutStore, ['logout']),
+    ...mapActions(useUserLoginLogoutStore, ["logout"]),
     toggleSettings() {
       this.settingsOpen = !this.settingsOpen;
     },
     onGenerate() {
       alert("Generálás elindítva!");
     },
-    async onClickLogout(){
+     hasMenuAccess(targetPath) {
+      //A jogosultsági szintnek megfelelően engedélyezi, vagy tiltja a menüt
+      const userStore = useUserLoginLogoutStore();
+      const resolved = this.$router.resolve(targetPath);
+
+      if (!resolved || !resolved.matched.length) return false;
+
+      // Végigmeneteltetjük a szabályt az összes szülőn keresztül (adatok -> sports)
+      // Az 'every' akkor igaz, ha minden egyes elemre igaz a feltétel
+      return resolved.matched.every((route) => {
+        const requiredRoles = route.meta?.roles;
+
+        // A már meglévő Pinia getterünket hívjuk meg minden szinten
+        return userStore.canAccess(requiredRoles);
+      });
+    },
+    async onClickLogout() {
       try {
         await this.logout();
-        this.$router.push('/');
+        this.$router.push("/");
       } catch (error) {
-        console.log('Kijelentkezési hiba!');
+        console.log("Kijelentkezési hiba!");
       }
-
     },
   },
   computed: {

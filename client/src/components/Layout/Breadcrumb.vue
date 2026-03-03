@@ -2,14 +2,14 @@
   <nav aria-label="breadcrumb">
     <p v-if="debug">{{ breadcrumbs }}</p>
     <ol class="breadcrumb m-0">
-      <li class="breadcrumb-item">
+      <li class="breadcrumb-item breadcrumb-link">
         <router-link to="/">Kezdőlap</router-link>
       </li>
 
       <li 
         v-for="(crumb, index) in breadcrumbs" 
         :key="index"
-        class="breadcrumb-item"
+        class="breadcrumb-item breadcrumb-link"
         :class="{ active: index === breadcrumbs.length - 1 }"
       >
         <router-link 
@@ -60,5 +60,17 @@ data(){
 .breadcrumb {
   background-color: transparent; /* Ha régebbi Bootstrapet használsz, ez jól jöhet */
   padding: 0.75rem 0;
+}
+
+.breadcrumb-link,
+.breadcrumb-link a,
+.breadcrumb-link span {
+  color: #ffcc00;      /* a kívánt sárga */
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.breadcrumb-link a:hover {
+  color: #fff176; /* világosabb sárga hover-re */
 }
 </style>

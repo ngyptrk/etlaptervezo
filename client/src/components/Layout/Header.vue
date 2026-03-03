@@ -17,7 +17,7 @@
     {{ userNameWithRole }}
   </RouterLink>
 
-  <div v-else class="pill-dark nav-link user-info">
+  <div v-else class="pill-dark nav-link user-info p-1">
     <i class="bi bi-person"></i>
     Jelentkezz be!
   </div>
