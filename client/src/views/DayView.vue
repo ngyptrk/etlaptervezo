@@ -119,6 +119,11 @@ export default {
           recipeName: row.recipe?.name ?? "Nincs recept",
           recipeDescription: row.recipe?.description ?? "",
           recipePicture: row.recipe?.picture ?? "",
+          ingredients: (row.recipe?.ingredients ?? []).map((ing) => ({
+            amount: ing.amount ?? 0,
+            unit: ing.unit?.unit ?? "",
+            name: ing.raw_ingredient?.raw_ingredient ?? "Ismeretlen",
+          })),
         });
       });
 
