@@ -1,6 +1,6 @@
 ﻿<template>
   <div
-    class="modal fade"
+    class="modal"
     id="modal"
     ref="modal"
     tabindex="-1"
@@ -75,7 +75,12 @@ export default {
     };
   },
   mounted() {
-    this.modal = new Modal(this.$refs.modal);
+    this.modal = new Modal(this.$refs.modal, {
+      backdrop: false,
+    });
+  },
+  beforeUnmount() {
+    this.cleanupBackdrop();
   },
   computed: {
     modalSizeClass() {
@@ -88,12 +93,7 @@ export default {
   },
   methods: {
     onClickYes(event) {
-      const form = event.target;
       this.validated = true;
-
-      if (form.checkValidity() === false) {
-        return;
-      }
 
       this.$emit("yesEvent", (success) => {
         if (success) {
@@ -108,6 +108,13 @@ export default {
     hide() {
       this.modal.hide();
       this.validated = false;
+      this.cleanupBackdrop();
+    },
+    cleanupBackdrop() {
+      document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
+      document.body.classList.remove("modal-open");
+      document.body.style.removeProperty("padding-right");
+      document.body.style.removeProperty("overflow");
     },
   },
 };

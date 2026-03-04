@@ -1,45 +1,23 @@
-<template>
+﻿<template>
   <Transition name="modal-fade">
-    <div v-if="isOpenConfirmModal">
-      <div class="modal fade show" tabindex="-1" style="display: block">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content bg-light shadow-lg">
-            <div class="modal-header bg-info">
-              <h5 class="modal-title">
-                {{ title }}
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-                @click="$emit('cancel')"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <p>
-                {{ message }}
-              </p>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-                @click="$emit('cancel')"
-              >
-                {{ cancel }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger"
-                data-bs-dismiss="modal"
-                @click="$emit('confirm')"
-              >
-                {{ confirm }}
-              </button>
-            </div>
-          </div>
+    <div v-if="isOpenConfirmModal" class="confirm-overlay" @click.self="$emit('cancel')">
+      <div class="confirm-dialog" role="dialog" aria-modal="true">
+        <div class="confirm-header">
+          <h5 class="confirm-title">{{ title }}</h5>
+          <button type="button" class="confirm-close" aria-label="Bezárás" @click="$emit('cancel')">
+            ×
+          </button>
+        </div>
+        <div class="confirm-body">
+          <p>{{ message }}</p>
+        </div>
+        <div class="confirm-footer">
+          <button type="button" class="btn btn-outline-warning" @click="$emit('cancel')">
+            {{ cancel }}
+          </button>
+          <button type="button" class="btn btn-warning fw-semibold text-dark" @click="$emit('confirm')">
+            {{ confirm }}
+          </button>
         </div>
       </div>
     </div>
@@ -62,26 +40,83 @@ export default {
 </script>
 
 <style scoped>
-/* Megjelenési fázis (enter) és eltűnési fázis (leave) */
 .modal-fade-enter-active,
 .modal-fade-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.2s ease;
 }
 
-/* A belső ablak (modal-dialog) külön animálása: fentről lefelé úszás */
-.modal-fade-enter-active .modal-dialog,
-.modal-fade-leave-active .modal-dialog {
-  transition: transform 0.3s ease-out;
+.modal-fade-enter-active .confirm-dialog,
+.modal-fade-leave-active .confirm-dialog {
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Kiinduló és végállapot (amikor nincs a képernyőn) */
 .modal-fade-enter-from,
 .modal-fade-leave-to {
   opacity: 0;
 }
 
-.modal-fade-enter-from .modal-dialog,
-.modal-fade-leave-to .modal-dialog {
-  transform: translateY(-20px);
+.modal-fade-enter-from .confirm-dialog,
+.modal-fade-leave-to .confirm-dialog {
+  transform: translateY(-10px) scale(0.98);
+  opacity: 0;
+}
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.confirm-dialog {
+  width: min(520px, 96vw);
+  background: linear-gradient(180deg, #181a1f, #121317);
+  border: 1px solid rgba(244, 209, 74, 0.5);
+  border-radius: 12px;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.5), 0 0 20px rgba(244, 209, 74, 0.15);
+  color: #f0f0f0;
+}
+
+.confirm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(244, 209, 74, 0.28);
+  padding: 0.75rem 1rem;
+}
+
+.confirm-title {
+  margin: 0;
+  font-weight: 700;
+  color: #f4d14a;
+}
+
+.confirm-close {
+  border: none;
+  background: transparent;
+  color: #f4d14a;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.confirm-body {
+  padding: 1rem;
+}
+
+.confirm-body p {
+  margin: 0;
+}
+
+.confirm-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.55rem;
+  padding: 0.75rem 1rem 1rem;
+  border-top: 1px solid rgba(244, 209, 74, 0.2);
 }
 </style>

@@ -52,10 +52,6 @@
       </div>
     </section>
 
-    <div v-if="!multiWeekEnabled" class="migration-hint mb-3">
-      Többhetes generáláshoz futtasd: <code>php artisan migrate</code>
-    </div>
-
     <div v-if="loading" class="text-warning fw-semibold">Betöltés...</div>
 
     <div v-else-if="groupedDays.length === 0" class="empty-plan">

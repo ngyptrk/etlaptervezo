@@ -3,29 +3,22 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRecipeRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'], // TEXT
-            'picture' => ['required', 'string', 'max:255'], // vagy 'image' ha fájl
-            'person' => ['required', 'integer', 'min:1', 'max:255'], // TINYINT
+            'name' => ['required', 'string', 'max:125', Rule::unique('recipes', 'name')],
+            'description' => ['required', 'string'],
+            'picture' => ['required', 'string', 'max:125', Rule::unique('recipes', 'picture')],
+            'person' => ['required', 'integer', 'min:1', 'max:255'],
             'meal_id' => ['required', 'integer', 'exists:meals,id'],
         ];
     }
@@ -33,25 +26,27 @@ class StoreRecipeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'A recept neve megadása kötelező.',
-            'name.string'   => 'A recept neve csak szöveg lehet.',
-            'name.max'      => 'A recept neve legfeljebb 255 karakter lehet.',
+            'name.required' => 'A recept neve kötelező.',
+            'name.string' => 'A recept neve csak szöveg lehet.',
+            'name.max' => 'A recept neve legfeljebb 125 karakter lehet.',
+            'name.unique' => 'Ez a receptnév már létezik.',
 
             'description.required' => 'A leírás megadása kötelező.',
-            'description.string'   => 'A leírás csak szöveg lehet.',
+            'description.string' => 'A leírás csak szöveg lehet.',
 
             'picture.required' => 'A kép megadása kötelező.',
-            'picture.string'   => 'A kép csak szöveg lehet.',
-            'picture.max'      => 'A kép legfeljebb 255 karakter lehet.',
+            'picture.string' => 'A kép mező csak szöveg lehet.',
+            'picture.max' => 'A kép mező legfeljebb 125 karakter lehet.',
+            'picture.unique' => 'Ez a képútvonal már foglalt.',
 
-            'person.required' => 'Az adagok száma megadása kötelező.',
-            'person.integer'  => 'Az adagok száma csak egész szám lehet.',
-            'person.min'      => 'Az adagok számának legalább 1-nek kell lennie.',
-            'person.max'      => 'Az adagok száma legfeljebb 255 lehet.',
+            'person.required' => 'Az adagszám megadása kötelező.',
+            'person.integer' => 'Az adagszám csak egész szám lehet.',
+            'person.min' => 'Az adagszám legalább 1 legyen.',
+            'person.max' => 'Az adagszám legfeljebb 255 lehet.',
 
             'meal_id.required' => 'Az étkezés kiválasztása kötelező.',
-            'meal_id.integer'  => 'Az étkezés azonosítója érvénytelen.',
-            'meal_id.exists'   => 'A kiválasztott étkezés nem létezik.',
+            'meal_id.integer' => 'Az étkezés azonosítója érvénytelen.',
+            'meal_id.exists' => 'A kiválasztott étkezés nem létezik.',
         ];
     }
 }

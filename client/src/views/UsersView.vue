@@ -1,12 +1,23 @@
-<template>
+﻿<template>
   <div>
-    <div class="d-flex align-items-center mb-3">
-      <h1 class="m-0">Felhasználók</h1>
-      <span class="ms-2 text-warning">({{ rows.length }})</span>
+    <div class="d-flex align-items-center justify-content-between mb-3 gap-3 flex-wrap">
+      <div class="d-flex align-items-center">
+        <h1 class="m-0">Felhasználók</h1>
+        <span class="ms-2 text-warning">({{ filteredRows.length }})</span>
+      </div>
+      <div class="search-wrap">
+        <i class="bi bi-search search-icon"></i>
+        <input
+          v-model="searchWordInput"
+          type="text"
+          class="form-control search-input"
+          placeholder="Keresés név vagy email alapján..."
+        />
+      </div>
     </div>
 
     <div v-if="loading" class="text-warning fw-semibold">Betöltés...</div>
-    <div v-else-if="rows.length === 0" class="empty-list">Nincs találat</div>
+    <div v-else-if="filteredRows.length === 0" class="empty-list">Nincs találat</div>
 
     <div v-else class="list-wrap table-responsive">
       <table class="table list-table m-0">
@@ -20,7 +31,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in rows" :key="item.id">
+          <tr v-for="item in filteredRows" :key="item.id">
             <td>{{ item.id }}</td>
             <td>{{ item.name }}</td>
             <td>{{ item.email }}</td>
@@ -42,20 +53,33 @@
       :disable-role="isEditingOwnAdmin"
       @yesEventForm="yesEventFormHandler"
     />
+
+    <ConfirmModal
+      :isOpenConfirmModal="isOpenConfirmModal"
+      :title="confirmTitle"
+      :message="confirmMessage"
+      cancel="Mégsem"
+      confirm="Igen"
+      @cancel="closeConfirmModal"
+      @confirm="confirmActionHandler"
+    />
   </div>
 </template>
 
 <script>
 import userService from "@/api/userService";
 import FormUser from "@/components/Forms/FormUser.vue";
-import { mapState } from "pinia";
+import ConfirmModal from "@/components/Confirm/ConfirmModal.vue";
+import { mapActions, mapState } from "pinia";
 import { useUserLoginLogoutStore } from "@/stores/userLoginLogoutStore";
 import { useToastStore } from "@/stores/toastStore";
+import { useSearchStore } from "@/stores/searchStore";
 
 export default {
   name: "UsersView",
   components: {
     FormUser,
+    ConfirmModal,
   },
   data() {
     return {
@@ -63,22 +87,64 @@ export default {
       rows: [],
       currentItem: { id: 0, name: "", email: "", role: 2 },
       formTitle: "Felhasználó módosítása",
+      isOpenConfirmModal: false,
+      confirmTitle: "",
+      confirmMessage: "",
+      confirmAction: null,
     };
   },
   computed: {
     ...mapState(useUserLoginLogoutStore, ["item", "role"]),
+    ...mapState(useSearchStore, ["searchword", "searchWord"]),
     currentUserId() {
       return this.item?.id ?? 0;
     },
     isEditingOwnAdmin() {
       return this.role === 1 && this.currentItem?.id === this.currentUserId;
     },
+    searchWordInput: {
+      get() {
+        return this.searchWord;
+      },
+      set(value) {
+        this.setSearchWord(value);
+      },
+    },
+    filteredRows() {
+      if (!this.searchword) return this.rows;
+      return this.rows.filter((item) =>
+        [item.name, item.email, String(item.id), this.roleLabel(item.role)]
+          .join(" ")
+          .toLowerCase()
+          .includes(this.searchword),
+      );
+    },
   },
   methods: {
+    ...mapActions(useSearchStore, ["setSearchWord", "resetSearchWord"]),
+    openConfirmModal({ title, message, onConfirm }) {
+      this.confirmTitle = title;
+      this.confirmMessage = message;
+      this.confirmAction = onConfirm;
+      this.isOpenConfirmModal = true;
+    },
+    closeConfirmModal() {
+      this.isOpenConfirmModal = false;
+      this.confirmTitle = "";
+      this.confirmMessage = "";
+      this.confirmAction = null;
+    },
+    async confirmActionHandler() {
+      const action = this.confirmAction;
+      this.closeConfirmModal();
+      if (typeof action === "function") {
+        await action();
+      }
+    },
     roleLabel(role) {
       if (role === 1) return "Admin";
-      if (role === 2) return "Tanár";
-      return "Diák";
+      if (role === 2) return "Felhasználó";
+      return "Ismeretlen";
     },
     async loadAll() {
       this.loading = true;
@@ -90,8 +156,14 @@ export default {
       }
     },
     updateHandler(item) {
-      this.currentItem = { ...item };
-      this.$refs.form.show();
+      this.openConfirmModal({
+        title: "Módosítás megerősítése",
+        message: `Biztosan módosítani szeretnéd ezt a felhasználót: "${item.name}"?`,
+        onConfirm: () => {
+          this.currentItem = { ...item };
+          this.$refs.form.show();
+        },
+      });
     },
     async yesEventFormHandler({ item, done }) {
       try {
@@ -115,7 +187,11 @@ export default {
     },
   },
   async mounted() {
+    this.resetSearchWord();
     await this.loadAll();
+  },
+  beforeUnmount() {
+    this.resetSearchWord();
   },
 };
 </script>
@@ -141,6 +217,33 @@ export default {
 
 .list-table tbody tr:nth-child(even) td {
   background: #cfcfd2;
+}
+
+.search-wrap {
+  position: relative;
+  min-width: 320px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8a8a8a;
+}
+
+.search-input {
+  padding-left: 34px;
+  border: 1px solid rgba(244, 209, 74, 0.45);
+  background: #101216;
+  color: #f1f1f1;
+}
+
+.search-input:focus {
+  border-color: #f4d14a;
+  box-shadow: 0 0 0 0.2rem rgba(244, 209, 74, 0.2);
+  background: #101216;
+  color: #f1f1f1;
 }
 
 .empty-list {
