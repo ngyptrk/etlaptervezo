@@ -23,6 +23,7 @@ class UpdateMealRequirementRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->route('id');
         return [
             'meal_of_day_id' => [
                 'nullable',
@@ -33,6 +34,7 @@ class UpdateMealRequirementRequest extends FormRequest
                 'nullable',
                 'integer',
                 Rule::unique('meal_requirements', 'meal_id')
+                    ->ignore($id)
                     ->where(fn($q) => $q->where('meal_of_day_id', request('meal_of_day_id'))),
             ],
 

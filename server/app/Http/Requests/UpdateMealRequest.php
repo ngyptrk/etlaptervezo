@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateMealRequest extends FormRequest
 {
@@ -21,8 +22,14 @@ class UpdateMealRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->route('id');
         return [
-            'meal' => ['required', 'string', 'max:255', 'unique:meals,meal'],
+            'meal' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('meals', 'meal')->ignore($id),
+            ],
 
         ];
     }

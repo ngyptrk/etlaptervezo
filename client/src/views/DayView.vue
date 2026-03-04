@@ -1,5 +1,7 @@
 <template>
   <div>
+    <TopMiniModal :show="showSuccessModal" :message="successMessage" />
+
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
       <h1 class="m-0">Napok</h1>
 
@@ -26,6 +28,30 @@
       @refresh="fetchPlan"
     />
 
+    <section class="plan-generator mb-3">
+      <div class="row g-3 align-items-end">
+        <div class="col-12 col-md-7">
+          <label class="form-label">Email cím</label>
+          <input
+            v-model.trim="targetEmail"
+            type="email"
+            class="form-control plan-input"
+            placeholder="pelda@email.com"
+          />
+        </div>
+        <div class="col-12 col-md-5 d-flex gap-2">
+          <button
+            type="button"
+            class="btn btn-warning plan-btn"
+            :disabled="loading || !targetEmail"
+            @click="sendPlanEmail"
+          >
+            Küldés emailben (PDF)
+          </button>
+        </div>
+      </div>
+    </section>
+
     <div v-if="!multiWeekEnabled" class="migration-hint mb-3">
       Többhetes generáláshoz futtasd: <code>php artisan migrate</code>
     </div>
@@ -44,12 +70,14 @@
 import weeklyFoodService from "@/api/weeklyFoodService";
 import GeneratePlanPanel from "@/components/Day/GeneratePlanPanel.vue";
 import WeeklyPlanBoard from "@/components/Day/WeeklyPlanBoard.vue";
+import TopMiniModal from "@/components/Modal/TopMiniModal.vue";
 
 export default {
   name: "DayView",
   components: {
     GeneratePlanPanel,
     WeeklyPlanBoard,
+    TopMiniModal,
   },
   data() {
     return {
@@ -60,6 +88,10 @@ export default {
       planRows: [],
       weeksCount: 0,
       multiWeekEnabled: true,
+      showSuccessModal: false,
+      successMessage: "Sikeres generálás",
+      successTimer: null,
+      targetEmail: "",
     };
   },
   computed: {
@@ -97,6 +129,16 @@ export default {
     },
   },
   methods: {
+    showTopSuccess(message) {
+      this.successMessage = message;
+      this.showSuccessModal = true;
+      if (this.successTimer) {
+        clearTimeout(this.successTimer);
+      }
+      this.successTimer = setTimeout(() => {
+        this.showSuccessModal = false;
+      }, 2200);
+    },
     async fetchPlan() {
       this.loading = true;
       try {
@@ -120,7 +162,20 @@ export default {
         this.multiWeekEnabled = response.data?.multi_week_enabled ?? true;
         this.selectedWeek = 0;
         await this.fetchPlan();
+        this.showTopSuccess("Sikeres generálás");
       } catch (error) {
+      } finally {
+        this.loading = false;
+      }
+    },
+    async sendPlanEmail() {
+      this.loading = true;
+      try {
+        await weeklyFoodService.sendEmail({
+          email: this.targetEmail,
+          week: this.selectedWeek || null,
+        });
+        this.showTopSuccess("Email elküldve");
       } finally {
         this.loading = false;
       }
@@ -128,6 +183,11 @@ export default {
   },
   async mounted() {
     await this.fetchPlan();
+  },
+  beforeUnmount() {
+    if (this.successTimer) {
+      clearTimeout(this.successTimer);
+    }
   },
 };
 </script>
@@ -158,5 +218,28 @@ export default {
 
 .migration-hint code {
   color: #fff3bf;
+}
+
+.plan-generator {
+  border: 1px solid rgba(244, 209, 74, 0.4);
+  border-radius: 12px;
+  padding: 0.9rem;
+  background: rgba(20, 20, 22, 0.82);
+}
+
+.form-label {
+  color: #f4d14a;
+  font-weight: 600;
+}
+
+.plan-input {
+  background: #d8d8da;
+  border-color: #b2b2b6;
+  color: #151515;
+}
+
+.plan-btn {
+  font-weight: 700;
+  min-width: 220px;
 }
 </style>

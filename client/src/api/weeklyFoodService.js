@@ -11,4 +11,8 @@ export default {
     const query = week ? `?week=${week}` : "";
     return await apiClient.get(`${route}/my-plan${query}`);
   },
+
+  async sendEmail(payload) {
+    return await apiClient.post(`${route}/send-email`, payload);
+  },
 };

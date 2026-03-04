@@ -1,133 +1,96 @@
 <template>
   <div>
     <div class="d-flex align-items-center m-0 mb-2">
-      <h1>{{ pageTitle }}</h1>
-      <div class="d-flex align-items-center m-0 ms-2">
-        <i
-          v-if="loading"
-          class="bi bi-hourglass-split fs-3 col-auto p-0 pe-1"
-        ></i>
-        <ButtonsCrudCreate v-if="!loading" @create="createHandler" />
-        <p class="m-0 ms-2">({{ getItemsLength }})</p>
-      </div>
+      <h1 class="m-0">Hét napjai</h1>
+      <span class="ms-2 text-warning">({{ rows.length }})</span>
+      <button class="btn btn-success btn-sm ms-3" @click="createHandler">
+        <i class="bi bi-plus-lg"></i> Hozzáadás
+      </button>
     </div>
 
-    <GenericTable
-      v-if="items.length > 0"
-      :items="items"
-      :columns="tableColumns"
-      :useCollectionStore="useCollectionStore"
-      @delete="deleteHandler"
-      @update="updateHandler"
-      @create="createHandler"
-      @sort="sortHandler"
-    />
-    <div v-else style="width: 100px" class="m-auto">Nincs találat</div>
+    <div v-if="loading" class="text-warning fw-semibold">Betöltés...</div>
+    <div v-else-if="rows.length === 0" class="empty-list">Nincs találat</div>
+
+    <div v-else class="list-wrap table-responsive">
+      <table class="table list-table m-0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nap</th>
+            <th>Művelet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in rows" :key="item.id">
+            <td>{{ item.id }}</td>
+            <td>{{ item.day }}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-info" @click="updateHandler(item)">
+                <i class="bi bi-pencil"></i> Módosítás
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <FormWeekday
       ref="form"
-      :title="title"
-      :item="item"
+      :title="formTitle"
+      :item="currentItem"
       @yesEventForm="yesEventFormHandler"
-    />
-
-    <ConfirmModal
-      :isOpenConfirmModal="isOpenConfirmModal"
-      @cancel="cancelHandler"
-      @confirm="confirmHandler"
     />
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "pinia";
-import { useWeekdayStore } from "@/stores/weekdayStore";
-import GenericTable from "@/components/Table/GenericTable.vue";
-import ConfirmModal from "@/components/Confirm/ConfirmModal.vue";
-import ButtonsCrudCreate from "@/components/Table/ButtonsCrudCreate.vue";
+import weekdayService from "@/api/weekdayService";
 import FormWeekday from "@/components/Forms/FormWeekday.vue";
 
 export default {
   name: "WeekdayView",
   components: {
-    GenericTable,
-    ConfirmModal,
-    ButtonsCrudCreate,
     FormWeekday,
   },
   data() {
     return {
-      pageTitle: "Hét napjai",
-      tableColumns: [
-        { key: "id", label: "ID", debug: import.meta.env.VITE_DEBUG_MODE },
-        { key: "day", label: "Nap", debug: 2 },
-      ],
-      useCollectionStore: useWeekdayStore,
-      isOpenConfirmModal: false,
-      toDeleteId: null,
-      state: "r",
-      title: "",
+      loading: false,
+      rows: [],
+      mode: "create",
+      currentItem: { id: 0, day: "" },
+      formTitle: "Új nap felvitele",
     };
   },
-  computed: {
-    ...mapState(useWeekdayStore, [
-      "item",
-      "items",
-      "loading",
-      "sortColumn",
-      "sortDirection",
-      "getItemsLength",
-    ]),
-  },
   methods: {
-    ...mapActions(useWeekdayStore, [
-      "getAll",
-      "getById",
-      "create",
-      "update",
-      "delete",
-      "clearItem",
-      "sortItems",
-    ]),
-    deleteHandler(id) {
-      this.state = "d";
-      this.isOpenConfirmModal = true;
-      this.toDeleteId = id;
+    async loadAll() {
+      this.loading = true;
+      try {
+        const response = await weekdayService.getAll();
+        this.rows = response.data ?? [];
+      } finally {
+        this.loading = false;
+      }
     },
-    updateHandler(id) {
-      this.state = "u";
-      this.title = "Adatmódosítás";
-      this.getById(id);
+    updateHandler(item) {
+      this.mode = "update";
+      this.formTitle = "Nap módosítása";
+      this.currentItem = { ...item };
       this.$refs.form.show();
     },
     createHandler() {
-      this.state = "c";
-      this.title = "Új adatbevitel";
-      this.clearItem();
+      this.mode = "create";
+      this.formTitle = "Új nap felvitele";
+      this.currentItem = { id: 0, day: "" };
       this.$refs.form.show();
-    },
-    sortHandler(column) {
-      this.sortItems(column);
-    },
-    cancelHandler() {
-      this.isOpenConfirmModal = false;
-      this.state = "r";
-    },
-    async confirmHandler() {
-      try {
-        await this.delete(this.toDeleteId);
-      } catch (error) {}
-      this.isOpenConfirmModal = false;
-      this.state = "r";
     },
     async yesEventFormHandler({ item, done }) {
       try {
-        if (this.state === "c") {
-          await this.create(item);
+        if (this.mode === "create") {
+          await weekdayService.create(item);
         } else {
-          await this.update(item.id, item);
+          await weekdayService.update(item.id, item);
         }
-        this.state = "r";
+        await this.loadAll();
         done(true);
       } catch (err) {
         if (err.response && err.response.status === 422) {
@@ -138,7 +101,38 @@ export default {
     },
   },
   async mounted() {
-    await this.getAll();
+    await this.loadAll();
   },
 };
 </script>
+
+<style scoped>
+.list-wrap {
+  border: 1px solid rgba(244, 209, 74, 0.35);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.list-table thead th {
+  background: #1e2229;
+  color: #ffd84f;
+  border-bottom: 1px solid #ffd84f;
+}
+
+.list-table tbody td {
+  background: #d6d6d8;
+  color: #141414;
+  border-color: #b9b9bc;
+}
+
+.list-table tbody tr:nth-child(even) td {
+  background: #cfcfd2;
+}
+
+.empty-list {
+  border: 1px dashed rgba(244, 209, 74, 0.5);
+  border-radius: 12px;
+  padding: 1rem;
+  color: #f4d14a;
+}
+</style>

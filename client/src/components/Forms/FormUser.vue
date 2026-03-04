@@ -1,26 +1,19 @@
 <template>
   <div>
     <Modal ref="modal" :title="title" @yesEvent="yesEventHandler">
-      <!-- vezérlőelemek -->
-      <!-- user név -->
       <div class="mb-4 row pt-2">
-        <label for="name" class="col-form-label col-auto pt-1 pe-0"
-          >User név:</label
-        >
+        <label for="name" class="col-form-label col-auto pt-1 pe-0">Név:</label>
         <div class="col">
           <input
-            type="text"
-            class="form-control"
             id="name"
             v-model="formItem.name"
+            type="text"
+            class="form-control"
             @input="clearError('name')"
             required
           />
-          <div
-            v-if="!serverErrors.name"
-            class="invalid-feedback position-absolute"
-          >
-            A user név kötelező
+          <div v-if="!serverErrors.name" class="invalid-feedback position-absolute">
+            A név kötelező
           </div>
           <div
             v-if="serverErrors.name"
@@ -31,24 +24,18 @@
         </div>
       </div>
 
-      <!-- email -->
       <div class="mb-4 row pt-2">
-        <label for="email" class="col-form-label col-auto pt-1 pe-0"
-          >Email:</label
-        >
+        <label for="email" class="col-form-label col-auto pt-1 pe-0">Email:</label>
         <div class="col">
           <input
-            type="email"
-            class="form-control"
             id="email"
             v-model="formItem.email"
+            type="email"
+            class="form-control"
             @input="clearError('email')"
             required
           />
-          <div
-            v-if="!serverErrors.email"
-            class="invalid-feedback position-absolute"
-          >
+          <div v-if="!serverErrors.email" class="invalid-feedback position-absolute">
             Az email kötelező
           </div>
           <div
@@ -60,42 +47,25 @@
         </div>
       </div>
 
-      <!-- role -->
       <div class="mb-4 row pt-2">
-        <label for="role" class="col-form-label col-auto pt-1 pe-0"
-          >Hatáskör:</label
-        >
+        <label for="role" class="col-form-label col-auto pt-1 pe-0">Szerepkör:</label>
         <div class="col">
-          <!-- <input
-            type="number"
-            class="form-control"
-            id="role"
-            v-model="formItem.role"
-            @input="clearError('role')"
-            required
-          /> -->
-
           <select
-            class="form-select"
-            style="width: 100px"
             id="role"
-            aria-label="Default select example"
-            v-model="formItem.role"
+            v-model.number="formItem.role"
+            class="form-select"
+            style="width: 140px"
+            :disabled="disableRole"
+            @change="clearError('role')"
           >
-            <option value="1">Admin</option>
-            <option value="2">Tanár</option>
-            <option value="3">Diák</option>
+            <option :value="1">Admin</option>
+            <option :value="2">Tanár</option>
+            <option :value="3">Diák</option>
           </select>
-          <div
-            v-if="!serverErrors.role"
-            class="invalid-feedback position-absolute"
-          >
-            A role kötelező
-          </div>
-          <div
-            v-if="serverErrors.role"
-            class="invalid-feedback position-absolute d-block"
-          >
+          <small v-if="disableRole" class="text-warning">
+            Saját admin szerepkör nem módosítható.
+          </small>
+          <div v-if="serverErrors.role" class="invalid-feedback position-absolute d-block">
             {{ serverErrors.role[0] }}
           </div>
         </div>
@@ -106,16 +76,17 @@
 
 <script>
 import Modal from "@/components/Modal/Modal.vue";
-// import Modal from "../Modal/Modal.vue";
+
 export default {
   emits: ["yesEventForm"],
-  name: "FormSport",
+  name: "FormUser",
   components: {
     Modal,
   },
   props: {
-    title: { type: String, default: "Új rekord felvitele" },
-    item: { type: Object },
+    title: { type: String, default: "Felhasználó módosítása" },
+    item: { type: Object, required: true },
+    disableRole: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -124,19 +95,15 @@ export default {
     };
   },
   watch: {
-    //Fontos!!! frissülhessen a szülő által küldött item
     item(value) {
       this.formItem = { ...value };
+      this.serverErrors = {};
     },
   },
   methods: {
-    //metódus továbbítás
     show() {
       this.serverErrors = {};
       this.$refs.modal.show();
-    },
-    hide() {
-      this.$refs.modal.hide();
     },
     setServerErrors(errors) {
       this.serverErrors = errors;
@@ -152,5 +119,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

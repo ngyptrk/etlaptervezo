@@ -5,17 +5,11 @@
     </RouterLink>
 
     <nav class="nav flex-column sidebar-nav m-3">
-      <RouterLink
-        to="/"
-        class="nav-link d-flex justify-content-center sidebar-link mt-1"
-      >
+      <RouterLink to="/" class="nav-link d-flex justify-content-center sidebar-link mt-1">
         <strong>Főoldal</strong>
       </RouterLink>
 
-      <RouterLink
-        to="/about"
-        class="nav-link d-flex justify-content-center sidebar-link mt-1"
-      >
+      <RouterLink to="/about" class="nav-link d-flex justify-content-center sidebar-link mt-1">
         <strong>Rólunk</strong>
       </RouterLink>
 
@@ -103,11 +97,18 @@
             >
               Receptek
             </RouterLink>
+
+            <RouterLink
+              v-if="hasMenuAccessByName('users')"
+              :to="{ name: 'users' }"
+              class="nav-link d-flex justify-content-center sidebar-link"
+            >
+              Felhasználók
+            </RouterLink>
           </nav>
         </div>
 
         <button
-          v-if="isLoggedIn"
           class="nav-link d-flex justify-content-center sidebar-link w-100 mt-2"
           @click="onGenerate"
         >
@@ -116,7 +117,7 @@
       </div>
 
       <div class="mt-auto">
-        <div v-if="!isLoggedIn" class="hidden">
+        <div v-if="!isLoggedIn">
           <RouterLink
             to="/login"
             class="nav-link d-flex justify-content-center sidebar-link mb-2"

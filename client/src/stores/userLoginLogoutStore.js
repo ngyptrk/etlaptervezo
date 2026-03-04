@@ -1,50 +1,34 @@
 import { defineStore } from "pinia";
-//import { useToastStore } from "@/stores/toastStore";
 import service from "@/api/userLoginLogoutService";
 import { useToastStore } from "./toastStore";
 
 export const useUserLoginLogoutStore = defineStore("userLoginLogout", {
-  //Ezek a változók
   state: () => ({
     item: JSON.parse(localStorage.getItem("user_data")) || null,
     loading: false,
     error: null,
-    rolNames: ["Admin", "Felhasználó"],
+    rolNames: ["Admin", "Tanár", "Diák"],
   }),
-  //valamilyen formában visszaadja
   getters: {
     token() {
-      if (!this.item) {
-        return null;
-      }
-      return this.item.token;
+      return this.item ? this.item.token : null;
     },
     role() {
-      if (!this.item) {
-        return null;
-      }
-      return this.item.role;
+      return this.item ? this.item.role : null;
     },
     userName() {
-      if (!this.item) {
-        return null;
-      }
-      return this.item.name;
+      return this.item ? this.item.name : null;
     },
     userNameWithRole() {
       if (!this.item) return null;
-
-      // \n sortörést ad, ami majd a CSS-ben működni fog
-      return `${this.rolNames[this.item.role - 1]}`;
+      return `${this.rolNames[this.item.role - 1] ?? "Felhasználó"}`;
     },
     isLoggedIn() {
-      return this.item != null ? true : false;
+      return this.item != null;
     },
   },
-  //csinál vele valamit
   actions: {
     canAccess(requiredRoles) {
-      // Itt a 'this' kulcsszóval éred el a state-et
       if (!requiredRoles || requiredRoles.length === 0) return true;
       if (!this.isLoggedIn) return false;
       return requiredRoles.includes(this.role);
@@ -56,14 +40,10 @@ export const useUserLoginLogoutStore = defineStore("userLoginLogout", {
         const response = await service.login(data);
         this.item = response.data;
         localStorage.setItem("user_data", JSON.stringify(response.data));
-        // const toastStore = useToastStore();
-        // toastStore.messages.push("Sikeres bejelentkezés");
-        // toastStore.show("Success");
         return true;
       } catch (err) {
         this.error = err;
         throw err;
-        return false;
       } finally {
         this.loading = false;
       }
@@ -72,20 +52,17 @@ export const useUserLoginLogoutStore = defineStore("userLoginLogout", {
       try {
         this.error = null;
         this.loading = true;
-        const response = await service.logout();
+        await service.logout();
         this.item = null;
-        // Törlés localStorage-ból
         localStorage.removeItem("user_data");
         const toastStore = useToastStore();
-        toastStore.messages.push("Sikeres kijelenkezés");
+        toastStore.messages.push("Sikeres kijelentkezés");
         toastStore.show("Success");
-
         return true;
       } catch (err) {
         this.error = err;
         this.item = null;
         throw err;
-        return false;
       } finally {
         this.loading = false;
       }
@@ -95,13 +72,20 @@ export const useUserLoginLogoutStore = defineStore("userLoginLogout", {
         this.error = null;
         this.loading = true;
         const response = await service.getMeRefresh();
-        this.item.name = response.data.name;
-        this.item.email = response.data.email;
+        const me = response.data?.data ?? response.data ?? {};
+
+        if (!this.item) {
+          this.item = {};
+        }
+
+        this.item.name = me.name ?? this.item.name;
+        this.item.email = me.email ?? this.item.email;
+        this.item.role = me.role ?? this.item.role;
+        localStorage.setItem("user_data", JSON.stringify(this.item));
         return true;
       } catch (err) {
         this.error = err;
         throw err;
-        return false;
       } finally {
         this.loading = false;
       }

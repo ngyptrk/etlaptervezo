@@ -1,5 +1,4 @@
-<template>
-  <!-- Modal -->
+﻿<template>
   <div
     class="modal fade"
     id="modal"
@@ -9,35 +8,32 @@
     aria-hidden="true"
   >
     <div class="modal-dialog modal-dialog-centered" :class="modalSizeClass">
-      <div class="modal-content">
+      <div class="modal-content themed-modal">
         <form
           @submit.prevent="onClickYes"
           :class="{ 'was-validated': validated }"
           novalidate
         >
-          <!-- header -->
-          <div class="modal-header">
+          <div class="modal-header themed-modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">{{ title }}</h1>
             <button
               type="button"
-              class="btn-close"
+              class="btn-close themed-close"
               @click="
                 hide();
                 $event.target.blur();
               "
             ></button>
           </div>
-          <!-- body -->
-          <div class="modal-body">
-            <!-- Itt vannak a form elemek -->
+
+          <div class="modal-body themed-modal-body">
             <slot></slot>
           </div>
-          <!-- footer -->
-          <div class="modal-footer">
-            <!-- cancel -->
+
+          <div class="modal-footer themed-modal-footer">
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn themed-btn-secondary"
               v-if="no"
               @click="
                 hide();
@@ -46,10 +42,10 @@
             >
               {{ no }}
             </button>
-            <!-- save -->
+
             <button
               type="submit"
-              class="btn btn-danger"
+              class="btn themed-btn-primary"
               @click="$event.target.blur()"
             >
               {{ yes }}
@@ -63,6 +59,7 @@
 
 <script>
 import { Modal } from "bootstrap";
+
 export default {
   emits: ["yesEvent"],
   props: {
@@ -90,26 +87,19 @@ export default {
     },
   },
   methods: {
-    //Modal yes gombjának kezelése
     onClickYes(event) {
       const form = event.target;
       this.validated = true;
-      // Van-e űrlap kitöltési hiba
+
       if (form.checkValidity() === false) {
-        //hiba van az űrlapon
-        console.log("Kliens oldali hiba az űrlapon");
-      } else {
-        //Nincs hiba az űrlapon
-        // Átadunk egy függvényt (callback), amit a szülő hív meg, ha végzett
-        this.$emit("yesEvent", (success) => {
-          if (success) {
-            this.hide();
-          } else {
-            // Ha success === false, nem hívunk hide()-ot, a modal nyitva marad a hibákkal
-            console.log("Szerveroldali hiba, a modal marad");
-          }
-        });
+        return;
       }
+
+      this.$emit("yesEvent", (success) => {
+        if (success) {
+          this.hide();
+        }
+      });
     },
     show() {
       this.modal.show();
@@ -123,4 +113,55 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.themed-modal {
+  border: 1px solid rgba(244, 209, 74, 0.55);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #1a1a1d, #121214);
+  color: #f4d14a;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 24px rgba(244, 209, 74, 0.2);
+}
+
+.themed-modal-header,
+.themed-modal-footer {
+  border-color: rgba(244, 209, 74, 0.28);
+}
+
+.themed-modal-header .modal-title {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.themed-modal-body {
+  color: #eaeaea;
+}
+
+.themed-close {
+  filter: invert(84%) sepia(49%) saturate(376%) hue-rotate(352deg) brightness(102%) contrast(94%);
+}
+
+.themed-btn-primary {
+  background: linear-gradient(180deg, #f4d14a, #efc72d);
+  border: 1px solid #f4d14a;
+  color: #171717;
+  font-weight: 700;
+}
+
+.themed-btn-primary:hover {
+  background: linear-gradient(180deg, #ffe27a, #f4d14a);
+  border-color: #ffe27a;
+}
+
+.themed-btn-secondary {
+  background: rgba(244, 209, 74, 0.12);
+  border: 1px solid rgba(244, 209, 74, 0.48);
+  color: #f4d14a;
+  font-weight: 600;
+}
+
+.themed-btn-secondary:hover {
+  background: rgba(244, 209, 74, 0.2);
+  border-color: #f4d14a;
+  color: #ffe680;
+}
+</style>

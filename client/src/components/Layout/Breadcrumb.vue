@@ -1,6 +1,5 @@
 <template>
   <nav aria-label="breadcrumb">
-    <p v-if="debug">{{ breadcrumbs }}</p>
     <ol class="breadcrumb m-0">
       <li class="breadcrumb-item breadcrumb-link">
         <router-link to="/">Kezdőlap</router-link>
@@ -12,17 +11,11 @@
         class="breadcrumb-item breadcrumb-link"
         :class="{ active: index === breadcrumbs.length - 1 }"
       >
-        <router-link
-          v-if="index < breadcrumbs.length - 1 && !crumb.disabled"
-          :to="crumb.path"
-        >
+        <router-link v-if="index < breadcrumbs.length - 1 && !crumb.disabled" :to="crumb.path">
           {{ crumb.label }}
         </router-link>
 
-        <span
-          v-else
-          :class="{ 'breadcrumb-disabled': crumb.disabled }"
-        >
+        <span v-else :class="{ 'breadcrumb-disabled': crumb.disabled }">
           {{ crumb.label }}
         </span>
       </li>
@@ -32,11 +25,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      debug: 0,
-    };
-  },
   computed: {
     breadcrumbs() {
       const matchedRoutes = this.$route.matched.filter(
@@ -83,7 +71,7 @@ export default {
 }
 
 .breadcrumb-disabled {
-  color: #cbb649 !important;
+  color: #ffd43b !important;
   opacity: 1;
 }
 

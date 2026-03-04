@@ -22,6 +22,7 @@ class UpdateIngredientRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->route('id');
         return [
             'recipe_id' => [
                 'nullable',
@@ -34,6 +35,7 @@ class UpdateIngredientRequest extends FormRequest
                 'integer',
                 'exists:raw_ingredients,id',
                 Rule::unique('ingredients', 'raw_ingredient_id')
+                    ->ignore($id)
                     ->where(fn($q) => $q->where('recipe_id', request('recipe_id'))),
             ],
 

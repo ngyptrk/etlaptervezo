@@ -146,4 +146,5 @@ Route::delete('weekdays/{id}', [WeekdayController::class, 'destroy'])
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('weeklyfood/generate', [WeeklyFoodGeneratorController::class, 'generate']);
     Route::get('weeklyfood/my-plan', [WeeklyFoodGeneratorController::class, 'myPlan']);
+    Route::post('weeklyfood/send-email', [WeeklyFoodGeneratorController::class, 'sendEmail']);
 });
