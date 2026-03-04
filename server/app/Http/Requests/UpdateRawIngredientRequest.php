@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRawIngredientRequest extends FormRequest
 {
@@ -21,8 +22,14 @@ class UpdateRawIngredientRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->route('id');
         return [
-            'raw_ingredient' => ['required', 'string', 'max:255', 'unique:raw_ingredients,raw_ingredient'],
+            'raw_ingredient' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('raw_ingredients', 'raw_ingredient')->ignore($id),
+            ],
 
         ];
     }

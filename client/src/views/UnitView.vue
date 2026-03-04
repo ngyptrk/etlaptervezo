@@ -1,189 +1,138 @@
 <template>
   <div>
-    <!-- oldal fejléc -->
-    <!-- oldal címe -->
     <div class="d-flex align-items-center m-0 mb-2">
-      <h1>{{ pageTitle }}</h1>
-      <div class="d-flex align-items-center m-0 ms-2">
-        <!-- homokóra -->
-        <i
-          v-if="loading"
-          class="bi bi-hourglass-split fs-3 col-auto p-0 pe-1"
-        ></i>
-        <!-- új rekord ikon -->
-        <ButtonsCrudCreate v-if="!loading" @create="createHandler" />
-        <p class="m-0 ms-2">({{ getItemsLength }})</p>
-      </div>
+      <h1 class="m-0">Mértékegységek</h1>
+      <span class="ms-2 text-warning">({{ rows.length }})</span>
+      <button class="btn btn-success btn-sm ms-3" @click="createHandler">
+        <i class="bi bi-plus-lg"></i> Hozzáadás
+      </button>
     </div>
 
-    <!-- táblázat -->
-    <GenericTable
-      :items="items"
-      :columns="tableColumns"
-      :useCollectionStore="useCollectionStore"
-      @delete="deleteHandler"
-      @update="updateHandler"
-      @create="createHandler"
-      @sort="sortHandler"
-      v-if="items.length > 0"
-    />
-    <div v-else style="width: 100px" class="m-auto">Nincs találat</div>
+    <div v-if="loading" class="text-warning fw-semibold">Betöltés...</div>
+    <div v-else-if="rows.length === 0" class="empty-list">Nincs találat</div>
 
-    <!-- Form -->
-    <FormSchoolClass
+    <div v-else class="list-wrap table-responsive">
+      <table class="table list-table m-0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Mértékegység</th>
+            <th>Művelet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in rows" :key="item.id">
+            <td>{{ item.id }}</td>
+            <td>{{ item.unit }}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-info" @click="updateHandler(item)">
+                <i class="bi bi-pencil"></i> Módosítás
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <FormUnit
       ref="form"
-      :title="title"
-      :item="item"
+      :title="formTitle"
+      :item="currentItem"
       @yesEventForm="yesEventFormHandler"
-    />
-
-    <!-- Confirm modal -->
-    <ConfirmModal
-      :isOpenConfirmModal="isOpenConfirmModal"
-      @cancel="cancelHandler"
-      @confirm="confirmHandler"
     />
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "pinia";
-//módosít
-import { useSchoolclassStore } from "@/stores/schoolclassStore";
-import { useSearchStore } from "@/stores/searchStore";
-import GenericTable from "@/components/Table/GenericTable.vue";
-import ConfirmModal from "@/components/Confirm/ConfirmModal.vue";
-import ButtonsCrudCreate from "@/components/Table/ButtonsCrudCreate.vue";
-import FormSchoolClass from "@/components/Forms/FormSchoolClass.vue";
+import unitService from "@/api/unitService";
+import FormUnit from "@/components/Forms/FormUnit.vue";
+
 export default {
-  //módosít
-  name: "SchooClassView",
+  name: "UnitView",
   components: {
-    GenericTable,
-    ConfirmModal,
-    ButtonsCrudCreate,
-    FormSchoolClass,
-  },
-  watch: {
-    searchWord() {
-      this.getAllSortSearch(this.sortColumn, this.sortDirection);
-    },
+    FormUnit,
   },
   data() {
     return {
-      //módosít
-      pageTitle: "Osztályok",
-      //módosít
-      tableColumns: [
-        { key: "id", label: "ID", debug: import.meta.env.VITE_DEBUG_MODE },
-        { key: "osztalyNev", label: "Osztálynév", debug: 2 },
-      ],
-      //módosít
-      useCollectionStore: useSchoolclassStore,
-      isOpenConfirmModal: false,
-      toDeleteId: null,
-      state: "r", //crud
-      title: "",
+      loading: false,
+      rows: [],
+      mode: "create",
+      currentItem: { id: 0, unit: "" },
+      formTitle: "Új mértékegység",
     };
   },
-  computed: {
-    //módosít
-    ...mapState(useSchoolclassStore, [
-      "item",
-      "items",
-      "loading",
-      "sortColumn",
-      "sortDirection",
-      "getItemsLength",
-    ]),
-    ...mapState(useSearchStore, ["searchWord"]),
-  },
   methods: {
-    //módosít
-    ...mapActions(useSchoolclassStore, [
-      "getAll",
-      "getAllSortSearch",
-      "getById",
-      "create",
-      "update",
-      "delete",
-      "clearItem",
-    ]),
-    ...mapActions(useSearchStore, ["resetSearchWord"]),
-    deleteHandler(id) {
-      this.state = "d";
-      this.isOpenConfirmModal = true;
-      this.toDeleteId = id;
-    },
-    //módosítani akarok
-    updateHandler(id) {
-      this.state = "u";
-      this.title = "Adatmódosítás";
-      this.getById(id);
-      this.$refs.form.show();
-      console.log("update:", id);
-    },
-    //újat akarok
-    createHandler() {
-      this.state = "c";
-      this.title = "Új adatbevitel";
-      this.clearItem();
-      this.$refs.form.show();
-      console.log("Create:");
-    },
-    sortHandler(column) {
-      console.log(column);
-      this.getAllSortSearch(column);
-    },
-    //nem akarok törölni
-    cancelHandler() {
-      console.log("mégsem törlök");
-      this.isOpenConfirmModal = false;
-      this.state = "r";
-    },
-    //mehet a torlés
-    async confirmHandler() {
+    async loadAll() {
+      this.loading = true;
       try {
-        await this.delete(this.toDeleteId);
-      } catch (error) {
+        const response = await unitService.getAll();
+        this.rows = response.data ?? [];
+      } finally {
+        this.loading = false;
       }
-      this.isOpenConfirmModal = false;
-      this.state = "r";
     },
-
+    updateHandler(item) {
+      this.mode = "update";
+      this.formTitle = "Mértékegység módosítása";
+      this.currentItem = { ...item };
+      this.$refs.form.show();
+    },
+    createHandler() {
+      this.mode = "create";
+      this.formTitle = "Új mértékegység";
+      this.currentItem = { id: 0, unit: "" };
+      this.$refs.form.show();
+    },
     async yesEventFormHandler({ item, done }) {
-      //vagy create, vagy update
       try {
-        if (this.state == "c") {
-          //create
-          await this.create(item);
+        if (this.mode === "create") {
+          await unitService.create(item);
         } else {
-          //update
-          await this.update(item.id, item);
+          await unitService.update(item.id, item);
         }
-        //nem volt hiba
-        this.state = "r";
+        await this.loadAll();
         done(true);
       } catch (err) {
-        //hiba volt
-        //nem csukódik le az ablak
         if (err.response && err.response.status === 422) {
-          // Átadjuk a formnak a konkrét hibaüzeneteket (pl. "min 2 karakter")
           this.$refs.form.setServerErrors(err.response.data.errors);
-          done(false); // Nyitva tartja a modalt
-        } else {
-          // Minden más hiba (500, 401) esetén is értesítjük a modalt, hogy ne záródjon be
-          done(false);
         }
-        //átadom a hibát
+        done(false);
       }
     },
   },
   async mounted() {
-    this.resetSearchWord();
-    await this.getAll();
+    await this.loadAll();
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.list-wrap {
+  border: 1px solid rgba(244, 209, 74, 0.35);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.list-table thead th {
+  background: #1e2229;
+  color: #ffd84f;
+  border-bottom: 1px solid #ffd84f;
+}
+
+.list-table tbody td {
+  background: #d6d6d8;
+  color: #141414;
+  border-color: #b9b9bc;
+}
+
+.list-table tbody tr:nth-child(even) td {
+  background: #cfcfd2;
+}
+
+.empty-list {
+  border: 1px dashed rgba(244, 209, 74, 0.5);
+  border-radius: 12px;
+  padding: 1rem;
+  color: #f4d14a;
+}
+</style>

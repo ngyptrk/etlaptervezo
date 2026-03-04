@@ -19,4 +19,19 @@ class Ingredient extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function recipe()
+    {
+        return $this->belongsTo(Recipe::class);
+    }
+
+    public function rawIngredient()
+    {
+        return $this->belongsTo(RawIngredient::class);
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
 }

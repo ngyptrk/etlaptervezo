@@ -1,198 +1,138 @@
 <template>
   <div>
-    <!-- oldal fejléc -->
-    <!-- oldal címe -->
     <div class="d-flex align-items-center m-0 mb-2">
-      <h1>{{ pageTitle }}</h1>
-      <div class="d-flex align-items-center m-0 ms-2">
-        <!-- homokóra -->
-        <i
-          v-if="loading"
-          class="bi bi-hourglass-split fs-3 col-auto p-0 pe-1"
-        ></i>
-        <!-- új rekord ikon -->
-        <ButtonsCrudCreate v-if="!loading" @create="createHandler" />
-        <p class="m-0 ms-2">({{ getItemsLength }})</p>
-
-        <!-- sor/oldal -->
-        <SetSelectedPerPage
-         :useCollectionStore="useCollectionStore" 
-        />
-        <!-- Paginátor -->
-         <Pagination
-          :useCollectionStore="useCollectionStore"
-         />
-      </div>
+      <h1 class="m-0">Napi étkezések</h1>
+      <span class="ms-2 text-warning">({{ rows.length }})</span>
+      <button class="btn btn-success btn-sm ms-3" @click="createHandler">
+        <i class="bi bi-plus-lg"></i> Hozzáadás
+      </button>
     </div>
 
-    <!-- táblázat -->
-    <GenericTable
-      :items="items"
-      :columns="tableColumns"
-      :useCollectionStore="useCollectionStore"
-      @delete="deleteHandler"
-      @update="updateHandler"
-      @create="createHandler"
-      @sort="sortHandler"
-      v-if="items.length > 0"
-    />
-    <div v-else style="width: 100px" class="m-auto">Nincs találat</div>
+    <div v-if="loading" class="text-warning fw-semibold">Betöltés...</div>
+    <div v-else-if="rows.length === 0" class="empty-list">Nincs találat</div>
 
-    <!-- Form -->
-    <FormSport
+    <div v-else class="list-wrap table-responsive">
+      <table class="table list-table m-0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Napi étkezés</th>
+            <th>Művelet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in rows" :key="item.id">
+            <td>{{ item.id }}</td>
+            <td>{{ item.meal_of_day }}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-info" @click="updateHandler(item)">
+                <i class="bi bi-pencil"></i> Módosítás
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <FormMealOfDay
       ref="form"
-      :title="title"
-      :item="item"
+      :title="formTitle"
+      :item="currentItem"
       @yesEventForm="yesEventFormHandler"
-    />
-
-    <!-- Confirm modal -->
-    <ConfirmModal
-      :isOpenConfirmModal="isOpenConfirmModal"
-      @cancel="cancelHandler"
-      @confirm="confirmHandler"
     />
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "pinia";
-//módosít
-import { useSportStore } from "@/stores/sporsStore";
-import { useSearchStore } from "@/stores/searchStore";
-import GenericTable from "@/components/Table/GenericTable.vue";
-import ConfirmModal from "@/components/Confirm/ConfirmModal.vue";
-import ButtonsCrudCreate from "@/components/Table/ButtonsCrudCreate.vue";
-import FormSport from "@/components/Forms/FormSport.vue";
-import Pagination from "@/components/Pagination/Pagination.vue";
-import SetSelectedPerPage from "@/components/Pagination/SetSelectedPerPage.vue";
+import mealOfDayService from "@/api/mealOfDayService";
+import FormMealOfDay from "@/components/Forms/FormMealOfDay.vue";
+
 export default {
-  //módosít
-  name: "SportView",
+  name: "MealOfDayView",
   components: {
-    GenericTable,
-    ConfirmModal,
-    ButtonsCrudCreate,
-    FormSport,
-    Pagination,
-    SetSelectedPerPage,
-  },
-  watch: {
-    searchWord() {
-      this.getPaging();
-    },
+    FormMealOfDay,
   },
   data() {
     return {
-      //módosít
-      pageTitle: "Sportok",
-      //módosít
-      tableColumns: [
-        { key: "id", label: "ID", debug: import.meta.env.VITE_DEBUG_MODE },
-        { key: "sportNev", label: "Sportnév", debug: 2 },
-      ],
-      //módosít
-      useCollectionStore: useSportStore,
-      isOpenConfirmModal: false,
-      toDeleteId: null,
-      state: "r", //crud
-      title: "",
+      loading: false,
+      rows: [],
+      mode: "create",
+      currentItem: { id: 0, meal_of_day: "" },
+      formTitle: "Új napi étkezés",
     };
   },
-  computed: {
-    //módosít
-    ...mapState(useSportStore, [
-      "item",
-      "items",
-      "loading",
-      "sortColumn",
-      "sortDirection",
-      "getItemsLength",
-    ]),
-    ...mapState(useSearchStore, ["searchWord"]),
-  },
   methods: {
-    //módosít
-    ...mapActions(useSportStore, [
-      "getAll",
-      "getAllSortSearch",
-      "getPaging",
-      "setColumn",
-      "getById",
-      "create",
-      "update",
-      "delete",
-      "clearItem"
-    ]),
-    ...mapActions(useSearchStore, ["resetSearchWord"]),
-    deleteHandler(id) {
-      this.state = "d";
-      this.isOpenConfirmModal = true;
-      this.toDeleteId = id;
+    async loadAll() {
+      this.loading = true;
+      try {
+        const response = await mealOfDayService.getAll();
+        this.rows = response.data ?? [];
+      } finally {
+        this.loading = false;
+      }
     },
-    updateHandler(id) {
-      this.state = "u";
-      this.title = "Adatmódosítás";
-      this.getById(id);
+    updateHandler(item) {
+      this.mode = "update";
+      this.formTitle = "Napi étkezés módosítása";
+      this.currentItem = { ...item };
       this.$refs.form.show();
-      console.log("update:", id);
     },
     createHandler() {
-      this.state = "c";
-      this.title = "Új adatbevitel";
-      this.clearItem();
+      this.mode = "create";
+      this.formTitle = "Új napi étkezés";
+      this.currentItem = { id: 0, meal_of_day: "" };
       this.$refs.form.show();
-      console.log("Create:");
-    },
-    sortHandler(column) {
-      console.log(column);
-      this.setColumn(column);
-    },
-    cancelHandler() {
-      console.log("mégsem törlök");
-      this.isOpenConfirmModal = false;
-      this.state = "r";
-    },
-    async confirmHandler() {
-      try {
-        await this.delete(this.toDeleteId);
-      } catch (error) {}
-      this.isOpenConfirmModal = false;
-      this.state = "r";
     },
     async yesEventFormHandler({ item, done }) {
-      //vagy create, vagy update
       try {
-        if (this.state == "c") {
-          //create
-          await this.create(item);
+        if (this.mode === "create") {
+          await mealOfDayService.create(item);
         } else {
-          //update
-          await this.update(item.id, item);
+          await mealOfDayService.update(item.id, item);
         }
-        //nem volt hiba
-        this.state = "r";
+        await this.loadAll();
         done(true);
       } catch (err) {
-        //hiba volt
-        //nem csukódik le az ablak
         if (err.response && err.response.status === 422) {
-          // Átadjuk a formnak a konkrét hibaüzeneteket (pl. "min 2 karakter")
           this.$refs.form.setServerErrors(err.response.data.errors);
-          done(false); // Nyitva tartja a modalt
-        } else {
-          // Minden más hiba (500, 401) esetén is értesítjük a modalt, hogy ne záródjon be
-          done(false);
         }
-        //átadom a hibát
+        done(false);
       }
     },
   },
   async mounted() {
-    this.resetSearchWord();
-    await this.getPaging(1);
+    await this.loadAll();
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.list-wrap {
+  border: 1px solid rgba(244, 209, 74, 0.35);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.list-table thead th {
+  background: #1e2229;
+  color: #ffd84f;
+  border-bottom: 1px solid #ffd84f;
+}
+
+.list-table tbody td {
+  background: #d6d6d8;
+  color: #141414;
+  border-color: #b9b9bc;
+}
+
+.list-table tbody tr:nth-child(even) td {
+  background: #cfcfd2;
+}
+
+.empty-list {
+  border: 1px dashed rgba(244, 209, 74, 0.5);
+  border-radius: 12px;
+  padding: 1rem;
+  color: #f4d14a;
+}
+</style>
