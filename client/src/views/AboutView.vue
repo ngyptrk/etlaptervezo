@@ -1,31 +1,22 @@
 <template>
-  
   <div class="about-page">
-
-    <!-- HERO SECTION -->
     <section class="hero">
       <h1>Rólunk</h1>
       <p class="hero-text">
-        Egy modern, testreszabható étlaprendszer, ahol te döntöd el,
-        mi kerüljön a tányérodra.
+        Egy modern, testreszabható étlaprendszer, ahol te döntöd el, mi kerüljön
+        a tányérodra.
       </p>
     </section>
 
-    <!-- STORY SECTION -->
     <section class="story">
       <div class="content">
         <h2>Miért hoztuk létre?</h2>
         <p>
-          Ez a webalkalmazás szakmai vizsga keretében készült.
-          Célunk egy olyan interaktív rendszer megvalósítása volt,
-          amelyben a felhasználók saját ízlésük szerint állíthatják
-          össze ételeiket.
+          Ez a webalkalmazás szakmai vizsga keretében készült. Célunk egy olyan
+          interaktív rendszer megvalósítása volt, amelyben a felhasználók saját
+          ízlésük szerint állíthatják össze ételeiket.
         </p>
-        <p>
-          Válassz alapot, adj hozzá feltéteket, és a rendszer
-          automatikusan kiszámolja az árat — egyszerűen,
-          gyorsan és átláthatóan.
-        </p>
+        
       </div>
     </section>
 
@@ -35,18 +26,13 @@
 
       <div class="cards">
         <div class="card">
-          <h3>🍕 Alapételek</h3>
-          <p>Széles választék különböző alapokból.</p>
+          <h3>🍕 Receptek</h3>
+          <p>Folyton frissülő receptek.</p>
         </div>
 
         <div class="card">
-          <h3>🧀 Egyedi feltétek</h3>
-          <p>Szabadon kombinálható hozzávalók.</p>
-        </div>
-
-        <div class="card">
-          <h3>💰 Ár kalkuláció</h3>
-          <p>Valós idejű árfrissítés minden választás után.</p>
+          <h3>☀️ Napi ajánlatok</h3>
+          <p>Napi étel ajánlás.</p>
         </div>
 
         <div class="card">
@@ -56,7 +42,7 @@
       </div>
     </section>
 
-    <!-- TECH INFO -->
+    
     <section class="tech">
       <h2>Technikai információk</h2>
 
@@ -69,7 +55,11 @@
         <div><strong>API URL:</strong> {{ apiUrl }}</div>
       </div>
     </section>
-
+    <section class="cta">
+      <h2>Próbáld ki most!</h2>
+      <p>Állítsd össze saját ételed néhány kattintással.</p>
+      <router-link to="/login" class="cta-button"> Bejelentkezés </router-link>
+    </section>
   </div>
 </template>
 
@@ -83,22 +73,20 @@ export default {
       mode: import.meta.env.MODE,
       title: import.meta.env.VITE_APP_TITLE,
       ver: import.meta.env.VITE_APP_VER,
-      apiUrl: import.meta.env.VITE_API_URL
-    }
-  }
-}
+      apiUrl: import.meta.env.VITE_API_URL,
+    };
+  },
+};
 </script>
 
 <style scoped>
-
 .about-page {
-  background: none; /* nincs háttér */
-  color: #000000; /* szöveg fekete lesz, mert sötét háttér már nincs */
+  background: none;
+  color: #000000; 
   min-height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
-/* HERO */
 .hero {
   text-align: center;
   padding: 100px 20px 60px 20px;
@@ -108,7 +96,7 @@ export default {
   font-size: 60px;
   font-weight: 800;
   margin-bottom: 20px;
-  color: #ffd700;
+  color: #ffd500;
   text-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
 }
 
@@ -119,7 +107,6 @@ export default {
   margin: auto;
 }
 
-/* STORY */
 .story {
   padding: 60px 20px;
   max-width: 900px;
@@ -138,7 +125,6 @@ export default {
   margin-bottom: 15px;
 }
 
-/* FEATURES */
 .features {
   padding: 60px 20px;
   text-align: center;
@@ -179,10 +165,9 @@ export default {
 }
 
 .card p {
-  color: #f5f5f5; 
+  color: #f5f5f5;
 }
 
-/* TECH */
 .tech {
   padding: 60px 20px;
   background: linear-gradient(180deg, #b48702, #000000);
@@ -203,4 +188,36 @@ export default {
   color: #000000;
 }
 
+.cta {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #000000, #3e3e00);
+}
+
+.cta h2 {
+  font-size: 36px;
+  color: #ffd700;
+  margin-bottom: 15px;
+}
+
+.cta p {
+  color: #ffffff;
+  margin-bottom: 25px;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 14px 35px;
+  background: #ffd700;
+  color: #000;
+  font-weight: bold;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.cta-button:hover {
+  background: #ffffff;
+  transform: scale(1.05);
+}
 </style>
