@@ -3,15 +3,14 @@
     class="table-responsive my-table-container"
     style="max-height: calc(100vh - 360px); overflow-y: auto"
   >
-    <table class="table table-hover w-auto mx-auto">
-      <thead class="table-dark sticky-top" style="z-index: 10; top: 0">
+    <table class="table table-hover w-auto mx-auto my-themed-table">
+      <thead class="sticky-top" style="z-index: 10; top: 0">
         <tr class="align-middle text-center">
           <th>Műveletek</th>
-          <template v-for="col in columns">
+          <template v-for="col in columns" :key="col.key">
             <th
-              class="my-pointer"
               v-if="col.debug >= 1"
-              :key="col.key"
+              class="my-pointer"
               @click="$emit('sort', col.key)"
               :class="{ 'my-debug': col.debug == 1 }"
             >
@@ -49,12 +48,10 @@
               :dButtonVisible="dButtonVisible"
               :pButtonVisible="pButtonVisible"
             />
-            
           </td>
-          <template v-for="col in columns">
+          <template v-for="col in columns" :key="`${item.id}-${col.key}`">
             <td
               v-if="col.debug >= 1"
-              :key="col.key"
               :class="{ 'my-debug': col.debug == 1 }"
             >
               {{ item[col.key] }}
@@ -73,13 +70,12 @@ export default {
   name: "GenericTable",
   props: {
     items: { type: Array, required: true },
-    columns: { type: Array, required: true }, // Pl: [{key: 'name', label: 'Név', debug: false}]
+    columns: { type: Array, required: true },
     useCollectionStore: { type: Function, required: true },
     cButtonVisible: { type: Boolean, default: true },
     uButtonVisible: { type: Boolean, default: true },
     dButtonVisible: { type: Boolean, default: true },
     pButtonVisible: { type: Boolean, default: false },
-
   },
   components: {
     ButtonsCrud,
@@ -87,7 +83,7 @@ export default {
   data() {
     return {
       selectedId: null,
-      store: null, // Itt tároljuk a példányosított store-t
+      store: null,
     };
   },
   created() {
@@ -96,7 +92,6 @@ export default {
     }
   },
   computed: {
-    // Ezeket a store-ból húzzuk be reaktívan
     sortColumn() {
       return this.store ? this.store.sortColumn : "";
     },
@@ -113,22 +108,41 @@ export default {
 </script>
 
 <style scoped>
-/* Ez a titkos szósz a sticky fejléc stabilizálásához */
 .my-table-container {
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: rgba(15, 15, 15, 0.8);
 }
 
-/* Megakadályozza, hogy görgetéskor "átlátszanak" a betűk a fekete fejléc alatt */
-/* .sticky-top th {
-  background-color: #212529 !important;
-  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.15);
-} */
-
-/* Ha a táblázat keskenyebb mint a képernyő, de középre akarod tenni */
-.table {
+.my-themed-table {
   margin-left: auto;
   margin-right: auto;
-  width: auto !important; /* Csak akkor, ha nem akarod, hogy kifeszüljön */
+  width: auto !important;
+  color: #121315;
+}
+
+.my-themed-table thead th {
+  background: linear-gradient(180deg, #1f2328, #17191d);
+  color: #ffd84f;
+  border-bottom: 2px solid #f4d14a;
+}
+
+.my-themed-table tbody td {
+  background: #d5d5d6;
+  border-color: #b4b6ba;
+}
+
+.my-themed-table tbody tr:nth-child(even) td {
+  background: #cacacc;
+}
+
+.my-themed-table tbody tr:hover td {
+  background: #f1de8d;
+}
+
+.my-themed-table tbody tr.table-primary td {
+  background: #f4d14a !important;
+  color: #151515;
+  font-weight: 600;
 }
 </style>

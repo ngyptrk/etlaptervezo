@@ -1,25 +1,25 @@
 <template>
   <div class="app-container">
-    <!-- Bal oldali menü -->
-    <Menu class="sidebar"/>
+    <Menu class="sidebar" />
 
-    <!-- Fő tartalom -->
     <div class="main-content">
-      <Header/>
-      <Breadcrumb/>
-      <RouterView/>
+      <Header />
+      <Breadcrumb />
+      <section class="content-shell">
+        <RouterView />
+      </section>
     </div>
 
-    <ToastContanier/>
+    <ToastContanier />
   </div>
 </template>
 
 <script>
-import Menu from './components/Layout/Menu.vue';
-import Header from './components/Layout/Header.vue';
-import Footer from './components/Layout/Footer.vue';
-import Breadcrumb from './components/Layout/Breadcrumb.vue';
-import ToastContanier from './components/Message/ToastContanier.vue';
+import Menu from "./components/Layout/Menu.vue";
+import Header from "./components/Layout/Header.vue";
+import Footer from "./components/Layout/Footer.vue";
+import Breadcrumb from "./components/Layout/Breadcrumb.vue";
+import ToastContanier from "./components/Message/ToastContanier.vue";
 
 export default {
   components: {
@@ -29,8 +29,6 @@ export default {
     Breadcrumb,
     ToastContanier,
   },
-  data() {
-  }
 };
 </script>
 
@@ -41,31 +39,31 @@ export default {
   position: relative;
   overflow: hidden;
 
-  background: #111000;
-  color: #f9d342;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 201, 41, 0.15), transparent 36%),
+    linear-gradient(140deg, #0f0f10, #1a1a1c 45%, #111111 100%);
+  color: #f4d14a;
 }
 
-/* Animált háttér réteg */
 .app-container::before {
   content: "";
   position: absolute;
   inset: -50%;
 
-  background: radial-gradient(circle at 20% 30%, rgba(249, 211, 66, 0.15), transparent 40%),
-              radial-gradient(circle at 80% 70%, rgba(249, 211, 66, 0.1), transparent 50%),
-              radial-gradient(circle at 50% 50%, rgba(249, 211, 66, 0.08), transparent 60%);
+  background:
+    radial-gradient(circle at 20% 30%, rgba(249, 211, 66, 0.12), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(90, 90, 90, 0.14), transparent 52%),
+    radial-gradient(circle at 50% 50%, rgba(249, 211, 66, 0.06), transparent 62%);
 
-  animation: backgroundMove 15s linear infinite;
+  animation: backgroundMove 18s linear infinite;
   z-index: 0;
 }
 
-/* Tartalom mindig a háttér fölött */
 .app-container > * {
   position: relative;
   z-index: 1;
 }
 
-/* Mozgás */
 @keyframes backgroundMove {
   0% {
     transform: rotate(0deg) translate(0, 0);
@@ -78,19 +76,16 @@ export default {
   }
 }
 
-
-/* Bal oldali menü */
 .sidebar {
-  width: 250px;           /* fix szélesség */
-  height: 100vh;          /* teljes magasság */
+  width: 250px;
+  height: 100vh;
   background: linear-gradient(135deg, #111000, #222a00);
   box-shadow: 3px 0 15px rgba(249, 211, 66, 0.3);
   padding: 1rem;
   overflow-y: auto;
-  flex-shrink: 0;         /* ne zsugorodjon a flexboxban */
+  flex-shrink: 0;
 }
 
-/* Fő tartalom a sidebar mellett */
 .main-content {
   flex: 1;
   padding: 1rem 2rem;
@@ -98,7 +93,21 @@ export default {
   overflow-y: auto;
 }
 
-/* Mobil nézet */
+.content-shell {
+  margin-top: 0.4rem;
+  padding: 1.2rem;
+  border: 1px solid rgba(255, 209, 74, 0.4);
+  border-radius: 14px;
+  background: linear-gradient(
+    180deg,
+    rgba(25, 25, 27, 0.9),
+    rgba(17, 17, 18, 0.94)
+  );
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.35),
+    0 0 18px rgba(255, 209, 74, 0.12);
+}
+
 @media (max-width: 768px) {
   .app-container {
     flex-direction: column;
@@ -109,6 +118,9 @@ export default {
   }
   .main-content {
     padding: 1rem;
+  }
+  .content-shell {
+    padding: 0.8rem;
   }
 }
 </style>

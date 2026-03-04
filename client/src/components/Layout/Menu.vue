@@ -1,28 +1,25 @@
 <template>
   <div class="menu-container">
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-    />
-    <!-- Logó -->
     <RouterLink to="/" class="logo-link d-flex justify-content-center mb-2">
-      <img src="../../pictures/logo.png" alt="Logó" />
+      <img src="../../pictures/logo.png" alt="Logo" />
     </RouterLink>
-    <!-- Menü -->
+
     <nav class="nav flex-column sidebar-nav m-3">
       <RouterLink
         to="/"
         class="nav-link d-flex justify-content-center sidebar-link mt-1"
-        ><strong>Főoldal</strong></RouterLink
       >
+        <strong>Főoldal</strong>
+      </RouterLink>
+
       <RouterLink
         to="/about"
         class="nav-link d-flex justify-content-center sidebar-link mt-1"
-        ><strong>Rólunk</strong></RouterLink
       >
+        <strong>Rólunk</strong>
+      </RouterLink>
 
-      <!-- Beállítások dropdown -->
-      <div>
+      <div v-if="isLoggedIn && hasMenuAccessByName('adatok')">
         <button
           class="btn sidebar-link w-100 text-start d-flex justify-content-center mt-1"
           @click="toggleSettings"
@@ -33,14 +30,10 @@
           <span :class="{ rotate: settingsOpen }" class="ps-1"></span>
         </button>
 
-        <div
-          class="collapse mt-2"
-          :class="{ show: settingsOpen }"
-          v-if="hasMenuAccess('/adatok')"
-        >
+        <div class="collapse mt-2" :class="{ show: settingsOpen }">
           <nav class="btn-toggle-nav list-unstyled ps-3">
             <RouterLink
-              v-if="hasMenuAccess('/day')"
+              v-if="hasMenuAccessByName('day')"
               :to="{ name: 'day' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -48,7 +41,7 @@
             </RouterLink>
 
             <RouterLink
-              v-if="hasMenuAccess('/ingredient')"
+              v-if="hasMenuAccessByName('ingredient')"
               :to="{ name: 'ingredient' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -56,7 +49,7 @@
             </RouterLink>
 
             <RouterLink
-              v-if="hasMenuAccess('/rawingredient')"
+              v-if="hasMenuAccessByName('rawingredient')"
               :to="{ name: 'rawingredient' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -64,7 +57,7 @@
             </RouterLink>
 
             <RouterLink
-              v-if="hasMenuAccess('/meal')"
+              v-if="hasMenuAccessByName('meal')"
               :to="{ name: 'meal' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -72,7 +65,7 @@
             </RouterLink>
 
             <RouterLink
-              v-if="hasMenuAccess('/unit')"
+              v-if="hasMenuAccessByName('unit')"
               :to="{ name: 'unit' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -80,7 +73,7 @@
             </RouterLink>
 
             <RouterLink
-              v-if="hasMenuAccess('/weekday')"
+              v-if="hasMenuAccessByName('weekday')"
               :to="{ name: 'weekday' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -88,7 +81,7 @@
             </RouterLink>
 
             <RouterLink
-              v-if="hasMenuAccess('/mealofday')"
+              v-if="hasMenuAccessByName('mealofday')"
               :to="{ name: 'mealofday' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -96,15 +89,15 @@
             </RouterLink>
 
             <RouterLink
-              v-if="hasMenuAccess('/mealreq')"
+              v-if="hasMenuAccessByName('mealreq')"
               :to="{ name: 'mealreq' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
-              Étkezés elvárás
+              Étkezés elvárások
             </RouterLink>
 
             <RouterLink
-              v-if="hasMenuAccess('/recipe')"
+              v-if="hasMenuAccessByName('recipe')"
               :to="{ name: 'recipe' }"
               class="nav-link d-flex justify-content-center sidebar-link"
             >
@@ -112,26 +105,27 @@
             </RouterLink>
           </nav>
         </div>
+
         <button
+          v-if="isLoggedIn"
           class="nav-link d-flex justify-content-center sidebar-link w-100 mt-2"
           @click="onGenerate"
         >
           <strong>Generálás</strong>
         </button>
       </div>
+
       <div class="mt-auto">
         <div v-if="!isLoggedIn" class="hidden">
           <RouterLink
             to="/login"
             class="nav-link d-flex justify-content-center sidebar-link mb-2"
-            ><i class="bi bi-person-fill"
-              ><strong> Belépés</strong></i
-            ></RouterLink
           >
+            <i class="bi bi-person-fill"><strong> Belépés</strong></i>
+          </RouterLink>
         </div>
       </div>
-      <!-- Kilépés gomb csak bejelentkezett felhasználónak -->
-      <!-- Kilépés gomb a sidebar legalján, csak bejelentkezett felhasználónak -->
+
       <div v-if="isLoggedIn">
         <RouterLink
           to="/login"
@@ -142,17 +136,14 @@
           <strong>Kijelentkezés</strong>
         </RouterLink>
       </div>
-
-      <!-- Ha nincs bejelentkezve, nem jelenik meg semmi -->
     </nav>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "pinia";
-import { useSearchStore } from "@/stores/searchStore";
 import { useUserLoginLogoutStore } from "@/stores/userLoginLogoutStore";
-import userLoginLogoutService from "@/api/userLoginLogoutService";
+
 export default {
   name: "Menu",
   data() {
@@ -160,27 +151,27 @@ export default {
       settingsOpen: false,
     };
   },
+  computed: {
+    ...mapState(useUserLoginLogoutStore, ["isLoggedIn", "userNameWithRole"]),
+  },
   methods: {
     ...mapActions(useUserLoginLogoutStore, ["logout"]),
     toggleSettings() {
       this.settingsOpen = !this.settingsOpen;
     },
     onGenerate() {
-      alert("Generálás elindítva!");
+      this.$router.push({ name: "day" });
     },
-     hasMenuAccess(targetPath) {
-      //A jogosultsági szintnek megfelelően engedélyezi, vagy tiltja a menüt
+    hasMenuAccessByName(name) {
       const userStore = useUserLoginLogoutStore();
-      const resolved = this.$router.resolve(targetPath);
+      const resolved = this.$router.resolve({ name });
 
-      if (!resolved || !resolved.matched.length) return false;
+      if (!resolved || !resolved.matched.length) {
+        return false;
+      }
 
-      // Végigmeneteltetjük a szabályt az összes szülőn keresztül (adatok -> sports)
-      // Az 'every' akkor igaz, ha minden egyes elemre igaz a feltétel
       return resolved.matched.every((route) => {
         const requiredRoles = route.meta?.roles;
-
-        // A már meglévő Pinia getterünket hívjuk meg minden szinten
         return userStore.canAccess(requiredRoles);
       });
     },
@@ -193,10 +184,6 @@ export default {
       }
     },
   },
-  computed: {
-    ...mapState(useSearchStore, ["searchWord"]),
-    ...mapState(useUserLoginLogoutStore, ["isLoggedIn", "userNameWithRole"]),
-  },
 };
 </script>
 
@@ -204,10 +191,8 @@ export default {
 .menu-container {
   width: 250px;
   height: 100vh;
-
   display: flex;
   flex-direction: column;
-
   background: linear-gradient(135deg, #111000, #222a00);
   padding: 1rem;
   box-shadow: 3px 0 15px rgba(249, 211, 66, 0.3);
@@ -227,6 +212,7 @@ export default {
   cursor: pointer;
   transition: box-shadow 0.3s;
 }
+
 .logo-link img:hover {
   box-shadow: 0 0 15px #fdaa10;
 }
@@ -243,40 +229,12 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+
 .sidebar-link:hover,
 .sidebar-link.router-link-active {
   background: #fdaa10;
   color: #111000;
   box-shadow: 0 0 0.1px #fdaa10, 0 0 10px #fdaa10;
-}
-
-.sidebar-sub-link {
-  padding: 0.4rem 1.5rem;
-  margin: 0.15rem 0;
-  border-radius: 20px;
-  color: #fdaa10;
-  text-decoration: none;
-}
-.sidebar-sub-link:hover,
-.sidebar-sub-link.router-link-active {
-  background: #fdaa10;
-  color: #111000;
-}
-
-.btn-toggle {
-  background: transparent;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0.6rem 1.5rem;
-  border-radius: 30px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-.btn-toggle:hover {
-  background: #fdaa10;
-  color: #111000;
 }
 
 .rotate {
@@ -285,18 +243,6 @@ export default {
   transform: rotate(180deg);
 }
 
-.btn-warning {
-  border-radius: 25px;
-  font-weight: 700;
-  color: #111000;
-  box-shadow: 0 0 8px #f9d342;
-  transition: background-color 0.3s;
-}
-.btn-warning:hover {
-  background-color: #e1c530;
-}
-
-/* Mobil nézet */
 @media (max-width: 768px) {
   .menu-container {
     width: 100%;
@@ -308,26 +254,20 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 0.7rem 1.5rem;
   border-radius: 30px;
-
   font-weight: 600;
   text-decoration: none;
-
-  background: #8b1e1e; /* mély bordó piros */
+  background: #8b1e1e;
   color: #ffffff;
-
   transition: all 0.25s ease;
 }
 
-/* Hover */
 .logout-btn:hover {
-  background: #a82424; /* enyhén világosabb */
+  background: #a82424;
   transform: translateY(-2px);
 }
 
-/* Active (kattintáskor) */
 .logout-btn:active {
   transform: translateY(0);
   background: #741919;

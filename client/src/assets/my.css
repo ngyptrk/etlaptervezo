@@ -1,6 +1,26 @@
 :root {
-  /* --my-border: 10px; */
+  --color-bg-1: #101112;
+  --color-bg-2: #1a1b1d;
+  --color-bg-3: #2a2b2e;
+  --color-text-main: #f4d14a;
+  --color-text-soft: #d3b643;
+  --color-border: rgba(244, 209, 74, 0.42);
+  --color-border-soft: rgba(180, 180, 180, 0.22);
+  --color-row: #d7d7d8;
+  --color-row-alt: #c8c8ca;
+  --color-danger: #cb2f2f;
+  --color-success: #1e8a57;
+  --color-info: #2f95bf;
+
   --my-border-space: 0px;
+}
+
+html,
+body,
+#app {
+  font-family: "Segoe UI", "Tahoma", "Arial", sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .my-container {
@@ -8,7 +28,7 @@
 }
 
 .my-border {
-  border: 1px dashed black;
+  border: 1px dashed #8d8f94;
 }
 
 .my-pointer {
@@ -17,4 +37,10 @@
 
 .my-content-height {
   height: calc(100vh - 259px + var(--my-border-space));
+}
+
+.main-content h1 {
+  color: var(--color-text-main);
+  font-weight: 700;
+  letter-spacing: 0.2px;
 }
