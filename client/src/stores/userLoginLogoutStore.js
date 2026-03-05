@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+﻿import { defineStore } from "pinia";
 import service from "@/api/userLoginLogoutService";
 import { useToastStore } from "./toastStore";
 
@@ -7,7 +7,7 @@ export const useUserLoginLogoutStore = defineStore("userLoginLogout", {
     item: JSON.parse(localStorage.getItem("user_data")) || null,
     loading: false,
     error: null,
-    rolNames: ["Admin", "Tanár", "Diák"],
+    rolNames: ["Admin", "Felhasználó"],
   }),
   getters: {
     token() {
@@ -21,7 +21,8 @@ export const useUserLoginLogoutStore = defineStore("userLoginLogout", {
     },
     userNameWithRole() {
       if (!this.item) return null;
-      return `${this.rolNames[this.item.role - 1] ?? "Felhasználó"}`;
+      if (this.item.role === 1) return "Admin";
+      return "Felhasználó";
     },
     isLoggedIn() {
       return this.item != null;

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div>
     <Modal ref="modal" :title="title" @yesEvent="yesEventHandler">
       <div class="mb-4 row pt-2">
@@ -15,10 +15,7 @@
           <div v-if="!serverErrors.name" class="invalid-feedback position-absolute">
             A név kötelező
           </div>
-          <div
-            v-if="serverErrors.name"
-            class="invalid-feedback position-absolute d-block"
-          >
+          <div v-if="serverErrors.name" class="invalid-feedback position-absolute d-block">
             {{ serverErrors.name[0] }}
           </div>
         </div>
@@ -38,10 +35,7 @@
           <div v-if="!serverErrors.email" class="invalid-feedback position-absolute">
             Az email kötelező
           </div>
-          <div
-            v-if="serverErrors.email"
-            class="invalid-feedback position-absolute d-block"
-          >
+          <div v-if="serverErrors.email" class="invalid-feedback position-absolute d-block">
             {{ serverErrors.email[0] }}
           </div>
         </div>
@@ -54,13 +48,12 @@
             id="role"
             v-model.number="formItem.role"
             class="form-select"
-            style="width: 140px"
+            style="width: 160px"
             :disabled="disableRole"
             @change="clearError('role')"
           >
             <option :value="1">Admin</option>
-            <option :value="2">Tanár</option>
-            <option :value="3">Diák</option>
+            <option :value="2">Felhasználó</option>
           </select>
           <small v-if="disableRole" class="text-warning">
             Saját admin szerepkör nem módosítható.
