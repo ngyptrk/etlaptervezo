@@ -1,5 +1,7 @@
-<template>
+﻿<template>
   <div>
+    <TopMiniModal :show="showSuccessModal" :message="successMessage" />
+
     <h1>Regisztráció</h1>
     <UserRegistration
       ref="form"
@@ -9,41 +11,53 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "pinia";
+import { mapActions } from "pinia";
 import { useUserStore } from "@/stores/userStore";
-import UserRegistration from '@/components/User/UserRegistration.vue';
+import UserRegistration from "@/components/User/UserRegistration.vue";
+import TopMiniModal from "@/components/Modal/TopMiniModal.vue";
 
 export default {
-  name: 'RegistrationView',
+  name: "RegistrationView",
   components: {
-    UserRegistration
+    UserRegistration,
+    TopMiniModal,
+  },
+  data() {
+    return {
+      showSuccessModal: false,
+      successMessage: "Sikeres regisztráció",
+      successTimer: null,
+    };
   },
   methods: {
-    ...mapActions(useUserStore,['createUser']),
-    async handlerCreateUser({data, done}){
-      console.log(data);
+    ...mapActions(useUserStore, ["createUser"]),
+    async handlerCreateUser({ data, done }) {
       try {
         await this.createUser(data);
         done(true);
+
+        this.showSuccessModal = true;
+        if (this.successTimer) {
+          clearTimeout(this.successTimer);
+        }
+        this.successTimer = setTimeout(() => {
+          this.$router.push("/login");
+        }, 900);
       } catch (err) {
         if (err.response && err.response.status === 422) {
-          // Átadjuk a formnak a konkrét hibaüzeneteket (pl. "min 2 karakter")
-          console.log("422:", err.response.data.errors);
-          
           this.$refs.form.setServerErrors(err.response.data.errors);
-          done(false); // Nyitva tartja a modalt
-        } else {
-          // Minden más hiba (500, 401) esetén is értesítjük a modalt, hogy ne záródjon be
-          done(false);
         }
+        done(false);
       }
-      
+    },
+  },
+  beforeUnmount() {
+    if (this.successTimer) {
+      clearTimeout(this.successTimer);
     }
-
-  }
-}
+  },
+};
 </script>
 
 <style>
-
 </style>
