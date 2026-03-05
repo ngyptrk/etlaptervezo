@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="menu-container">
     <RouterLink to="/" class="logo-link d-flex justify-content-center mb-2">
       <img src="../../pictures/logo.png" alt="Logo" />
@@ -123,6 +123,16 @@
             class="nav-link d-flex justify-content-center sidebar-link mb-2"
           >
             <i class="bi bi-person-fill"><strong> Belépés</strong></i>
+          </RouterLink>
+        </div>
+      </div>
+      <div>
+        <div v-if="!isLoggedIn">
+          <RouterLink
+            to="/registration"
+            class="nav-link d-flex justify-content-center sidebar-link mb-2"
+          >
+            <i class="bi bi-person-fill"><strong> Regisztrálás</strong></i>
           </RouterLink>
         </div>
       </div>

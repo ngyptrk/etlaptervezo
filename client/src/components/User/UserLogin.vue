@@ -33,7 +33,6 @@
         <!-- Gombok -->
         <div class="d-flex justify-content-between mt-4">
           <button type="submit" class="btn btn-yellow">Login</button>
-          <RouterLink to="/registration" class="btn btn-outline-yellow">Regisztráció</RouterLink>
         </div>
       </form>
     </div>
