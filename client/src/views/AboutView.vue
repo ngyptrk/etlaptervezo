@@ -1,12 +1,14 @@
 <template>
   <div class="about-page">
     <section class="hero">
-      <h1>Rólunk</h1>
-      <p class="hero-text">
-        Egy modern, testreszabható étlaprendszer, ahol te döntöd el, mi kerüljön
-        a tányérodra.
-      </p>
-    </section>
+  <div class="hero-content">
+    <h1>Rólunk</h1>
+    <p class="hero-text">
+      Egy modern, testreszabható étlaprendszer, ahol te döntöd el,
+      mi kerüljön a tányérodra.
+    </p>
+  </div>
+</section>
 
     <section class="story">
       <div class="content">
@@ -81,143 +83,158 @@ export default {
 
 <style scoped>
 .about-page {
-  background: none;
-  color: #000000; 
   min-height: 100vh;
   font-family: "Segoe UI", sans-serif;
+  color: white;
+  background: radial-gradient(circle at top, #2a2a00, #000000 60%);
 }
+
+/* HERO */
 
 .hero {
   text-align: center;
-  padding: 100px 20px 60px 20px;
+  padding: 120px 20px 80px;
 }
 
 .hero h1 {
-  font-size: 60px;
-  font-weight: 800;
+  font-size: 64px;
+  font-weight: 900;
   margin-bottom: 20px;
-  color: #ffd500;
-  text-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+  background: linear-gradient(90deg, #ffd700, #fff3a0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero-text {
   font-size: 20px;
-  color: #ffd500;
+  color: #e6e6e6;
   max-width: 700px;
   margin: auto;
+  line-height: 1.6;
 }
 
+/* STORY */
+
 .story {
-  padding: 60px 20px;
+  padding: 70px 20px;
   max-width: 900px;
   margin: auto;
 }
 
 .story h2 {
-  font-size: 32px;
+  font-size: 34px;
   margin-bottom: 20px;
   color: #ffd700;
 }
 
 .story p {
-  color: #ffffff;
-  line-height: 1.7;
-  margin-bottom: 15px;
+  line-height: 1.8;
+  color: #dddddd;
 }
 
+/* FEATURES */
+
 .features {
-  padding: 60px 20px;
+  padding: 80px 20px;
   text-align: center;
 }
 
 .features h2 {
-  font-size: 32px;
-  margin-bottom: 40px;
+  font-size: 34px;
+  margin-bottom: 50px;
   color: #ffd700;
 }
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
-  max-width: 1000px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 30px;
+  max-width: 1100px;
   margin: auto;
 }
 
 .card {
-  background: linear-gradient(145deg, #3e3e00, #000000);
-  padding: 30px;
-  border-radius: 14px;
-  transition: 0.3s ease;
-  cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 18px;
+  padding: 35px;
+  transition: all 0.35s ease;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 0 25px rgba(255, 217, 0, 0.3);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 10px 35px rgba(255, 215, 0, 0.35);
   border: 1px solid rgba(255, 215, 0, 0.5);
 }
 
 .card h3 {
   margin-bottom: 10px;
-  color: #ffffff;
+  font-size: 22px;
 }
 
 .card p {
-  color: #f5f5f5;
+  color: #cccccc;
 }
 
 .tech {
-  padding: 60px 20px;
-  background: linear-gradient(180deg, #b48702, #000000);
+  padding: 80px 20px;
 }
 
 .tech h2 {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
   color: #ffd700;
+  font-size: 34px;
 }
 
 .tech-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
   max-width: 900px;
   margin: auto;
-  color: #000000;
 }
+
+.tech-grid div {
+  background: rgba(232, 229, 13, 0.05);
+  padding: 18px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 
 .cta {
   text-align: center;
-  padding: 80px 20px;
-  background: linear-gradient(135deg, #000000, #3e3e00);
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #000000, #3a3a00);
 }
 
 .cta h2 {
-  font-size: 36px;
+  font-size: 40px;
   color: #ffd700;
   margin-bottom: 15px;
 }
 
 .cta p {
-  color: #ffffff;
-  margin-bottom: 25px;
+  color: #ddd;
+  margin-bottom: 30px;
+  font-size: 18px;
 }
 
 .cta-button {
   display: inline-block;
-  padding: 14px 35px;
-  background: #ffd700;
-  color: #000;
+  padding: 15px 40px;
   font-weight: bold;
-  border-radius: 30px;
+  border-radius: 40px;
   text-decoration: none;
-  transition: 0.3s ease;
+  background: linear-gradient(90deg, #ffd700, #ffea70);
+  color: black;
+  transition: all 0.3s ease;
 }
 
 .cta-button:hover {
-  background: #ffffff;
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
 }
 </style>
