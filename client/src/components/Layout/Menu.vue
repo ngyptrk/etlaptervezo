@@ -4,7 +4,7 @@
       <img src="../../pictures/logo.png" alt="Logo" />
     </RouterLink>
 
-    <nav class="nav flex-column sidebar-nav m-3">
+    <nav class="nav flex-column sidebar-nav">
       <RouterLink to="/" class="nav-link d-flex justify-content-center sidebar-link mt-1">
         <strong>Főoldal</strong>
       </RouterLink>
@@ -190,18 +190,22 @@ export default {
 
 <style scoped>
 .menu-container {
-  width: 250px;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: linear-gradient(135deg, #111000, #222a00);
-  padding: 1rem;
+  padding: 1rem 0.75rem;
   box-shadow: 3px 0 15px rgba(249, 211, 66, 0.3);
+  position: sticky;
+  top: 0;
 }
 
 .sidebar-nav {
   flex: 1;
   display: flex;
+  flex-direction: column;
+  margin: 0;
 }
 
 .logo-link img {
@@ -247,7 +251,9 @@ export default {
 @media (max-width: 768px) {
   .menu-container {
     width: 100%;
-    height: auto;
+    min-height: auto;
+    position: relative;
+    top: auto;
   }
 }
 
