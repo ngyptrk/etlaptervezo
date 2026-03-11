@@ -83,13 +83,21 @@ export default {
   },
   data() {
     return {
-      formItem: { ...this.item },
+      formItem: {
+        role: 2,
+        ...this.item,
+        role: this.item?.role == null || this.item?.role === 3 ? 2 : this.item?.role,
+      },
       serverErrors: {},
     };
   },
   watch: {
     item(value) {
-      this.formItem = { ...value };
+      this.formItem = {
+        role: 2,
+        ...value,
+        role: value?.role == null || value?.role === 3 ? 2 : value?.role,
+      };
       this.serverErrors = {};
     },
   },

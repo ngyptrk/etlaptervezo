@@ -1,7 +1,7 @@
 <template>
   <div class="mb-3">
     <!-- Label -->
-    <label v-if="label" :for="labelId" class="yellow-label">{{ label }}:</label>
+    <label v-if="label" :for="labelId" :class="labelClasses">{{ label }}:</label>
 
     <!-- Input és toggle -->
     <div class="input-group">
@@ -9,7 +9,8 @@
         :type="showPassword ? 'text' : 'password'"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
-        class="form-control glass-input"
+        :ref="inputRef || null"
+        :class="inputClasses"
         :id="labelId"
         :placeholder="placeholder"
         required
@@ -19,11 +20,11 @@
       </button>
 
       <!-- Hibák -->
-      <div class="invalid-feedback">
-        {{ passwordErrorMessage || "A jelszó kötelező" }}
-      </div>
-      <div v-if="serverErrors?.password" class="invalid-feedback d-block">
-        {{ serverErrors?.password[0] }}
+      <div
+        class="invalid-feedback"
+        :class="{ 'd-block': showError && hasError }"
+      >
+        {{ serverErrors?.password?.[0] || passwordErrorMessage || "A jelszo kotelezo" }}
       </div>
     </div>
   </div>
@@ -36,13 +37,32 @@ export default {
     label: { type: String, default: "Jelszó" },
     labelId: { type: String, default: "" },
     placeholder: { type: String, default: "Írd be a jelszavad" },
+    inputRef: { type: String, default: "" },
+    inputClass: { type: String, default: "" },
+    labelClass: { type: String, default: "" },
     passwordErrorMessage: { type: String, default: "" },
+    showError: { type: Boolean, default: false },
     serverErrors: { type: Object, default: () => ({}) },
   },
   data() {
     return {
       showPassword: false,
     };
+  },
+  computed: {
+    hasError() {
+      return Boolean(this.passwordErrorMessage || this.serverErrors?.password);
+    },
+    inputClasses() {
+      return [
+        "form-control",
+        this.inputClass || "glass-input",
+        { "is-invalid": this.hasError },
+      ];
+    },
+    labelClasses() {
+      return [this.labelClass || "yellow-label"];
+    },
   },
 };
 </script>

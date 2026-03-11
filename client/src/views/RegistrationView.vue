@@ -1,7 +1,6 @@
 ﻿<template>
   <div>
     <TopMiniModal :show="showSuccessModal" :message="successMessage" />
-
     <h1>Regisztráció</h1>
     <UserRegistration
       ref="form"
@@ -15,7 +14,6 @@ import { mapActions } from "pinia";
 import { useUserStore } from "@/stores/userStore";
 import UserRegistration from "@/components/User/UserRegistration.vue";
 import TopMiniModal from "@/components/Modal/TopMiniModal.vue";
-
 export default {
   name: "RegistrationView",
   components: {
@@ -33,14 +31,15 @@ export default {
     ...mapActions(useUserStore, ["createUser"]),
     async handlerCreateUser({ data, done }) {
       try {
-        await this.createUser(data);
+        await this.createUser(data, { toast: false });
         done(true);
-
         this.showSuccessModal = true;
+
         if (this.successTimer) {
           clearTimeout(this.successTimer);
         }
         this.successTimer = setTimeout(() => {
+          this.cleanupBodyModalStyles();
           this.$router.push("/login");
         }, 900);
       } catch (err) {
@@ -50,11 +49,17 @@ export default {
         done(false);
       }
     },
+    cleanupBodyModalStyles() {
+      document.body.classList.remove("modal-open");
+      document.body.style.removeProperty("padding-right");
+      document.body.style.removeProperty("overflow");
+    },
   },
   beforeUnmount() {
     if (this.successTimer) {
       clearTimeout(this.successTimer);
     }
+    this.cleanupBodyModalStyles();
   },
 };
 </script>

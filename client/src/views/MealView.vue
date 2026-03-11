@@ -75,7 +75,7 @@ export default {
     async confirmActionHandler() { const action = this.confirmAction; this.closeConfirmModal(); if (typeof action === "function") await action(); },
     async loadAll() { this.loading = true; try { const response = await mealService.getAll(); this.rows = response.data ?? []; } finally { this.loading = false; } },
     createHandler() { this.mode = "create"; this.formTitle = "Új étkezés"; this.currentItem = { id: 0, meal: "" }; this.$refs.form.show(); },
-    updateHandler(item) { this.openConfirmModal({ title: "Módosítás megerősítése", message: `Biztosan módosítani szeretnéd ezt az étkezést: "${item.meal}"?`, onConfirm: () => this.startUpdate(item) }); },
+    updateHandler(item) { this.startUpdate(item); },
     startUpdate(item) { this.mode = "update"; this.formTitle = "Étkezés módosítás"; this.currentItem = { ...item }; this.$refs.form.show(); },
     deleteHandler(item) { this.openConfirmModal({ title: "Törlés megerősítése", message: `Biztosan törölni szeretnéd ezt az étkezést: "${item.meal}"?`, onConfirm: async () => { await mealService.delete(item.id); await this.loadAll(); } }); },
     async yesEventFormHandler({ item, done }) {

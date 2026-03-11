@@ -100,11 +100,16 @@ class UserPolicy
 
     public function deleteAdmin(User $user, User $model): Response
     {
+        // Öntörlés kizárva és admin törlése tiltott
+        if ($user->id === $model->id) {
+            return Response::deny('Csak a saját profilodat törölheted.');
+        }
 
-        // Öntörlés kizárva
-        return $user->id !== $model->id
-            ? Response::allow()
-            : Response::deny('Csak a saját profilodat törölheted.');
+        if ($model->role === 1) {
+            return Response::deny('Admin felhasználó nem törölhető.');
+        }
+
+        return Response::allow();
     }
 
 

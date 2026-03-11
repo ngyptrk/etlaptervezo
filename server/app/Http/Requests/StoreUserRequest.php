@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rule;
 
 class StoreUserRequest extends FormRequest
 {
@@ -22,9 +24,23 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'password' => 'required',
+            'name' => [
+                'required',
+                'string',
+                'min:2',
+                Rule::unique('users', 'name'),
+            ],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email'),
+            ],
+            'password' => [
+                'required',
+                'string',
+                Password::min(3),
+                'confirmed',
+            ],
 
         ];
     }
@@ -32,13 +48,18 @@ class StoreUserRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'A név megadása kötelező.',
-            'name.string'   => 'A név csak szöveg lehet.',
+            'name.required' => 'A nev megadasa kotelezo.',
+            'name.string'   => 'A nev csak szoveg lehet.',
+            'name.min'      => 'A nev legalabb 2 karakter legyen.',
+            'name.unique'   => 'Ez a nev mar foglalt.',
 
-            'email.required' => 'Az e-mail cím megadása kötelező.',
-            'email.email'    => 'Az e-mail cím formátuma nem megfelelő.',
+            'email.required' => 'Az email cim megadasa kotelezo.',
+            'email.email'    => 'Az email cim formatuma nem megfelelo.',
+            'email.unique'   => 'Ez az email cim mar foglalt.',
 
-            'password.required' => 'A jelszó megadása kötelező.',
+            'password.required' => 'A jelszo megadasa kotelezo.',
+            'password.min'      => 'A jelszonak legalabb :min karakternek kell lennie.',
+            'password.confirmed' => 'A ket jelszo nem egyezik.',
         ];
     }
 }

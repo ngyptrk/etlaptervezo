@@ -123,14 +123,17 @@ export const useUserStore = defineStore("user", {
     },
 
     // CREATE - Új elem hozzáadása
-    async createUser(data) {
+    async createUser(data, options = {}) {
       this.loading = true;
       this.error = null;
       try {
         const newItem = await service.create(data);
-        const toast = useToastStore();
-        toast.messages.push("User sikeresen létrehozva!");
-        toast.show("Success");
+        const shouldToast = options.toast !== false;
+        if (shouldToast) {
+          const toast = useToastStore();
+          toast.messages.push("User sikeresen létrehozva!");
+          toast.show("Success");
+        }
         return true;
       } catch (err) {
         this.error = err;

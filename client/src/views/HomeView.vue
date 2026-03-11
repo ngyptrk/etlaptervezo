@@ -25,6 +25,10 @@
         </div>
       </div>
 
+      <div v-if="carouselItems.length > 1" class="carousel-progress" aria-hidden="true">
+        <div class="carousel-progress__bar" :key="currentIndex"></div>
+      </div>
+
       <div class="carousel-controls">
         <button type="button" class="control-btn" @click="prevSlide">Előző</button>
         <div class="dots">
@@ -181,13 +185,16 @@ export default {
   border-radius: 16px;
   overflow: hidden;
   background: linear-gradient(140deg, rgba(21, 22, 26, 0.95), rgba(10, 11, 13, 0.95));
-  max-width: 900px;
+  width: 100%;
+  max-width: 860px;
   margin: 0 auto;
+  justify-self: center;
 }
 
 .image-shell {
   position: relative;
-  height: clamp(180px, 30vw, 300px);
+  height: 360px;
+  width: 100%;
 }
 
 .hero-image {
@@ -200,9 +207,6 @@ export default {
   image-rendering: auto;
 }
 
-.carousel-card:hover .hero-image {
-  transform: scale(1.03);
-}
 
 .image-overlay {
   position: absolute;
@@ -221,6 +225,30 @@ export default {
   margin: 0.4rem 0 0;
   font-size: 0.95rem;
   max-width: 70ch;
+}
+
+.carousel-progress {
+  height: 5px;
+  margin: 0.25rem 0.9rem 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.carousel-progress__bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, rgba(255, 230, 120, 0.9), #f4d14a);
+  animation: carouselFill 5s linear forwards;
+}
+
+@keyframes carouselFill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 .carousel-controls {
@@ -284,6 +312,9 @@ export default {
 }
 
 @media (max-width: 768px) {
+  .image-shell {
+    height: 260px;
+  }
   .carousel-controls {
     flex-wrap: wrap;
     justify-content: center;

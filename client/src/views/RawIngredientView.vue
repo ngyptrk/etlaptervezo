@@ -143,11 +143,7 @@ export default {
       this.$refs.form.show();
     },
     updateHandler(item) {
-      this.openConfirmModal({
-        title: "Módosítás megerősítése",
-        message: `Biztosan módosítani szeretnéd ezt az elemet: "${item.raw_ingredient}"?`,
-        onConfirm: () => this.startUpdate(item),
-      });
+      this.startUpdate(item);
     },
     startUpdate(item) {
       this.mode = "update";

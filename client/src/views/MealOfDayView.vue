@@ -35,7 +35,7 @@ export default {
     closeConfirmModal() { this.isOpenConfirmModal = false; this.confirmTitle = ""; this.confirmMessage = ""; this.confirmAction = null; },
     async confirmActionHandler() { const action = this.confirmAction; this.closeConfirmModal(); if (typeof action === "function") await action(); },
     async loadAll() { this.loading = true; try { const response = await mealOfDayService.getAll(); this.rows = response.data ?? []; } finally { this.loading = false; } },
-    updateHandler(item) { this.openConfirmModal({ title: "Módosítás megerősítése", message: `Biztosan módosítani szeretnéd ezt a napi étkezést: "${item.meal_of_day}"?`, onConfirm: () => this.startUpdate(item) }); },
+    updateHandler(item) { this.startUpdate(item); },
     startUpdate(item) { this.mode = "update"; this.formTitle = "Napi étkezés módosítása"; this.currentItem = { ...item }; this.$refs.form.show(); },
     createHandler() { this.mode = "create"; this.formTitle = "Új napi étkezés"; this.currentItem = { id: 0, meal_of_day: "" }; this.$refs.form.show(); },
     deleteHandler(item) { this.openConfirmModal({ title: "Törlés megerősítése", message: `Biztosan törölni szeretnéd ezt a napi étkezést: "${item.meal_of_day}"?`, onConfirm: async () => { await mealOfDayService.delete(item.id); await this.loadAll(); } }); },

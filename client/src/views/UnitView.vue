@@ -39,7 +39,7 @@ export default {
     closeConfirmModal() { this.isOpenConfirmModal = false; this.confirmTitle = ""; this.confirmMessage = ""; this.confirmAction = null; },
     async confirmActionHandler() { const action = this.confirmAction; this.closeConfirmModal(); if (typeof action === "function") await action(); },
     async loadAll() { this.loading = true; try { const response = await unitService.getAll(); this.rows = response.data ?? []; } finally { this.loading = false; } },
-    updateHandler(item) { this.openConfirmModal({ title: "Módosítás megerősítése", message: `Biztosan módosítani szeretnéd ezt a mértékegységet: "${item.unit}"?`, onConfirm: () => this.startUpdate(item) }); },
+    updateHandler(item) { this.startUpdate(item); },
     startUpdate(item) { this.mode = "update"; this.formTitle = "Mértékegység módosítása"; this.currentItem = { ...item }; this.$refs.form.show(); },
     createHandler() { this.mode = "create"; this.formTitle = "Új mértékegység"; this.currentItem = { id: 0, unit: "" }; this.$refs.form.show(); },
     deleteHandler(item) { this.openConfirmModal({ title: "Törlés megerősítése", message: `Biztosan törölni szeretnéd ezt a mértékegységet: "${item.unit}"?`, onConfirm: async () => { await unitService.delete(item.id); await this.loadAll(); } }); },

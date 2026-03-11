@@ -43,7 +43,7 @@ export default {
     mealName(id) { return this.meals.find((x) => x.id === id)?.meal ?? `#${id}`; },
     async loadAll() { this.loading = true; try { const [reqRes, mealOfDayRes, mealRes] = await Promise.all([mealRequirementService.getAll(), mealOfDayService.getAll(), mealService.getAll()]); this.rows = reqRes.data ?? []; this.mealOfDays = mealOfDayRes.data ?? []; this.meals = mealRes.data ?? []; } finally { this.loading = false; } },
     createHandler() { this.mode = "create"; this.formTitle = "Új étkezés elvárás"; this.currentItem = { id: 0, meal_of_day_id: this.mealOfDays[0]?.id ?? 0, meal_id: this.meals[0]?.id ?? 0 }; this.$refs.form.show(); },
-    updateHandler(item) { this.openConfirmModal({ title: "Módosítás megerősítése", message: `Biztosan módosítani szeretnéd ezt az étkezés elvárást (#${item.id})?`, onConfirm: () => this.startUpdate(item) }); },
+    updateHandler(item) { this.startUpdate(item); },
     startUpdate(item) { this.mode = "update"; this.formTitle = "Étkezés elvárás módosítás"; this.currentItem = { ...item }; this.$refs.form.show(); },
     deleteHandler(item) { this.openConfirmModal({ title: "Törlés megerősítése", message: `Biztosan törölni szeretnéd ezt az étkezés elvárást (#${item.id})?`, onConfirm: async () => { await mealRequirementService.delete(item.id); await this.loadAll(); } }); },
     async yesEventFormHandler({ item, done }) { try { if (this.mode === "create") await mealRequirementService.create(item); else await mealRequirementService.update(item.id, item); await this.loadAll(); done(true); } catch (err) { if (err.response && err.response.status === 422) this.$refs.form.setServerErrors(err.response.data.errors ?? {}); done(false); } },

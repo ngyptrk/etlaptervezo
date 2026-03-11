@@ -40,7 +40,10 @@ export const useUserLoginLogoutStore = defineStore("userLoginLogout", {
         this.error = null;
         const response = await service.login(data);
         this.item = response.data;
-        localStorage.setItem("user_data", JSON.stringify(response.data));
+        if (this.item && (this.item.role == null || this.item.role === 3)) {
+          this.item.role = 2;
+        }
+        localStorage.setItem("user_data", JSON.stringify(this.item));
         return true;
       } catch (err) {
         this.error = err;
@@ -81,7 +84,8 @@ export const useUserLoginLogoutStore = defineStore("userLoginLogout", {
 
         this.item.name = me.name ?? this.item.name;
         this.item.email = me.email ?? this.item.email;
-        this.item.role = me.role ?? this.item.role;
+        const resolvedRole = me.role ?? this.item.role ?? 2;
+        this.item.role = resolvedRole === 3 ? 2 : resolvedRole;
         localStorage.setItem("user_data", JSON.stringify(this.item));
         return true;
       } catch (err) {

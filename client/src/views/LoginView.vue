@@ -42,11 +42,20 @@ export default {
         console.log("Bejelentkezési hiba!");
       }
     },
+    cleanupBodyModalStyles() {
+      document.body.classList.remove("modal-open");
+      document.body.style.removeProperty("padding-right");
+      document.body.style.removeProperty("overflow");
+    },
+  },
+  mounted() {
+    this.cleanupBodyModalStyles();
   },
   beforeUnmount() {
     if (this.successTimer) {
       clearTimeout(this.successTimer);
     }
+    this.cleanupBodyModalStyles();
   },
 };
 </script>

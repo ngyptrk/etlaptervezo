@@ -180,7 +180,9 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         try {
-            $row = User::create($request->all());
+            $data = $request->validated();
+            $data['role'] = 2;
+            $row = User::create($data);
 
             $data = [
                 'message' => 'ok',

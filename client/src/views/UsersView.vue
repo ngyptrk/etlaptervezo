@@ -37,9 +37,18 @@
             <td>{{ item.email }}</td>
             <td>{{ roleLabel(item.role) }}</td>
             <td>
-              <button class="btn btn-sm btn-outline-info" @click="updateHandler(item)">
-                <i class="bi bi-pencil"></i> Módosítás
-              </button>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-info" @click="updateHandler(item)">
+                  <i class="bi bi-pencil"></i> Módosítás
+                </button>
+                <button
+                  v-if="canDeleteUser(item)"
+                  class="btn btn-sm btn-outline-danger"
+                  @click="deleteHandler(item)"
+                >
+                  <i class="bi bi-trash"></i> Törlés
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>
@@ -143,8 +152,13 @@ export default {
     },
     roleLabel(role) {
       if (role === 1) return "Admin";
-      if (role === 2) return "Felhasználó";
+      if (role === 2 || role === 3) return "Felhasználó";
       return "Ismeretlen";
+    },
+    canDeleteUser(item) {
+      if (this.role !== 1) return false;
+      if (!item || item.id === this.currentUserId) return false;
+      return item.role !== 1;
     },
     async loadAll() {
       this.loading = true;
@@ -156,12 +170,16 @@ export default {
       }
     },
     updateHandler(item) {
+      this.currentItem = { ...item };
+      this.$refs.form.show();
+    },
+    deleteHandler(item) {
       this.openConfirmModal({
-        title: "Módosítás megerősítése",
-        message: `Biztosan módosítani szeretnéd ezt a felhasználót: "${item.name}"?`,
-        onConfirm: () => {
-          this.currentItem = { ...item };
-          this.$refs.form.show();
+        title: "Törlés megerősítése",
+        message: `Biztosan törölni szeretnéd ezt a felhasználót: "${item.name}"?`,
+        onConfirm: async () => {
+          await userService.delete(item.id);
+          await this.loadAll();
         },
       });
     },

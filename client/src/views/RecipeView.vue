@@ -76,7 +76,7 @@ export default {
     closeIngredients() { this.showIngredientsModal = false; this.selectedRecipe = null; },
     toPayload(item) { return { name: String(item.name ?? "").trim(), description: String(item.description ?? "").trim(), picture: String(item.picture ?? "").trim(), person: Number(item.person ?? 1), meal_id: Number(item.meal_id ?? 0) }; },
     createHandler() { this.mode = "create"; this.formTitle = "Új recept"; this.currentItem = { id: 0, name: "", description: "", picture: "", person: 1, meal_id: this.meals[0]?.id ?? 0 }; this.$refs.form.show(); },
-    updateHandler(item) { this.openConfirmModal({ title: "Módosítás megerősítése", message: `Biztosan módosítani szeretnéd ezt a receptet: "${item.name}"?`, onConfirm: () => this.startUpdate(item) }); },
+    updateHandler(item) { this.startUpdate(item); },
     startUpdate(item) { this.mode = "update"; this.formTitle = "Recept módosítás"; this.currentItem = { ...item }; this.$refs.form.show(); },
     deleteHandler(item) { this.openConfirmModal({ title: "Törlés megerősítése", message: `Biztosan törölni szeretnéd ezt a receptet: "${item.name}"?`, onConfirm: async () => { await recipeService.delete(item.id); await this.loadAll(); } }); },
     async yesEventFormHandler({ item, done }) {
