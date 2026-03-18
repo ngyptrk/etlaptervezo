@@ -100,7 +100,7 @@ const router = createRouter({
           name: "recipe",
           component: () => import("@/views/RecipeView.vue"),
           beforeEnter: [checkIfNotLogged],
-          meta: { title: () => "Receptek", breadcrumb: "Receptek", roles: [1] },
+          meta: { title: () => "Receptek", breadcrumb: "Receptek", roles: [1, 2] },
         },
         {
           path: "users",

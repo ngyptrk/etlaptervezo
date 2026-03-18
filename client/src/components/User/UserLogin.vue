@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex justify-content-center align-items-center py-4">
     <div class="glass-card p-4">
-      <h2 class="text-center mb-4">Login vagy Regisztráció</h2>
+      <h2 class="text-center mb-4">Bejelentkezés</h2>
 
       <form @submit.prevent="handleSubmit" :class="{ 'was-validated': validated }" novalidate>
         <!-- Email -->
@@ -32,7 +32,7 @@
 
         <!-- Gombok -->
         <div class="d-flex justify-content-between mt-4">
-          <button type="submit" class="btn btn-yellow">Login</button>
+          <button type="submit" class="btn btn-yellow">Belépés</button>
         </div>
       </form>
     </div>
