@@ -23,6 +23,40 @@ body,
   -webkit-font-smoothing: antialiased;
 }
 
+html,
+body {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+body {
+  padding-right: 0 !important;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+* {
+  scrollbar-color: #1a1b1d #101112;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #101112;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2b2c2f;
+  border-radius: 10px;
+  border: 2px solid #101112;
+}
+
 .my-container {
   max-width: 1200px;
 }
@@ -43,4 +77,44 @@ body,
   color: var(--color-text-main);
   font-weight: 700;
   letter-spacing: 0.2px;
+}
+
+label,
+.form-label,
+.col-form-label,
+.form-check-label {
+  color: var(--color-text-main);
+}
+
+::placeholder {
+  color: var(--color-text-main) !important;
+  opacity: 1;
+}
+
+.form-control::placeholder,
+.form-select::placeholder,
+.search-input::placeholder,
+.search-input::-webkit-input-placeholder,
+.search-input:-ms-input-placeholder {
+  color: var(--color-text-main) !important;
+  opacity: 1;
+}
+
+input[type="search"],
+input[type="email"],
+.search-input,
+.plan-input {
+  background: #101216 !important;
+  color: var(--color-text-main) !important;
+  border: 1px solid rgba(244, 209, 74, 0.6) !important;
+}
+
+input[type="search"]:focus,
+input[type="email"]:focus,
+.search-input:focus,
+.plan-input:focus {
+  border-color: #f4d14a !important;
+  box-shadow: 0 0 0 0.2rem rgba(244, 209, 74, 0.22) !important;
+  background: #101216 !important;
+  color: var(--color-text-main) !important;
 }

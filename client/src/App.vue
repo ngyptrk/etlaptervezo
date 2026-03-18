@@ -149,7 +149,8 @@ export default {
   flex: 1;
   padding: 1rem 2rem;
   min-height: 100vh;
-  overflow-y: auto;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
 .content-shell {

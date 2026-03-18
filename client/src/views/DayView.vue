@@ -196,8 +196,9 @@ export default {
 <style scoped>
 .week-select {
   width: 130px;
-  background: #d7d7d9;
-  border-color: #b1b4b8;
+  background: #101216;
+  border-color: rgba(244, 209, 74, 0.6);
+  color: #f4d14a;
 }
 
 .empty-plan {
@@ -234,9 +235,18 @@ export default {
 }
 
 .plan-input {
-  background: #d8d8da;
-  border-color: #b2b2b6;
-  color: #151515;
+  background: #101216;
+  border-color: rgba(244, 209, 74, 0.6);
+  color: #f4d14a;
+  box-shadow: none;
+}
+
+.plan-input:focus,
+.week-select:focus {
+  border-color: #f4d14a;
+  box-shadow: 0 0 0 0.2rem rgba(244, 209, 74, 0.22);
+  background: #101216;
+  color: #f4d14a;
 }
 
 .plan-btn {

@@ -4,11 +4,27 @@
       <div class="d-flex align-items-center"><h1 class="m-0">Receptek</h1><span class="ms-2 text-warning">({{ filteredRows.length }})</span></div>
       <div class="d-flex align-items-center gap-2 flex-wrap">
         <div class="search-wrap"><i class="bi bi-search search-icon"></i><input v-model="searchWordInput" type="text" class="form-control search-input" placeholder="Keresés receptre..." /></div>
-        <button class="btn btn-outline-warning btn-sm" :class="{ active: showOnlyFavorites }" @click="toggleFavoritesFilter" title="Csak kedvenc receptek">
-          <i class="bi bi-star-fill me-1"></i> Kedvencek
+        <button class="btn btn-outline-warning btn-sm" :class="{ active: showFilters }" @click="toggleFilters" title="Szűrés">
+          <i class="bi bi-funnel me-1"></i> Szűrés
         </button>
       </div>
       <button v-if="isAdmin" class="btn btn-success btn-sm" @click="createHandler"><i class="bi bi-plus-lg"></i> Hozzáadás</button>
+    </div>
+    <div v-if="showFilters" class="filter-panel mb-3">
+      <div class="filter-row">
+        <button class="filter-chip" :class="{ active: showOnlyFavorites }" @click="toggleFavoritesFilter">
+          <i class="bi bi-star-fill me-1"></i> Kedvencek ({{ favoriteCount }})
+        </button>
+      </div>
+      <div class="filter-divider"></div>
+      <div class="filter-row">
+        <button class="filter-chip" :class="{ active: selectedMealId === 0 }" @click="selectMeal(0)">
+          Összes ({{ totalCount }})
+        </button>
+        <button v-for="meal in meals" :key="meal.id" class="filter-chip" :class="{ active: selectedMealId === meal.id }" @click="selectMeal(meal.id)">
+          {{ meal.meal }} ({{ mealCount(meal.id) }})
+        </button>
+      </div>
     </div>
     <div v-if="loading" class="text-warning fw-semibold">Betöltés...</div>
     <div v-else-if="filteredRows.length === 0" class="empty-list">{{ emptyMessage }}</div>
@@ -63,7 +79,7 @@ import { useUserLoginLogoutStore } from "@/stores/userLoginLogoutStore";
 export default {
   name: "RecipeView",
   components: { FormRecipe, ConfirmModal },
-  data() { return { loading: false, rows: [], meals: [], ingredients: [], rawIngredients: [], units: [], showIngredientsModal: false, selectedRecipe: null, mode: "create", currentItem: { id: 0, name: "", description: "", picture: "", person: 1, meal_id: 0 }, formTitle: "Új recept", isOpenConfirmModal: false, confirmTitle: "", confirmMessage: "", confirmAction: null, favoriteIds: [], showOnlyFavorites: false }; },
+  data() { return { loading: false, rows: [], meals: [], ingredients: [], rawIngredients: [], units: [], showIngredientsModal: false, selectedRecipe: null, mode: "create", currentItem: { id: 0, name: "", description: "", picture: "", person: 1, meal_id: 0 }, formTitle: "Új recept", isOpenConfirmModal: false, confirmTitle: "", confirmMessage: "", confirmAction: null, favoriteIds: [], showOnlyFavorites: false, showFilters: false, selectedMealId: 0 }; },
   computed: {
     ...mapState(useSearchStore, ["searchword", "searchWord"]),
     ...mapState(useUserLoginLogoutStore, ["role", "item"]),
@@ -71,17 +87,23 @@ export default {
     isAdmin() { return this.role === 1; },
     currentUserId() { return this.item?.id ?? 0; },
     favoritesStorageKey() { return `favorite_recipes_${this.currentUserId || "guest"}`; },
+    baseFilteredRows() {
+      if (!this.searchword) return this.rows;
+      return this.rows.filter((item) => [String(item.id), item.name, item.description, this.mealName(item.meal_id)].join(" ").toLowerCase().includes(this.searchword));
+    },
+    totalCount() { return this.baseFilteredRows.length; },
+    favoriteCount() { return this.baseFilteredRows.filter((item) => this.isFavorite(item.id)).length; },
     emptyMessage() {
       if (this.showOnlyFavorites) return "Nincs kedvenc recept.";
       return "Nincs találat";
     },
     filteredRows() {
-      let filtered = this.rows;
-      if (this.searchword) {
-        filtered = filtered.filter((item) => [String(item.id), item.name, item.description, this.mealName(item.meal_id)].join(" ").toLowerCase().includes(this.searchword));
-      }
+      let filtered = this.baseFilteredRows;
       if (this.showOnlyFavorites) {
         filtered = filtered.filter((item) => this.isFavorite(item.id));
+      }
+      if (this.selectedMealId !== 0) {
+        filtered = filtered.filter((item) => Number(item.meal_id) === Number(this.selectedMealId));
       }
       return filtered;
     },
@@ -125,6 +147,9 @@ export default {
       this.saveFavorites();
     },
     toggleFavoritesFilter() { this.showOnlyFavorites = !this.showOnlyFavorites; },
+    toggleFilters() { this.showFilters = !this.showFilters; },
+    selectMeal(id) { this.selectedMealId = Number(id) || 0; },
+    mealCount(mealId) { return this.baseFilteredRows.filter((item) => Number(item.meal_id) === Number(mealId)).length; },
     toPayload(item) { return { name: String(item.name ?? "").trim(), description: String(item.description ?? "").trim(), picture: String(item.picture ?? "").trim(), person: Number(item.person ?? 1), meal_id: Number(item.meal_id ?? 0) }; },
     createHandler() { this.mode = "create"; this.formTitle = "Új recept"; this.currentItem = { id: 0, name: "", description: "", picture: "", person: 1, meal_id: this.meals[0]?.id ?? 0 }; this.$refs.form.show(); },
     updateHandler(item) { this.startUpdate(item); },
@@ -151,6 +176,12 @@ export default {
 .favorite-button { width: 32px; height: 32px; border-radius: 999px; border: 1px solid rgba(244, 209, 74, 0.4); background: #111217; color: #c2c2c2; display: inline-flex; align-items: center; justify-content: center; transition: transform 0.15s ease, box-shadow 0.15s ease, color 0.15s ease, border-color 0.15s ease; }
 .favorite-button:hover { color: #f4d14a; border-color: rgba(244, 209, 74, 0.75); transform: translateY(-1px); }
 .favorite-button.active { color: #f4d14a; border-color: rgba(244, 209, 74, 0.95); box-shadow: 0 0 0 0.2rem rgba(244, 209, 74, 0.2); }
+.filter-panel { border: 1px solid rgba(244, 209, 74, 0.35); border-radius: 12px; background: #15171c; padding: 0.75rem; }
+.filter-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.filter-divider { height: 1px; background: rgba(244, 209, 74, 0.25); margin: 0.6rem 0; }
+.filter-chip { border: 1px solid rgba(244, 209, 74, 0.35); border-radius: 999px; padding: 0.35rem 0.7rem; background: #101216; color: #e1e1e1; font-size: 0.85rem; transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, transform 0.15s ease; }
+.filter-chip:hover { border-color: rgba(244, 209, 74, 0.7); color: #f4d14a; transform: translateY(-1px); }
+.filter-chip.active { border-color: rgba(244, 209, 74, 0.95); color: #151515; background: #f4d14a; font-weight: 600; }
 .search-wrap { position: relative; min-width: 320px; }
 .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #8a8a8a; }
 .search-input { padding-left: 34px; border: 1px solid rgba(244, 209, 74, 0.45); background: #101216; color: #f1f1f1; }
