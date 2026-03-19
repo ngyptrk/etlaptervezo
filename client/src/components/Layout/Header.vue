@@ -6,11 +6,11 @@
 
     <div>
       <RouterLink v-if="isLoggedIn" class="pill-dark nav-link user-info" to="/userprofil">
-        <i class="bi bi-person"></i>
-        {{ userNameWithRole }}
+        Felhasználó: {{ userName }}<br>
+        Szerepkör: {{ userNameWithRole }} 
       </RouterLink>
 
-      <div v-else class="pill-dark nav-link user-info p-1">
+      <div v-else class="pill-dark pill-user nav-link user-info p-1">
         <i class="bi bi-person"></i>
         Jelentkezz be!
       </div>
@@ -24,7 +24,7 @@ import { useUserLoginLogoutStore } from "@/stores/userLoginLogoutStore";
 
 export default {
   computed: {
-    ...mapState(useUserLoginLogoutStore, ["isLoggedIn", "userNameWithRole"]),
+    ...mapState(useUserLoginLogoutStore, ["isLoggedIn", "userNameWithRole", "userName"]),
   },
 };
 </script>
@@ -51,4 +51,5 @@ export default {
   transition: all 0.3s ease;
   transform: translateY(0);
 }
+
 </style>

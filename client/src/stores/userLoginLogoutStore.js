@@ -29,6 +29,9 @@ export const useUserLoginLogoutStore = defineStore("userLoginLogout", {
     },
   },
   actions: {
+    getUserName() {
+      return this.item ? this.item.name : null;
+    },
     canAccess(requiredRoles) {
       if (!requiredRoles || requiredRoles.length === 0) return true;
       if (!this.isLoggedIn) return false;
