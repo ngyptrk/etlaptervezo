@@ -2,7 +2,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb m-0">
       <li class="breadcrumb-item breadcrumb-link">
-        <router-link to="/">Kezdőlap</router-link>
+        <router-link to="/">Főoldal</router-link>
       </li>
 
       <li

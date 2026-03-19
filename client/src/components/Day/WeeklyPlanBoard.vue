@@ -10,9 +10,13 @@
         <span class="week-badge">{{ day.week }}. hét</span>
       </div>
 
-      <div class="row g-3 mt-1">
-        <div v-for="meal in day.meals" :key="meal.id" class="col-12 col-lg-6">
-          <article class="recipe-card">
+      <div class="row row-cols-4">
+        <div
+          v-for="meal in day.meals"
+          :key="meal.id"
+          class="col-12 col-sm-6 col-md-4 col-xl-3"
+        >
+          <article class="recipe-card mb-4">
             <div class="recipe-top">
               <img
                 v-if="meal.recipePicture"
@@ -23,7 +27,9 @@
                 @error="onImageError"
               />
               <div class="recipe-meta">
-                <div class="recipe-type">{{ meal.mealPeriod }} - {{ meal.mealType }}</div>
+                <div class="recipe-type">
+                  {{ meal.mealPeriod }} - {{ meal.mealType }}
+                </div>
                 <div class="recipe-name">{{ meal.recipeName }}</div>
               </div>
             </div>
@@ -31,13 +37,24 @@
             <div class="recipe-desc">{{ meal.recipeDescription }}</div>
 
             <div class="ingredients-block mt-2">
-              <div class="ingredients-title">Hozzávalók:</div>
-              <ul v-if="meal.ingredients?.length" class="ingredients-list">
-                <li v-for="(ing, idx) in meal.ingredients" :key="`${meal.id}-${idx}`">
-                  {{ ing.amount }} {{ ing.unit }} - {{ ing.name }}
-                </li>
-              </ul>
-              <div v-else class="ingredients-empty">Ehhez a recepthez nincs hozzávaló megadva.</div>
+              <div class="ingredients-title">
+                <Button @click="toggleIngredients(meal.id)"
+                  >Hozzávalók <i class="bi bi-basket"></i>
+                </Button>
+              </div>
+              <div v-if="openMeals[meal.id]" class="ingredients-content">
+                <ul v-if="meal.ingredients?.length" class="ingredients-list">
+                  <li
+                    v-for="(ing, idx) in meal.ingredients"
+                    :key="`${meal.id}-${idx}`"
+                  >
+                    {{ ing.amount }} {{ ing.unit }} - {{ ing.name }}
+                  </li>
+                </ul>
+                <div v-else class="ingredients-empty">
+                  Ehhez a recepthez nincs hozzávaló megadva.
+                </div>
+              </div>
             </div>
           </article>
         </div>
@@ -52,6 +69,11 @@ export default {
   props: {
     groupedDays: { type: Array, default: () => [] },
   },
+  data() {
+    return {
+      openMeals: {},
+    };
+  },
   methods: {
     buildImageUrl(picturePath) {
       const apiUrl = import.meta.env.VITE_API_URL || "";
@@ -62,6 +84,9 @@ export default {
         .join("/");
 
       return origin ? `${origin}/${normalized}` : `/${normalized}`;
+    },
+    toggleIngredients(mealId) {
+      this.openMeals[mealId] = !this.openMeals[mealId];
     },
     onImageError(event) {
       event.target.style.display = "none";
