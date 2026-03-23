@@ -44,7 +44,6 @@ export default {
     },
     cleanupBodyModalStyles() {
       document.body.classList.remove("modal-open");
-      document.body.style.removeProperty("padding-right");
       document.body.style.removeProperty("overflow");
     },
   },

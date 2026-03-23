@@ -113,7 +113,6 @@ export default {
     cleanupBackdrop() {
       document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
       document.body.classList.remove("modal-open");
-      document.body.style.removeProperty("padding-right");
       document.body.style.removeProperty("overflow");
     },
   },

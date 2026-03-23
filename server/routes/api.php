@@ -12,6 +12,7 @@ use App\Http\Controllers\RawIngredientController;
 use App\Http\Controllers\MealRequirementController;
 use App\Http\Controllers\WeekdayController;
 use App\Http\Controllers\WeeklyFoodGeneratorController;
+use App\Http\Controllers\FavoriteRecipeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -144,6 +145,10 @@ Route::delete('weekdays/{id}', [WeekdayController::class, 'destroy'])
     ->middleware(['auth:sanctum', 'ability:weekdays:delete']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('favorite-recipes', [FavoriteRecipeController::class, 'index']);
+    Route::post('favorite-recipes', [FavoriteRecipeController::class, 'store']);
+    Route::delete('favorite-recipes/{recipeId}', [FavoriteRecipeController::class, 'destroy']);
+
     Route::post('weeklyfood/generate', [WeeklyFoodGeneratorController::class, 'generate']);
     Route::get('weeklyfood/my-plan', [WeeklyFoodGeneratorController::class, 'myPlan']);
     Route::post('weeklyfood/send-email', [WeeklyFoodGeneratorController::class, 'sendEmail']);

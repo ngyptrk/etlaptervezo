@@ -156,7 +156,6 @@ router.beforeEach((to, from, next) => {
 router.afterEach(() => {
   useGlobalLoadingStore().setRouteLoading(false);
   document.body.classList.remove("modal-open");
-  document.body.style.removeProperty("padding-right");
   document.body.style.removeProperty("overflow");
 });
 

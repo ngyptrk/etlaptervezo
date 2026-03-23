@@ -108,12 +108,6 @@
           </nav>
         </div>
 
-        <button
-          class="nav-link d-flex justify-content-center sidebar-link w-100 mt-2"
-          @click="onGenerate"
-        >
-          <strong>Generálás</strong>
-        </button>
       </div>
 
       <div class="mt-auto">

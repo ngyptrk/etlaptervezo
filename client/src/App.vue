@@ -47,9 +47,10 @@ export default {
 <style scoped>
 .app-container {
   display: flex;
-  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at 20% 0%, rgba(255, 201, 41, 0.15), transparent 36%),
     linear-gradient(140deg, #0f0f10, #1a1a1c 45%, #111111 100%);
@@ -136,21 +137,24 @@ export default {
 }
 
 .sidebar {
-  width: 250px;
-  height: 100vh;
+  width: clamp(200px, 22vw, 280px);
+  height: 100dvh;
   background: linear-gradient(135deg, #111000, #222a00);
   box-shadow: 3px 0 15px rgba(249, 211, 66, 0.3);
   padding: 1rem;
   overflow-y: auto;
   flex-shrink: 0;
+  min-width: 0;
+  position: sticky;
+  top: 0;
 }
 
 .main-content {
   flex: 1;
-  padding: 1rem 2rem;
-  min-height: 100vh;
-  overflow-y: scroll;
-  scrollbar-gutter: stable;
+  min-width: 0;
+  padding: clamp(0.8rem, 2vw, 2rem);
+  height: 100dvh;
+  overflow-y: auto;
 }
 
 .content-shell {

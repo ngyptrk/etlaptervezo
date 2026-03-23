@@ -23,39 +23,51 @@ body,
   -webkit-font-smoothing: antialiased;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html,
 body {
   height: 100%;
-  overflow-y: scroll;
+  width: 100%;
+  overflow: hidden; /* Body does not scroll; main content handles scrolling */
+  scrollbar-gutter: stable; /* Keep width stable if any scrollbar appears */
 }
 
 body {
-  padding-right: 0 !important;
+  margin: 0;
+  padding-right: 0 !important; /* Override modal scrollbar compensation */
+  margin-right: 0 !important;
 }
 
-html {
-  scrollbar-gutter: stable;
+body.modal-open {
+  padding-right: 0 !important; /* Prevent layout jump when modal toggles */
+  margin-right: 0 !important;
+  overflow-y: scroll !important; /* Keep scrollbar width reserved */
 }
 
+/* Hide scrollbars globally but keep scrolling functional (all browsers) */
 * {
-  scrollbar-color: #1a1b1d #101112;
-  scrollbar-width: thin;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/old Edge */
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+*::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
-::-webkit-scrollbar-track {
-  background: #101112;
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #2b2c2f;
-  border-radius: 10px;
-  border: 2px solid #101112;
-}
 
 .my-container {
   max-width: 1200px;
