@@ -111,9 +111,17 @@ export default {
   },
   watch: {
     currentUserId() { this.loadFavorites(); },
+    "$route.query.favorites"() { this.applyFavoritesFromRoute(); },
   },
   methods: {
     ...mapActions(useSearchStore, ["setSearchWord", "resetSearchWord"]),
+    applyFavoritesFromRoute() {
+      const wantsFavorites = String(this.$route?.query?.favorites || "") === "1";
+      if (wantsFavorites) {
+        this.showFilters = true;
+        this.showOnlyFavorites = true;
+      }
+    },
     openConfirmModal({ title, message, onConfirm }) { this.confirmTitle = title; this.confirmMessage = message; this.confirmAction = onConfirm; this.isOpenConfirmModal = true; },
     closeConfirmModal() { this.isOpenConfirmModal = false; this.confirmTitle = ""; this.confirmMessage = ""; this.confirmAction = null; },
     async confirmActionHandler() { const action = this.confirmAction; this.closeConfirmModal(); if (typeof action === "function") await action(); },
@@ -161,7 +169,7 @@ export default {
     },
     async loadAll() { this.loading = true; try { const [recipeRes, mealRes, ingredientRes, rawRes, unitRes] = await Promise.all([recipeService.getAll(), mealService.getAll(), ingredientService.getAll(), rawIngredientService.getAll(), unitService.getAll()]); this.rows = recipeRes.data ?? []; this.meals = mealRes.data ?? []; this.ingredients = ingredientRes.data ?? []; this.rawIngredients = rawRes.data ?? []; this.units = unitRes.data ?? []; } finally { this.loading = false; } },
   },
-  async mounted() { this.resetSearchWord(); this.loadFavorites(); await this.loadAll(); },
+  async mounted() { this.resetSearchWord(); this.loadFavorites(); await this.loadAll(); this.applyFavoritesFromRoute(); },
   beforeUnmount() { this.resetSearchWord(); },
 };
 </script>

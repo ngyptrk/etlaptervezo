@@ -29,24 +29,46 @@ body,
   box-sizing: border-box;
 }
 
-html,
+html {
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
 body {
   height: 100%;
   width: 100%;
-  overflow: hidden; /* Body does not scroll; main content handles scrolling */
-  scrollbar-gutter: stable; /* Keep width stable if any scrollbar appears */
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
 }
 
 body {
   margin: 0;
-  padding-right: 0 !important; /* Override modal scrollbar compensation */
-  margin-right: 0 !important;
+  padding-right: 0;
+  margin-right: 0;
 }
 
 body.modal-open {
-  padding-right: 0 !important; /* Prevent layout jump when modal toggles */
-  margin-right: 0 !important;
-  overflow-y: scroll !important; /* Keep scrollbar width reserved */
+  padding-right: 0;
+  margin-right: 0;
+  overflow-y: scroll;
+}
+
+#app,
+.app-container {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
 /* Hide scrollbars globally but keep scrolling functional (all browsers) */

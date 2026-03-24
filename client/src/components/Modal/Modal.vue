@@ -103,6 +103,7 @@ export default {
     },
     show() {
       this.modal.show();
+      this.applyScrollLock();
       this.validated = false;
     },
     hide() {
@@ -113,7 +114,16 @@ export default {
     cleanupBackdrop() {
       document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
       document.body.classList.remove("modal-open");
-      document.body.style.removeProperty("overflow");
+      this.clearScrollLock();
+    },
+    applyScrollLock() {
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = `${scrollBarWidth}px`;
+    },
+    clearScrollLock() {
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     },
   },
 };

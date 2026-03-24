@@ -98,5 +98,29 @@ export const useUserLoginLogoutStore = defineStore("userLoginLogout", {
         this.loading = false;
       }
     },
+    async updateSelf(payload) {
+      try {
+        this.error = null;
+        this.loading = true;
+        const response = await service.updateSelf(payload);
+        const me = response.data?.data?.data ?? response.data?.data ?? response.data ?? {};
+
+        if (!this.item) {
+          this.item = {};
+        }
+
+        this.item.name = me.name ?? this.item.name;
+        this.item.email = me.email ?? this.item.email;
+        const resolvedRole = me.role ?? this.item.role ?? 2;
+        this.item.role = resolvedRole === 3 ? 2 : resolvedRole;
+        localStorage.setItem("user_data", JSON.stringify(this.item));
+        return true;
+      } catch (err) {
+        this.error = err;
+        throw err;
+      } finally {
+        this.loading = false;
+      }
+    },
   },
 });

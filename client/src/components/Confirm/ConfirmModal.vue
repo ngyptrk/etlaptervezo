@@ -1,27 +1,25 @@
 ﻿<template>
-  <Transition name="modal-fade">
-    <div v-if="isOpenConfirmModal" class="confirm-overlay" @click.self="$emit('cancel')">
-      <div class="confirm-dialog" role="dialog" aria-modal="true">
-        <div class="confirm-header">
-          <h5 class="confirm-title">{{ title }}</h5>
-          <button type="button" class="confirm-close" aria-label="Bezárás" @click="$emit('cancel')">
-            ×
-          </button>
-        </div>
-        <div class="confirm-body">
-          <p>{{ message }}</p>
-        </div>
-        <div class="confirm-footer">
-          <button type="button" class="btn btn-outline-warning" @click="$emit('cancel')">
-            {{ cancel }}
-          </button>
-          <button type="button" class="btn btn-warning fw-semibold text-dark" @click="$emit('confirm')">
-            {{ confirm }}
-          </button>
-        </div>
+  <div v-if="isOpenConfirmModal" class="confirm-overlay" @click.self="$emit('cancel')">
+    <div class="confirm-dialog" role="dialog" aria-modal="true">
+      <div class="confirm-header">
+        <h5 class="confirm-title">{{ title }}</h5>
+        <button type="button" class="confirm-close" aria-label="Bezárás" @click="$emit('cancel')">
+          ×
+        </button>
+      </div>
+      <div class="confirm-body">
+        <p>{{ message }}</p>
+      </div>
+      <div class="confirm-footer">
+        <button type="button" class="btn btn-outline-warning" @click="$emit('cancel')">
+          {{ cancel }}
+        </button>
+        <button type="button" class="btn btn-warning fw-semibold text-dark" @click="$emit('confirm')">
+          {{ confirm }}
+        </button>
       </div>
     </div>
-  </Transition>
+  </div>
 </template>
 
 <script>
@@ -36,34 +34,39 @@ export default {
     cancel: { type: String, default: "Nem" },
     confirm: { type: String, default: "Igen" },
   },
+  watch: {
+    isOpenConfirmModal(isOpen) {
+      if (isOpen) {
+        this.applyScrollLock();
+      } else {
+        this.clearScrollLock();
+      }
+    },
+  },
+  beforeUnmount() {
+    this.clearScrollLock();
+  },
+  methods: {
+    applyScrollLock() {
+      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = `${scrollBarWidth}px`;
+    },
+    clearScrollLock() {
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
+    },
+  },
 };
 </script>
 
 <style scoped>
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.modal-fade-enter-active .confirm-dialog,
-.modal-fade-leave-active .confirm-dialog {
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.modal-fade-enter-from,
-.modal-fade-leave-to {
-  opacity: 0;
-}
-
-.modal-fade-enter-from .confirm-dialog,
-.modal-fade-leave-to .confirm-dialog {
-  transform: translateY(-10px) scale(0.98);
-  opacity: 0;
-}
-
 .confirm-overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.55);
   z-index: 3000;
   display: flex;

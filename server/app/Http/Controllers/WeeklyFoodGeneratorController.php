@@ -193,12 +193,41 @@ class WeeklyFoodGeneratorController extends Controller
             }
         }
 
-        return $query->get()->map(function ($row) use ($hasPlanWeek) {
+        $rows = $query->get()->map(function ($row) use ($hasPlanWeek) {
             if (!$hasPlanWeek) {
                 $row->plan_week = 1;
             }
             return $row;
         });
+
+        return $this->alignDinnerWithLunch($rows);
+    }
+
+    private function alignDinnerWithLunch($rows)
+    {
+        $groups = $rows->groupBy(function ($row) {
+            $week = $row->plan_week ?? 1;
+            return $week . '-' . $row->weekday_id;
+        });
+
+        foreach ($groups as $group) {
+            $lunchMain = $group->firstWhere('meal_requirement_id', 4);
+            $lunchDessert = $group->firstWhere('meal_requirement_id', 5);
+
+            foreach ($group as $row) {
+                if ($row->meal_requirement_id === 6 && $lunchMain?->recipe) {
+                    $row->recipe_id = $lunchMain->recipe_id;
+                    $row->setRelation('recipe', $lunchMain->recipe);
+                }
+
+                if ($row->meal_requirement_id === 7 && $lunchDessert?->recipe) {
+                    $row->recipe_id = $lunchDessert->recipe_id;
+                    $row->setRelation('recipe', $lunchDessert->recipe);
+                }
+            }
+        }
+
+        return $rows;
     }
 
     private function resolveWeeksCount(int $userId, bool $hasPlanWeek, $rows): int
@@ -247,15 +276,26 @@ class WeeklyFoodGeneratorController extends Controller
         ];
 
         $created = 0;
+        $selectedRecipes = [];
 
         foreach ($pairs as $mealRequirementId => [$minId, $maxId]) {
-            $recipe = Recipe::whereBetween('id', [$minId, $maxId])
-                ->inRandomOrder()
-                ->first();
+            $recipe = null;
+            if ($mealRequirementId === 6 && isset($selectedRecipes[4])) {
+                $recipe = $selectedRecipes[4];
+            } elseif ($mealRequirementId === 7 && isset($selectedRecipes[5])) {
+                $recipe = $selectedRecipes[5];
+            }
+
+            if (!$recipe) {
+                $recipe = Recipe::whereBetween('id', [$minId, $maxId])
+                    ->inRandomOrder()
+                    ->first();
+            }
 
             if (!$recipe) {
                 continue;
             }
+            $selectedRecipes[$mealRequirementId] = $recipe;
 
             $payload = [
                 'user_id' => $userId,
