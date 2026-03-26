@@ -9,7 +9,7 @@
       >
         <!-- User név -->
         <div class="mb-3">
-          <label for="userName" class="form-label yellow-label">User neved:</label>
+          <label for="userName" class="form-label yellow-label">Felhasználó név:</label>
           <input
             type="text"
             class="form-control glass-input"
@@ -249,6 +249,12 @@ export default {
   transition: 0.3s;
 }
 
+.glass-input[type="email"] {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(245, 197, 66, 0.3) !important;
+  color: #fff !important;
+}
+
 .glass-input::placeholder {
   color: #ffffff;
   opacity: 0.8;
@@ -260,6 +266,12 @@ export default {
   background: rgba(255, 255, 255, 0.1);
   outline: none;
   color: #fff;
+}
+
+.glass-input[type="email"]:focus {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: #f9d342 !important;
+  color: #fff !important;
 }
 
 /* Label szín */

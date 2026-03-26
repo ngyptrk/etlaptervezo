@@ -45,7 +45,7 @@
     </section>
 
     
-    <section class="tech">
+    <section v-if="isAdmin" class="tech">
       <h2>Technikai információk</h2>
 
       <div class="tech-grid">
@@ -66,7 +66,15 @@
 </template>
 
 <script>
+import { mapState } from "pinia";
+import { useUserLoginLogoutStore } from "@/stores/userLoginLogoutStore";
 export default {
+  computed: {
+    ...mapState(useUserLoginLogoutStore, ["role"]),
+    isAdmin() {
+      return this.role === 1;
+    },
+  },
   data() {
     return {
       dev: import.meta.env.DEV,
@@ -83,7 +91,7 @@ export default {
 
 <style scoped>
 .about-page {
-  min-height: 100vh;
+  min-height: 100%;
   font-family: "Segoe UI", sans-serif;
   color: white;
   background: radial-gradient(circle at top, #2a2a00, #000000 60%);
@@ -238,3 +246,7 @@ export default {
   box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
 }
 </style>
+
+
+
+

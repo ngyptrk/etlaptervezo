@@ -143,10 +143,13 @@ export default {
   box-shadow: 3px 0 15px rgba(249, 211, 66, 0.3);
   padding: 1rem;
   overflow-y: auto;
+  overscroll-behavior: contain;
   flex-shrink: 0;
   min-width: 0;
   position: sticky;
   top: 0;
+  align-self: flex-start;
+  z-index: 2;
 }
 
 .main-content {
@@ -154,7 +157,10 @@ export default {
   min-width: 0;
   padding: clamp(0.8rem, 2vw, 2rem);
   height: 100dvh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  overscroll-behavior: contain;
 }
 
 .content-shell {
@@ -166,6 +172,9 @@ export default {
   box-shadow:
     0 12px 32px rgba(0, 0, 0, 0.35),
     0 0 18px rgba(255, 209, 74, 0.12);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {

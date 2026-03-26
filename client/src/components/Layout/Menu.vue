@@ -203,6 +203,7 @@ export default {
   box-shadow: 3px 0 15px rgba(249, 211, 66, 0.3);
   position: sticky;
   top: 0;
+  overscroll-behavior: contain;
 }
 
 .sidebar-nav {
@@ -256,8 +257,9 @@ export default {
   .menu-container {
     width: 100%;
     min-height: auto;
-    position: relative;
-    top: auto;
+    position: sticky;
+    top: 0;
+    z-index: 2;
   }
 }
 

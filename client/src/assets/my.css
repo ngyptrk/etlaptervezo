@@ -32,15 +32,13 @@ body,
 html {
   height: 100%;
   width: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 body {
   height: 100%;
   width: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow: hidden;
   scrollbar-gutter: stable;
 }
 
