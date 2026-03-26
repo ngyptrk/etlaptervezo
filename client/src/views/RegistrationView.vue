@@ -1,7 +1,6 @@
 ﻿<template>
   <div>
     <TopMiniModal :show="showSuccessModal" :message="successMessage" />
-    <h1>Regisztráció</h1>
     <UserRegistration
       ref="form"
       @createUser="handlerCreateUser"

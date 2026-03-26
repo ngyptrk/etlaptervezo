@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center py-4">
+  <div class="login-shell d-flex justify-content-center align-items-center">
     <div class="glass-card p-4">
       <h2 class="text-center mb-4">Bejelentkezés</h2>
 
@@ -77,6 +77,13 @@ export default {
 </script>
 
 <style scoped>
+.login-shell {
+  min-height: 100%;
+  margin-top: 2rem;
+padding: 1rem;
+}
+
+
 /* Glass kártya */
 .glass-card {
   width: 26rem;
@@ -144,3 +151,5 @@ export default {
   color: #fff;
 }
 </style>
+
+

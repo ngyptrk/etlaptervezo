@@ -35,6 +35,8 @@ export default {
   color: #f5c542;
   font-weight: 600;
   text-align: center;
+  padding: 0.6rem 1.4rem !important;
+  line-height: 1.3;
 }
 
 .pill-dark {
