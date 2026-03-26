@@ -12,15 +12,21 @@ export default {
   },
 
   async create(data) {
-    const payload = { ...data };
-    delete payload.id;
-    return await apiClient.post(route, payload);
+    const isForm = data instanceof FormData;
+    const payload = isForm ? data : { ...data };
+    if (!isForm) {
+      delete payload.id;
+    }
+    return await apiClient.post(route, payload, isForm ? { headers: { "Content-Type": "multipart/form-data" } } : undefined);
   },
 
   async update(id, data) {
-    const payload = { ...data };
-    delete payload.id;
-    return await apiClient.patch(`${route}/${id}`, payload);
+    const isForm = data instanceof FormData;
+    const payload = isForm ? data : { ...data };
+    if (!isForm) {
+      delete payload.id;
+    }
+    return await apiClient.patch(`${route}/${id}`, payload, isForm ? { headers: { "Content-Type": "multipart/form-data" } } : undefined);
   },
 
   async delete(id) {

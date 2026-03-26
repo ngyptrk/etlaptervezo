@@ -19,7 +19,7 @@ class UpdateRecipeRequest extends FormRequest
         return [
             'name' => ['nullable', 'string', 'max:125', Rule::unique('recipes', 'name')->ignore($id)],
             'description' => ['nullable', 'string'],
-            'picture' => ['nullable', 'string', 'max:125', Rule::unique('recipes', 'picture')->ignore($id)],
+            'picture' => ['nullable', 'file', 'mimes:png', 'max:5120'],
             'person' => ['nullable', 'integer', 'min:1', 'max:255'],
             'meal_id' => ['nullable', 'integer', 'exists:meals,id'],
         ];
@@ -34,9 +34,9 @@ class UpdateRecipeRequest extends FormRequest
 
             'description.string' => 'A leírás csak szöveg lehet.',
 
-            'picture.string' => 'A kép mező csak szöveg lehet.',
-            'picture.max' => 'A kép mező legfeljebb 125 karakter hosszú lehet.',
-            'picture.unique' => 'Ez a képútvonal már foglalt.',
+            'picture.file' => 'A képnek fájlnak kell lennie.',
+            'picture.mimes' => 'Csak PNG képet lehet feltölteni.',
+            'picture.max' => 'A kép mérete legfeljebb 5 MB lehet.',
 
             'person.integer' => 'Az adagszám csak egész szám lehet.',
             'person.min' => 'Az adagszám legalább 1 kell legyen.',

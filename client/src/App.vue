@@ -159,7 +159,7 @@ export default {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
   overscroll-behavior: contain;
 }
 
@@ -172,9 +172,7 @@ export default {
   box-shadow:
     0 12px 32px rgba(0, 0, 0, 0.35),
     0 0 18px rgba(255, 209, 74, 0.12);
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 @media (max-width: 768px) {

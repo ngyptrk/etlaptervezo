@@ -59,7 +59,18 @@
       </div>
     </div>
 
-    <FormRecipe v-if="isAdmin" ref="form" :title="formTitle" :item="currentItem" :meals="meals" @yesEventForm="yesEventFormHandler" />
+    <FormRecipe
+      v-if="isAdmin"
+      ref="form"
+      :title="formTitle"
+      :item="currentItem"
+      :meals="meals"
+      :ingredients="ingredients"
+      :rawIngredients="rawIngredients"
+      :units="units"
+      @yesEventForm="yesEventFormHandler"
+      @ingredientsChanged="loadIngredients"
+    />
     <ConfirmModal v-if="isAdmin" :isOpenConfirmModal="isOpenConfirmModal" :title="confirmTitle" :message="confirmMessage" cancel="Mégsem" confirm="Igen" @cancel="closeConfirmModal" @confirm="confirmActionHandler" />
   </div>
 </template>
@@ -158,14 +169,38 @@ export default {
     toggleFilters() { this.showFilters = !this.showFilters; },
     selectMeal(id) { this.selectedMealId = Number(id) || 0; },
     mealCount(mealId) { return this.baseFilteredRows.filter((item) => Number(item.meal_id) === Number(mealId)).length; },
-    toPayload(item) { return { name: String(item.name ?? "").trim(), description: String(item.description ?? "").trim(), picture: String(item.picture ?? "").trim(), person: Number(item.person ?? 1), meal_id: Number(item.meal_id ?? 0) }; },
+    toPayload(item) {
+      const payload = new FormData();
+      payload.append("name", String(item.name ?? "").trim());
+      payload.append("description", String(item.description ?? "").trim());
+      payload.append("person", String(Number(item.person ?? 1)));
+      payload.append("meal_id", String(Number(item.meal_id ?? 0)));
+      if (item.pictureFile instanceof File) {
+        payload.append("picture", item.pictureFile);
+      }
+      return payload;
+    },
     createHandler() { this.mode = "create"; this.formTitle = "Új recept"; this.currentItem = { id: 0, name: "", description: "", picture: "", person: 1, meal_id: this.meals[0]?.id ?? 0 }; this.$refs.form.show(); },
     updateHandler(item) { this.startUpdate(item); },
     startUpdate(item) { this.mode = "update"; this.formTitle = "Recept módosítás"; this.currentItem = { ...item }; this.$refs.form.show(); },
     deleteHandler(item) { this.openConfirmModal({ title: "Törlés megerősítése", message: `Biztosan törölni szeretnéd ezt a receptet: "${item.name}"?`, onConfirm: async () => { await recipeService.delete(item.id); await this.loadAll(); } }); },
     async yesEventFormHandler({ item, done }) {
-      try { const payload = this.toPayload(item); if (this.mode === "create") await recipeService.create(payload); else await recipeService.update(item.id, payload); await this.loadAll(); done(true); }
+      try {
+        const payload = this.toPayload(item);
+        if (this.mode === "create") await recipeService.create(payload);
+        else await recipeService.update(item.id, payload);
+        await this.loadAll();
+        done(true);
+      }
       catch (err) { const apiErrors = err?.response?.data?.errors ?? {}; const apiMessage = err?.response?.data?.message; if (err.response && err.response.status === 422) this.$refs.form?.setServerErrors(apiErrors); else this.$refs.form?.setServerErrors({ general: [apiMessage || "Mentés sikertelen. Próbáld újra."] }); done(false); }
+    },
+    async loadIngredients() {
+      try {
+        const ingredientRes = await ingredientService.getAll();
+        this.ingredients = ingredientRes.data ?? [];
+      } catch {
+        this.ingredients = this.ingredients ?? [];
+      }
     },
     async loadAll() { this.loading = true; try { const [recipeRes, mealRes, ingredientRes, rawRes, unitRes] = await Promise.all([recipeService.getAll(), mealService.getAll(), ingredientService.getAll(), rawIngredientService.getAll(), unitService.getAll()]); this.rows = recipeRes.data ?? []; this.meals = mealRes.data ?? []; this.ingredients = ingredientRes.data ?? []; this.rawIngredients = rawRes.data ?? []; this.units = unitRes.data ?? []; } finally { this.loading = false; } },
   },

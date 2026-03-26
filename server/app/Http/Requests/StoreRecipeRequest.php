@@ -17,7 +17,7 @@ class StoreRecipeRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:125', Rule::unique('recipes', 'name')],
             'description' => ['required', 'string'],
-            'picture' => ['required', 'string', 'max:125', Rule::unique('recipes', 'picture')],
+            'picture' => ['required', 'file', 'mimes:png', 'max:5120'],
             'person' => ['required', 'integer', 'min:1', 'max:255'],
             'meal_id' => ['required', 'integer', 'exists:meals,id'],
         ];
@@ -35,9 +35,9 @@ class StoreRecipeRequest extends FormRequest
             'description.string' => 'A leírás csak szöveg lehet.',
 
             'picture.required' => 'A kép megadása kötelező.',
-            'picture.string' => 'A kép mező csak szöveg lehet.',
-            'picture.max' => 'A kép mező legfeljebb 125 karakter lehet.',
-            'picture.unique' => 'Ez a képútvonal már foglalt.',
+            'picture.file' => 'A képnek fájlnak kell lennie.',
+            'picture.mimes' => 'Csak PNG képet lehet feltölteni.',
+            'picture.max' => 'A kép mérete legfeljebb 5 MB lehet.',
 
             'person.required' => 'Az adagszám megadása kötelező.',
             'person.integer' => 'Az adagszám csak egész szám lehet.',

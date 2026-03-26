@@ -7,6 +7,7 @@ use App\Http\Requests\StoreRecipeRequest as StoreCurrentModelRequest;
 use App\Http\Requests\UpdateRecipeRequest as UpdateCurrentModelRequest;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class RecipeController extends Controller
 {
@@ -29,7 +30,25 @@ class RecipeController extends Controller
     {
         return $this->apiResponse(
             function () use ($request) {
-                return CurrentModel::create($request->validated());
+                $data = $request->validated();
+
+                if ($request->hasFile('picture')) {
+                    $file = $request->file('picture');
+                    $targetDir = public_path('Pictures');
+                    if (!is_dir($targetDir)) {
+                        mkdir($targetDir, 0755, true);
+                    }
+                    $baseName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeName = Str::slug($baseName);
+                    if ($safeName === '') {
+                        $safeName = 'recipe';
+                    }
+                    $fileName = $safeName . '-' . Str::random(8) . '.png';
+                    $file->move($targetDir, $fileName);
+                    $data['picture'] = 'Pictures/' . $fileName;
+                }
+
+                return CurrentModel::create($data);
             }
         );
     }
@@ -51,7 +70,27 @@ class RecipeController extends Controller
     {
         return $this->apiResponse(function () use ($request, $id) {
             $row = CurrentModel::findOrFail($id);
-            $row->update($request->validated());
+            $data = $request->validated();
+
+            if ($request->hasFile('picture')) {
+                $file = $request->file('picture');
+                $targetDir = public_path('Pictures');
+                if (!is_dir($targetDir)) {
+                    mkdir($targetDir, 0755, true);
+                }
+                $baseName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeName = Str::slug($baseName);
+                if ($safeName === '') {
+                    $safeName = 'recipe';
+                }
+                $fileName = $safeName . '-' . Str::random(8) . '.png';
+                $file->move($targetDir, $fileName);
+                $data['picture'] = 'Pictures/' . $fileName;
+            } else {
+                unset($data['picture']);
+            }
+
+            $row->update($data);
             return $row;
         });
     }
