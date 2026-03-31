@@ -33,7 +33,10 @@
         <tbody>
           <tr v-for="item in filteredRows" :key="item.id">
             <td>{{ item.id }}</td>
-            <td>{{ item.name }}</td>
+            <td>
+              <div>{{ item.name }}</div>
+              <div v-if="deleteErrors[item.id]" class="delete-inline-error">{{ deleteErrors[item.id] }}</div>
+            </td>
             <td>{{ item.email }}</td>
             <td>{{ roleLabel(item.role) }}</td>
             <td>
@@ -100,6 +103,8 @@ export default {
       confirmTitle: "",
       confirmMessage: "",
       confirmAction: null,
+      deleteErrors: {},
+      pendingDeleteId: null,
     };
   },
   computed: {
@@ -131,6 +136,12 @@ export default {
   },
   methods: {
     ...mapActions(useSearchStore, ["setSearchWord", "resetSearchWord"]),
+    resetDeleteState() {
+      this.pendingDeleteId = null;
+      this.confirmTitle = "";
+      this.confirmMessage = "";
+      this.confirmAction = null;
+    },
     openConfirmModal({ title, message, onConfirm }) {
       this.confirmTitle = title;
       this.confirmMessage = message;
@@ -139,16 +150,14 @@ export default {
     },
     closeConfirmModal() {
       this.isOpenConfirmModal = false;
-      this.confirmTitle = "";
-      this.confirmMessage = "";
-      this.confirmAction = null;
+      this.resetDeleteState();
     },
     async confirmActionHandler() {
       const action = this.confirmAction;
-      this.closeConfirmModal();
       if (typeof action === "function") {
         await action();
       }
+      this.closeConfirmModal();
     },
     roleLabel(role) {
       if (role === 1) return "Admin";
@@ -174,12 +183,22 @@ export default {
       this.$refs.form.show();
     },
     deleteHandler(item) {
+      this.deleteErrors[item.id] = "";
+      this.pendingDeleteId = item.id;
       this.openConfirmModal({
         title: "Törlés megerősítése",
         message: `Biztosan törölni szeretnéd ezt a felhasználót: "${item.name}"?`,
         onConfirm: async () => {
-          await userService.delete(item.id);
-          await this.loadAll();
+          try {
+            const id = this.pendingDeleteId;
+            this.resetDeleteState();
+            if (!id) return;
+            await userService.delete(id);
+            await this.loadAll();
+          } catch (err) {
+            const message = err?.response?.data?.message || "Sikertelen törlés";
+            this.deleteErrors[item.id] = message;
+          }
         },
       });
     },

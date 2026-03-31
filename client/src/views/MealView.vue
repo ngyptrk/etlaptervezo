@@ -20,7 +20,7 @@
         <thead><tr><th>ID</th><th>Étkezés</th><th>Művelet</th></tr></thead>
         <tbody>
           <tr v-for="item in filteredRows" :key="item.id">
-            <td>{{ item.id }}</td><td>{{ item.meal }}</td>
+            <td>{{ item.id }}</td><td><div>{{ item.meal }}</div><div v-if="deleteErrors[item.id]" class="delete-inline-error">{{ deleteErrors[item.id] }}</div></td>
             <td>
               <div class="d-flex gap-2">
                 <button class="btn btn-sm btn-outline-info" @click="updateHandler(item)"><i class="bi bi-pencil"></i> Módosítás</button>
@@ -58,6 +58,8 @@ export default {
       confirmTitle: "",
       confirmMessage: "",
       confirmAction: null,
+      deleteErrors: {},
+      pendingDeleteId: null,
     };
   },
   computed: {
@@ -70,14 +72,15 @@ export default {
   },
   methods: {
     ...mapActions(useSearchStore, ["setSearchWord", "resetSearchWord"]),
+    resetDeleteState() { this.pendingDeleteId = null; this.confirmTitle = ""; this.confirmMessage = ""; this.confirmAction = null; },
     openConfirmModal({ title, message, onConfirm }) { this.confirmTitle = title; this.confirmMessage = message; this.confirmAction = onConfirm; this.isOpenConfirmModal = true; },
-    closeConfirmModal() { this.isOpenConfirmModal = false; this.confirmTitle = ""; this.confirmMessage = ""; this.confirmAction = null; },
-    async confirmActionHandler() { const action = this.confirmAction; this.closeConfirmModal(); if (typeof action === "function") await action(); },
+    closeConfirmModal() { this.isOpenConfirmModal = false; this.resetDeleteState(); },
+    async confirmActionHandler() { const action = this.confirmAction; if (typeof action === "function") await action(); this.closeConfirmModal(); },
     async loadAll() { this.loading = true; try { const response = await mealService.getAll(); this.rows = response.data ?? []; } finally { this.loading = false; } },
     createHandler() { this.mode = "create"; this.formTitle = "Új étkezés"; this.currentItem = { id: 0, meal: "" }; this.$refs.form.show(); },
     updateHandler(item) { this.startUpdate(item); },
     startUpdate(item) { this.mode = "update"; this.formTitle = "Étkezés módosítás"; this.currentItem = { ...item }; this.$refs.form.show(); },
-    deleteHandler(item) { this.openConfirmModal({ title: "Törlés megerősítése", message: `Biztosan törölni szeretnéd ezt az étkezést: "${item.meal}"?`, onConfirm: async () => { await mealService.delete(item.id); await this.loadAll(); } }); },
+    deleteHandler(item) { this.deleteErrors[item.id] = ""; this.pendingDeleteId = item.id; this.openConfirmModal({ title: "Törlés megerősítése", message: `Biztosan törölni szeretnéd ezt az étkezést: "${item.meal}"?`, onConfirm: async () => { try { const id = this.pendingDeleteId; this.resetDeleteState(); if (!id) return; await mealService.delete(id); await this.loadAll(); } catch (err) { const message = err?.response?.data?.message || "Sikertelen törlés"; this.deleteErrors[item.id] = message; } } }); },
     async yesEventFormHandler({ item, done }) {
       try { if (this.mode === "create") await mealService.create(item); else await mealService.update(item.id, item); await this.loadAll(); done(true); }
       catch (err) { if (err.response && err.response.status === 422) this.$refs.form.setServerErrors(err.response.data.errors ?? {}); done(false); }

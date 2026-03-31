@@ -48,13 +48,10 @@ export default {
   },
   methods: {
     applyScrollLock() {
-      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow = "hidden";
-      document.body.style.paddingRight = `${scrollBarWidth}px`;
+      // no-op: avoid layout jump
     },
     clearScrollLock() {
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
+      // no-op: avoid layout jump
     },
   },
 };

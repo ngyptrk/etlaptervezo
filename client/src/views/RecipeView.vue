@@ -33,7 +33,10 @@
         <img v-if="item.picture" :src="pictureUrl(item.picture)" :alt="item.name" class="recipe-image" loading="lazy" role="button" title="Kattints a hozzávalókhoz" @click="openIngredients(item)" @error="onImageError" />
         <div class="recipe-body">
           <div class="d-flex align-items-start justify-content-between gap-2">
-            <h5 class="m-0">{{ item.name }}</h5>
+            <div>
+              <h5 class="m-0">{{ item.name }}</h5>
+              <div v-if="deleteErrors[item.id]" class="delete-inline-error">{{ deleteErrors[item.id] }}</div>
+            </div>
             <button class="favorite-button" :class="{ active: isFavorite(item.id) }" @click="toggleFavorite(item.id)" :title="isFavorite(item.id) ? 'Eltávolítás a kedvencekből' : 'Kedvencnek jelölés'">
               <i class="bi" :class="isFavorite(item.id) ? 'bi-star-fill' : 'bi-star'"></i>
             </button>
@@ -90,7 +93,7 @@ import { useUserLoginLogoutStore } from "@/stores/userLoginLogoutStore";
 export default {
   name: "RecipeView",
   components: { FormRecipe, ConfirmModal },
-  data() { return { loading: false, rows: [], meals: [], ingredients: [], rawIngredients: [], units: [], showIngredientsModal: false, selectedRecipe: null, mode: "create", currentItem: { id: 0, name: "", description: "", picture: "", person: 1, meal_id: 0 }, formTitle: "Új recept", isOpenConfirmModal: false, confirmTitle: "", confirmMessage: "", confirmAction: null, favoriteIds: [], showOnlyFavorites: false, showFilters: false, selectedMealId: 0 }; },
+  data() { return { loading: false, rows: [], meals: [], ingredients: [], rawIngredients: [], units: [], showIngredientsModal: false, selectedRecipe: null, mode: "create", currentItem: { id: 0, name: "", description: "", picture: "", person: 1, meal_id: 0 }, formTitle: "Új recept", isOpenConfirmModal: false, confirmTitle: "", confirmMessage: "", confirmAction: null, favoriteIds: [], showOnlyFavorites: false, showFilters: false, selectedMealId: 0, deleteErrors: {}, pendingDeleteId: null }; },
   computed: {
     ...mapState(useSearchStore, ["searchword", "searchWord"]),
     ...mapState(useUserLoginLogoutStore, ["role", "item"]),
@@ -133,9 +136,10 @@ export default {
         this.showOnlyFavorites = true;
       }
     },
+    resetDeleteState() { this.pendingDeleteId = null; this.confirmTitle = ""; this.confirmMessage = ""; this.confirmAction = null; },
     openConfirmModal({ title, message, onConfirm }) { this.confirmTitle = title; this.confirmMessage = message; this.confirmAction = onConfirm; this.isOpenConfirmModal = true; },
-    closeConfirmModal() { this.isOpenConfirmModal = false; this.confirmTitle = ""; this.confirmMessage = ""; this.confirmAction = null; },
-    async confirmActionHandler() { const action = this.confirmAction; this.closeConfirmModal(); if (typeof action === "function") await action(); },
+    closeConfirmModal() { this.isOpenConfirmModal = false; this.resetDeleteState(); },
+    async confirmActionHandler() { const action = this.confirmAction; if (typeof action === "function") await action(); this.closeConfirmModal(); },
     mealName(id) { return this.meals.find((x) => x.id === id)?.meal ?? `#${id}`; },
     rawIngredientName(id) { return this.rawIngredients.find((x) => x.id === id)?.raw_ingredient ?? `#${id}`; },
     unitName(id) { return this.units.find((x) => x.id === id)?.unit ?? `#${id}`; },
@@ -183,7 +187,7 @@ export default {
     createHandler() { this.mode = "create"; this.formTitle = "Új recept"; this.currentItem = { id: 0, name: "", description: "", picture: "", person: 1, meal_id: this.meals[0]?.id ?? 0 }; this.$refs.form.show(); },
     updateHandler(item) { this.startUpdate(item); },
     startUpdate(item) { this.mode = "update"; this.formTitle = "Recept módosítás"; this.currentItem = { ...item }; this.$refs.form.show(); },
-    deleteHandler(item) { this.openConfirmModal({ title: "Törlés megerősítése", message: `Biztosan törölni szeretnéd ezt a receptet: "${item.name}"?`, onConfirm: async () => { await recipeService.delete(item.id); await this.loadAll(); } }); },
+    deleteHandler(item) { this.deleteErrors[item.id] = ""; this.pendingDeleteId = item.id; this.openConfirmModal({ title: "Törlés megerősítése", message: `Biztosan törölni szeretnéd ezt a receptet: "${item.name}"?`, onConfirm: async () => { try { const id = this.pendingDeleteId; this.resetDeleteState(); if (!id) return; await recipeService.delete(id); await this.loadAll(); } catch (err) { const message = err?.response?.data?.message || "Sikertelen törlés"; this.deleteErrors[item.id] = message; } } }); },
     async yesEventFormHandler({ item, done }) {
       try {
         const payload = this.toPayload(item);

@@ -34,7 +34,10 @@
         <tbody>
           <tr v-for="item in filteredRows" :key="item.id">
             <td>{{ item.id }}</td>
-            <td>{{ item.raw_ingredient }}</td>
+            <td>
+              <div>{{ item.raw_ingredient }}</div>
+              <div v-if="deleteErrors[item.id]" class="delete-inline-error">{{ deleteErrors[item.id] }}</div>
+            </td>
             <td>
               <div class="d-flex gap-2">
                 <button class="btn btn-sm btn-outline-info" @click="updateHandler(item)">
@@ -89,6 +92,8 @@ export default {
       confirmTitle: "",
       confirmMessage: "",
       confirmAction: null,
+      deleteErrors: {},
+      pendingDeleteId: null,
     };
   },
   computed: {
@@ -110,6 +115,12 @@ export default {
   },
   methods: {
     ...mapActions(useSearchStore, ["setSearchWord", "resetSearchWord"]),
+    resetDeleteState() {
+      this.pendingDeleteId = null;
+      this.confirmTitle = "";
+      this.confirmMessage = "";
+      this.confirmAction = null;
+    },
     openConfirmModal({ title, message, onConfirm }) {
       this.confirmTitle = title;
       this.confirmMessage = message;
@@ -118,14 +129,12 @@ export default {
     },
     closeConfirmModal() {
       this.isOpenConfirmModal = false;
-      this.confirmTitle = "";
-      this.confirmMessage = "";
-      this.confirmAction = null;
+      this.resetDeleteState();
     },
     async confirmActionHandler() {
       const action = this.confirmAction;
-      this.closeConfirmModal();
       if (typeof action === "function") await action();
+      this.closeConfirmModal();
     },
     async loadAll() {
       this.loading = true;
@@ -152,12 +161,22 @@ export default {
       this.$refs.form.show();
     },
     deleteHandler(item) {
+      this.deleteErrors[item.id] = "";
+      this.pendingDeleteId = item.id;
       this.openConfirmModal({
         title: "Törlés megerősítése",
         message: `Biztosan törölni szeretnéd ezt az elemet: "${item.raw_ingredient}"?`,
         onConfirm: async () => {
-          await rawIngredientService.delete(item.id);
-          await this.loadAll();
+          try {
+            const id = this.pendingDeleteId;
+            this.resetDeleteState();
+            if (!id) return;
+            await rawIngredientService.delete(id);
+            await this.loadAll();
+          } catch (err) {
+            const message = err?.response?.data?.message || "Sikertelen törlés";
+            this.deleteErrors[item.id] = message;
+          }
         },
       });
     },
