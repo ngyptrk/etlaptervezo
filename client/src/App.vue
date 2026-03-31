@@ -9,7 +9,28 @@
       </div>
     </div>
 
-    <Menu class="sidebar" />
+    <div class="mobile-bar">
+      <button
+        class="mobile-toggle"
+        type="button"
+        aria-label="Menü megnyitása"
+        @click="toggleSidebar"
+      >
+        ☰
+      </button>
+    </div>
+
+    <div
+      v-if="isSidebarOpen"
+      class="sidebar-backdrop"
+      @click="closeSidebar"
+    ></div>
+
+    <Menu
+      class="sidebar"
+      :class="{ open: isSidebarOpen }"
+      @toggle="toggleSidebar"
+    />
 
     <div class="main-content">
       <Header />
@@ -38,8 +59,21 @@ export default {
     Breadcrumb,
     ToastContanier,
   },
+  data() {
+    return {
+      isSidebarOpen: false,
+    };
+  },
   computed: {
     ...mapState(useGlobalLoadingStore, ["isLoading"]),
+  },
+  methods: {
+    toggleSidebar() {
+      this.isSidebarOpen = !this.isSidebarOpen;
+    },
+    closeSidebar() {
+      this.isSidebarOpen = false;
+    },
   },
 };
 </script>
@@ -152,6 +186,15 @@ export default {
   z-index: 2;
 }
 
+
+.mobile-bar {
+  display: none;
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
 .main-content {
   flex: 1;
   min-width: 0;
@@ -179,12 +222,50 @@ export default {
   .app-container {
     flex-direction: column;
   }
+  .mobile-bar {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.6rem 0.9rem;
+    background: linear-gradient(135deg, #111000, #222a00);
+    box-shadow: 0 3px 12px rgba(249, 211, 66, 0.25);
+  }
+  .mobile-toggle {
+    border: 1px solid rgba(244, 209, 74, 0.6);
+    background: transparent;
+    color: #f4d14a;
+    font-size: 1.35rem;
+    border-radius: 10px;
+    width: 44px;
+    height: 44px;
+    line-height: 1;
+  }
   .sidebar {
-    width: 100%;
-    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: min(82vw, 320px);
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    z-index: 4;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 3;
   }
   .main-content {
     padding: 1rem;
+    height: auto;
   }
   .content-shell {
     padding: 0.8rem;

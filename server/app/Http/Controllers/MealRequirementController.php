@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MealRequirement as CurrentModel;
+use App\Models\Day;
 use App\Http\Requests\StoreMealRequirementRequest as StoreCurrentModelRequest;
 use App\Http\Requests\UpdateMealRequirementRequest as UpdateCurrentModelRequest;
 use Illuminate\Database\QueryException;
@@ -62,7 +63,16 @@ class MealRequirementController extends Controller
     public function destroy(int $id)
     {
         return $this->apiResponse(function () use ($id) {
-            CurrentModel::findOrFail($id)->delete();
+            $row = CurrentModel::findOrFail($id);
+
+            if (Day::where('meal_requirement_id', $row->id)->exists()) {
+                return [
+                    'restricted' => true,
+                    'message' => 'Az étkezés elvárás nem törölhető, mert használatban van.'
+                ];
+            }
+
+            $row->delete();
             return ['id' => $id];
         });
     }

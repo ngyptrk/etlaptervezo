@@ -35,8 +35,9 @@ abstract class Controller
             if ($sqlState === '23000' || $driverCode === 1451) {
                 return response()->json([
                     'message' => 'A törlés sikertelen: az elem használatban van.',
-                    'data' => null
-                ], 422, options: JSON_UNESCAPED_UNICODE);
+                    'data' => null,
+                    'restricted' => true
+                ], 200, options: JSON_UNESCAPED_UNICODE);
             }
 
             throw $e;

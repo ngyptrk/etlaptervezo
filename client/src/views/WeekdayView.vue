@@ -182,7 +182,13 @@ export default {
           this.resetDeleteState();
           if (!id) return;
           try {
-            await weekdayService.delete(id);
+            const res = await weekdayService.delete(id);
+            const isRestricted = res?.restricted || res?.data?.restricted;
+            const restrictedMessage = res?.data?.message || res?.message;
+            if (isRestricted) {
+              this.deleteErrors[item.id] = restrictedMessage || "Sikertelen törlés";
+              return;
+            }
             this.rows = this.rows.filter((row) => row.id !== id);
             await this.loadAll();
           } catch (err) {

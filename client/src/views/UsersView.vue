@@ -193,7 +193,13 @@ export default {
             const id = this.pendingDeleteId;
             this.resetDeleteState();
             if (!id) return;
-            await userService.delete(id);
+            const res = await userService.delete(id);
+            const isRestricted = res?.restricted || res?.data?.restricted;
+            const restrictedMessage = res?.data?.message || res?.message;
+            if (isRestricted) {
+              this.deleteErrors[item.id] = restrictedMessage || "Sikertelen törlés";
+              return;
+            }
             await this.loadAll();
           } catch (err) {
             const message = err?.response?.data?.message || "Sikertelen törlés";

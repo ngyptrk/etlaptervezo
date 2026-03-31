@@ -1,15 +1,31 @@
 ﻿<template>
   <div class="menu-container">
-    <RouterLink to="/" class="logo-link d-flex justify-content-center mb-2">
-      <img src="../../pictures/logo.png" alt="Logo" />
-    </RouterLink>
+    <div class="menu-header">
+      <RouterLink to="/" class="logo-link">
+        <img src="../../pictures/logo.png" alt="Logo" />
+      </RouterLink>
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Menü megnyitása"
+        @click="$emit('toggle')"
+      >
+        ☰
+      </button>
+    </div>
 
     <nav class="nav flex-column sidebar-nav">
-      <RouterLink to="/" class="nav-link d-flex justify-content-center sidebar-link mt-1">
+      <RouterLink
+        to="/"
+        class="nav-link d-flex justify-content-center sidebar-link mt-1"
+      >
         <strong>Főoldal</strong>
       </RouterLink>
 
-      <RouterLink to="/about" class="nav-link d-flex justify-content-center sidebar-link mt-1">
+      <RouterLink
+        to="/about"
+        class="nav-link d-flex justify-content-center sidebar-link mt-1"
+      >
         <strong>Rólunk</strong>
       </RouterLink>
 
@@ -107,7 +123,6 @@
             </RouterLink>
           </nav>
         </div>
-
       </div>
 
       <div class="mt-auto">
@@ -151,6 +166,7 @@ import { useUserLoginLogoutStore } from "@/stores/userLoginLogoutStore";
 
 export default {
   name: "Menu",
+  emits: ["toggle"],
   data() {
     return {
       settingsOpen: false,
@@ -206,6 +222,37 @@ export default {
   overscroll-behavior: contain;
 }
 
+.menu-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.menu-toggle {
+  position: absolute;
+  right: 0.25rem;
+  border: 1px solid rgba(244, 209, 74, 0.6);
+  background: transparent;
+  color: #f4d14a;
+  font-size: 1.35rem;
+  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  line-height: 1;
+  display: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .sidebar-nav {
   flex: 1;
   display: flex;
@@ -253,6 +300,18 @@ export default {
   transform: rotate(180deg);
 }
 
+@media (max-width: 768px) {
+  .menu-container {
+    width: 100%;
+    min-height: auto;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  .menu-toggle {
+    display: inline-flex;
+  }
+}
 @media (max-width: 768px) {
   .menu-container {
     width: 100%;

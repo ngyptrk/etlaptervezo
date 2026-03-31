@@ -62,7 +62,16 @@ class WeekdayController extends Controller
     public function destroy(int $id)
     {
         return $this->apiResponse(function () use ($id) {
-            CurrentModel::findOrFail($id)->delete();
+            $row = CurrentModel::findOrFail($id);
+
+            if ($row->days()->exists()) {
+                return [
+                    'restricted' => true,
+                    'message' => 'Ezt a napot nem torolheted!'
+                ];
+            }
+
+            $row->delete();
             return ['id' => $id];
         });
     }
