@@ -5,13 +5,13 @@
 
 ## A szoftver célja:
 - Egyedi étlap/recept ajánlás napokra/hetekre.
-- A program képes választani az adatbázisban lévő receptekből és összeállítani napokra, vagy akár hetekre étrendet, melynek alapanyagait a bevásárláshoz leírja, és napra felosztja, hogy mit kell megvenni. Ezeket a recepteket lehet bővíteni saját receptekkel.
+- A program képes választani az adatbázisban lévő receptekből és összeállítani napokra, vagy akár hetekre étrendet, melynek alapanyagait a bevásárláshoz leírja, és napra felosztja, hogy mit kell megvenni. 
 
 
 
 ## Feladat felosztas:
 ### S. Zsolt: Dokumentáció, Frontend fejlesztése
-### N. Patrik: Backend fejlesztése, Frontend fejlesztése
+### N. Patrik: Backend fejlesztése, Frontend fejlesztése, Dokumentáció, Projekt repo kezelés
 
 
 ## A szoftver használata:
@@ -21,9 +21,17 @@ A felhasználó lehetőséget kap arra, hogy:
 
 - Megtekintse az egyes napokra ajánlott ételeket,
 
-- Módosítsa vagy lecserélje az ajánlott recepteket,
+- Kedvenc receptjeit bejelölje,
 
-- Új, saját recepteket adjon hozzá az adatbázishoz.
+- Email alapon kézhez kapja a hozzávalókat.
+
+Későbbiekben:
+
+- Hozzávaló szűrés,
+
+- Saját recept hozzáadása,
+
+- Segítség kérés online felületen más felhasználoktól.
 
 Továbbá a felhasználó saját recepteket is generálhat, ami az adatbázisba is bele kerül.
 
@@ -164,6 +172,23 @@ Továbbá a felhasználó saját recepteket is generálhat, ami az adatbázisba 
   
 - Route
   - Frontend oldalon globális route guard ellenőrzi a meta.roles értéket, és ha nincs jogosultság, loginra dob vagy hiba toastot ad.
+
+#### Program szerkezet
+- A receptek kiírásához kártyákat használunk, melyet nagy figyelemmel formáztunk.
+- Az oldalunk valódi SMTP Email küldést használ, mely a WeeklyFoodGeneratorController.php ban történik meg.
+- Figyeltünk a megfelelő elosztásra, mindennek meglegyen a saját űrlapja és ne legyen zsúfolt tér, ezt követően a validálást (szerepkör hozzáférést) a client/src/router/index.js-ben történik.
+- Komponenseink a könyvtárban újrafelhasználható UI elemek vannak. Melyek egységes szép működést kínál a használónak.
+- A dizájn bootstrap, css segítségével készűlt. Ezért az oldal reszponzívan működik.
+
+### Források
+[Deep Ai link](https://deepai.org/chat/ai-code)
+[W3Schools link](https://www.w3schools.com/)
+[Bootstrap link](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+[ChatGPT link](https://chatgpt.com/)
+[Unsplash link](https://unsplash.com/s/photos/food)
+Google alapú kép keresés
+Iskolában tanult anyagog használata
+
 ## Verziókezelés:
     - GitHub
 
