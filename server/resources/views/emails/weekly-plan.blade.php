@@ -28,6 +28,33 @@
                                 <li>referencia kepekkel</li>
                                 <li>osszesitett bevasarlolistaval</li>
                             </ul>
+
+                            @php($list = $shoppingList ?? collect())
+                            @if($list->isNotEmpty())
+                                <div style="margin-top:18px;font-size:15px;font-weight:700;color:#f4d14a;">
+                                    Osszesitett bevasarlolista
+                                </div>
+                                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:10px;border-collapse:collapse;">
+                                    <thead>
+                                        <tr>
+                                            <th align="left" style="padding:8px 10px;border:1px solid rgba(244, 209, 74, 0.35);color:#f5f5f5;font-size:12px;">Alapanyag</th>
+                                            <th align="right" style="padding:8px 10px;border:1px solid rgba(244, 209, 74, 0.35);color:#f5f5f5;font-size:12px;">Mennyiseg</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($list as $item)
+                                            <tr>
+                                                <td style="padding:8px 10px;border:1px solid rgba(244, 209, 74, 0.2);color:#e5e5e5;font-size:12px;">
+                                                    {{ $item['name'] ?? '-' }}
+                                                </td>
+                                                <td align="right" style="padding:8px 10px;border:1px solid rgba(244, 209, 74, 0.2);color:#e5e5e5;font-size:12px;">
+                                                    {{ $item['amount'] ?? 0 }} {{ $item['unit'] ?? '' }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
                         </td>
                     </tr>
                     <tr>

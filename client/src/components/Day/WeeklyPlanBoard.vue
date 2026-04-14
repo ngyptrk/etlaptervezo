@@ -7,7 +7,7 @@
     >
       <div class="day-header d-flex justify-content-between align-items-center">
         <h4 class="m-0">{{ day.weekdayName }}</h4>
-        <span class="week-badge">{{ day.week }}. hĂ©t</span>
+        <span class="week-badge">{{ day.week }}. hét</span>
       </div>
 
       <div class="row row-cols-4">
@@ -39,7 +39,7 @@
             <div class="ingredients-block mt-2">
               <div class="ingredients-title">
                 <Button @click="toggleIngredients(meal.id)"
-                  >HozzĂˇvalĂłk <i class="bi bi-basket"></i>
+                  >Hozzávalók <i class="bi bi-basket"></i>
                 </Button>
               </div>
               <div v-if="openMeals[meal.id]" class="ingredients-content">
@@ -52,7 +52,7 @@
                   </li>
                 </ul>
                 <div v-else class="ingredients-empty">
-                  Ehhez a recepthez nincs hozzĂˇvalĂł megadva.
+                  Ehhez a recepthez nincs hozzávaló megadva.
                 </div>
               </div>
             </div>

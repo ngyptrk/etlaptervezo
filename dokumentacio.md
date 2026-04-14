@@ -73,3 +73,9 @@ get url/user_id/h;k;sz;cs;p;szo;v
 
 Csinalni kell magyar hibakodokat.
 Pl: Rules/message/requestek/Min,max,string,unqiue,required
+
+## Email kuldes (heti terv + bevasarlolista)
+- Fejleszteshez a projekt Mailpit-et hasznal (SMTP: 1025, UI: 8025).
+- Inditas: `docker compose -f docker-compose.mail.yml up -d`
+- `.env` beallitasok (server): `MAIL_MAILER=smtp`, `MAIL_HOST=127.0.0.1`, `MAIL_PORT=1025`
+- A levelek a Mailpit feluleten nezhetok: `http://localhost:8025`

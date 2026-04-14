@@ -48,6 +48,8 @@ apiClient.interceptors.response.use(
       let message = error.response.data.message || "Hiba történt";
 
       if (status === 422) {
+        toastStore.messages.push(message);
+        toastStore.show("Error");
         return Promise.reject(error);
       }
 

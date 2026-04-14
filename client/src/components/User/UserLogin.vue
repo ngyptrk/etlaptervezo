@@ -4,33 +4,35 @@
       <h2 class="text-center mb-4">Bejelentkezés</h2>
 
       <form @submit.prevent="handleSubmit" :class="{ 'was-validated': validated }" novalidate>
-        <!-- Email -->
         <div class="mb-3">
           <label for="email" class="form-label yellow-label">Email címed:</label>
           <input
+            ref="emailInput"
             type="email"
             id="email"
             v-model="user.email"
             class="form-control glass-input"
+            :class="{ 'is-invalid': emailHasError }"
             placeholder="pelda@email.com"
             required
+            @input="handleFieldInput"
           />
-          <div class="invalid-feedback">Az email üres, vagy helytelen</div>
+          <div class="invalid-feedback" :class="{ 'd-block': emailHasError }">
+            {{ authError || "Az email üres, vagy helytelen." }}
+          </div>
         </div>
 
-        <!-- Password -->
-        <div class="mb-3">
-          <PasswordField
-            v-model="user.password"
-            :label="'Jelszavad:'"
-            input-class="glass-input"
-            label-class="yellow-label"
-            placeholder="Írd be a jelszavad"
-          />
-          <div class="invalid-feedback">A jelszó üres</div>
-        </div>
+        <PasswordField
+          v-model="user.password"
+          :label="'Jelszavad'"
+          input-class="glass-input"
+          label-class="yellow-label"
+          placeholder="Írd be a jelszavad"
+          :password-error-message="passwordErrorMessage"
+          :show-error="validated"
+          @update:modelValue="handlePasswordInput"
+        />
 
-        <!-- Gombok -->
         <div class="d-flex justify-content-between mt-4">
           <button type="submit" class="btn btn-yellow">Belépés</button>
         </div>
@@ -54,23 +56,45 @@ export default {
   components: {
     PasswordField,
   },
+  props: {
+    authError: { type: String, default: null },
+  },
   data() {
     return {
       validated: false,
       user: new User(),
+      emailFieldInvalid: false,
     };
+  },
+  computed: {
+    emailHasError() {
+      return Boolean(this.authError || (this.validated && this.emailFieldInvalid));
+    },
+    passwordErrorMessage() {
+      if (!this.validated) return "";
+      return this.user.password ? "" : "A jelszó üres.";
+    },
   },
   methods: {
     handleSubmit(event) {
       const form = event.target;
       this.validated = true;
 
-      if (form.checkValidity() === false) {
-        console.log("Hiba a mezőkben!");
-      } else {
-        console.log("Sikeres validáció:", this.user);
-        this.$emit("logIn", this.user);
+      const emailInput = this.$refs.emailInput;
+      this.emailFieldInvalid = emailInput ? !emailInput.checkValidity() : false;
+
+      if (form.checkValidity() === false) return;
+      this.$emit("clear-error");
+      this.$emit("logIn", this.user);
+    },
+    handleFieldInput() {
+      if (this.authError) {
+        this.$emit("clear-error");
       }
+    },
+    handlePasswordInput(value) {
+      this.user.password = value;
+      this.handleFieldInput();
     },
   },
 };
@@ -80,11 +104,9 @@ export default {
 .login-shell {
   min-height: 100%;
   margin-top: 2rem;
-padding: 1rem;
+  padding: 1rem;
 }
 
-
-/* Glass kártya */
 .glass-card {
   width: 26rem;
   background: rgba(20, 20, 20, 0.7);
@@ -96,7 +118,6 @@ padding: 1rem;
   color: #f9d342;
 }
 
-/* Üveg input */
 .glass-input {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(245, 197, 66, 0.3);
@@ -119,13 +140,11 @@ padding: 1rem;
   color: #fff;
 }
 
-/* Label szín */
 .yellow-label {
   color: #f9d342;
   font-weight: 500;
 }
 
-/* Gombok */
 .btn-yellow {
   background-color: #f9d342;
   color: #111000;
@@ -134,22 +153,8 @@ padding: 1rem;
   border: none;
   transition: 0.3s;
 }
+
 .btn-yellow:hover {
   background-color: #fff176;
 }
-
-.btn-outline-yellow {
-  background: transparent;
-  color: #f9d342;
-  font-weight: 600;
-  border: 2px solid #f9d342;
-  border-radius: 0.5rem;
-  transition: 0.3s;
-}
-.btn-outline-yellow:hover {
-  background: rgba(249, 211, 66, 0.2);
-  color: #fff;
-}
 </style>
-
-

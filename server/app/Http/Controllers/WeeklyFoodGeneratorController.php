@@ -134,24 +134,43 @@ class WeeklyFoodGeneratorController extends Controller
         $mailer = config('mail.default');
         if (in_array($mailer, ['log', 'array'], true)) {
             return response()->json([
-                'message' => 'Az email kuldes nincs valodi SMTP-re allitva (MAIL_MAILER=log/array). Allitsd SMTP-re a .env-ben.',
+                'message' => 'Az email kuldes nincs SMTP-re allitva (MAIL_MAILER=log/array). Fejleszteshez inditsd el a Mailpit-et (docker-compose.mail.yml) es allitsd: MAIL_MAILER=smtp, MAIL_HOST=127.0.0.1, MAIL_PORT=1025.',
             ], 422);
         }
 
         $shoppingList = $this->buildShoppingList($rows);
-        $pdf = Pdf::loadView('pdf.weekly-plan', [
-            'user' => $user,
-            'rows' => $rows,
-            'shoppingList' => $shoppingList,
-            'selectedWeek' => $week,
-            'appUrl' => config('app.url'),
-        ]);
-        $pdfBinary = $pdf->output();
+
+        $pdfBinary = null;
+        try {
+            if (class_exists(Pdf::class)) {
+                $pdf = Pdf::loadView('pdf.weekly-plan', [
+                    'user' => $user,
+                    'rows' => $rows,
+                    'shoppingList' => $shoppingList,
+                    'selectedWeek' => $week,
+                    'appUrl' => config('app.url'),
+                ]);
+                $pdfBinary = $pdf->output();
+            } else {
+                logger()->warning('DomPDF nincs telepitve, PDF csatolmany kihagyva.', [
+                    'userId' => $user->id,
+                ]);
+            }
+        } catch (\Throwable $e) {
+            logger()->error('PDF generalas sikertelen, PDF csatolmany kihagyva.', [
+                'userId' => $user->id,
+                'error' => $e->getMessage(),
+            ]);
+        }
 
         try {
-            Mail::to($validated['email'])->send(
-                new WeeklyPlanMail($user, $rows, $shoppingList, $pdfBinary, $week)
-            );
+            Mail::to($validated['email'])->send(new WeeklyPlanMail(
+                $user,
+                $rows,
+                $shoppingList,
+                $pdfBinary,
+                $week
+            ));
         } catch (\Throwable $e) {
             return response()->json([
                 'message' => 'Sikertelen email kuldes. Ellenorizd az SMTP beallitasokat.',
@@ -164,6 +183,7 @@ class WeeklyFoodGeneratorController extends Controller
             'data' => [
                 'email' => $validated['email'],
                 'rows' => $rows->count(),
+                'pdf_attached' => !empty($pdfBinary),
             ],
         ]);
     }

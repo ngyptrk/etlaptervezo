@@ -202,8 +202,9 @@ export default {
   height: 100dvh;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow-y: scroll;
   overscroll-behavior: contain;
+  scrollbar-gutter: stable;
 }
 
 .content-shell {

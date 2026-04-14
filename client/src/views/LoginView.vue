@@ -2,7 +2,11 @@
   <div>
     <TopMiniModal :show="showSuccessModal" :message="successMessage" />
 
-    <UserLogin @logIn="loginHandler" />
+    <UserLogin
+      :auth-error="loginError"
+      @clear-error="loginError = null"
+      @logIn="loginHandler"
+    />
   </div>
 </template>
 
@@ -20,6 +24,7 @@ export default {
   },
   data() {
     return {
+      loginError: null,
       showSuccessModal: false,
       successMessage: "Sikeres belépés",
       successTimer: null,
@@ -28,6 +33,7 @@ export default {
   methods: {
     ...mapActions(useUserLoginLogoutStore, ["login"]),
     async loginHandler(user) {
+      this.loginError = null;
       try {
         await this.login(user);
         this.showSuccessModal = true;
@@ -39,7 +45,7 @@ export default {
           this.$router.push("/");
         }, 900);
       } catch (error) {
-        console.log("Bejelentkezési hiba!");
+        this.loginError = "Nem jó az email cím vagy a jelszó.";
       }
     },
     cleanupBodyModalStyles() {

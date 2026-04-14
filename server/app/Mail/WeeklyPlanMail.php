@@ -14,9 +14,9 @@ class WeeklyPlanMail extends Mailable
     public $rows;
     public $shoppingList;
     public $selectedWeek;
-    private string $pdfBinary;
+    private ?string $pdfBinary;
 
-    public function __construct($user, $rows, $shoppingList, string $pdfBinary, int $selectedWeek = 0)
+    public function __construct($user, $rows, $shoppingList, ?string $pdfBinary, int $selectedWeek = 0)
     {
         $this->user = $user;
         $this->rows = $rows;
@@ -31,12 +31,17 @@ class WeeklyPlanMail extends Mailable
             ? "Etrend osszefoglalo - {$this->selectedWeek}. het"
             : "Etrend osszefoglalo";
 
-        return $this->subject($subject)
-            ->view('emails.weekly-plan')
-            ->attachData(
+        $mailable = $this->subject($subject)
+            ->view('emails.weekly-plan');
+
+        if (!empty($this->pdfBinary)) {
+            $mailable->attachData(
                 $this->pdfBinary,
                 'heti-etrend.pdf',
                 ['mime' => 'application/pdf']
             );
+        }
+
+        return $mailable;
     }
 }
