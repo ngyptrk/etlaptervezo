@@ -11,14 +11,13 @@
   --color-danger: #cb2f2f;
   --color-success: #1e8a57;
   --color-info: #2f95bf;
-
   --my-border-space: 0px;
 }
 
 html,
 body,
 #app {
-  font-family: "Segoe UI", "Tahoma", "Arial", sans-serif;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -43,9 +42,6 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-gutter: stable;
-}
-
-body {
   margin: 0;
   padding-right: 0;
   margin-right: 0;
@@ -54,11 +50,11 @@ body {
 body.modal-open {
   padding-right: 0;
   margin-right: 0;
-  overflow-y: scroll;
+  overflow: hidden;
 }
 
 #app,
-.app-container {
+.app-shell {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
@@ -72,15 +68,24 @@ body.modal-open {
   height: 100vh;
 }
 
-/* Hide scrollbars globally but keep scrolling functional (all browsers) */
 * {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/old Edge */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(244, 209, 74, 0.45) rgba(15, 16, 18, 0.55);
 }
 
 *::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(15, 16, 18, 0.55);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(244, 209, 74, 0.45);
+  border-radius: 999px;
+  border: 2px solid rgba(15, 16, 18, 0.55);
 }
 
 img,
@@ -90,7 +95,6 @@ canvas {
   max-width: 100%;
   height: auto;
 }
-
 
 .my-container {
   max-width: 1200px;
@@ -146,6 +150,8 @@ label,
 
 input[type="search"],
 input[type="email"],
+.form-control,
+.form-select,
 .search-input,
 .plan-input {
   background: #101216 !important;
@@ -155,10 +161,19 @@ input[type="email"],
 
 input[type="search"]:focus,
 input[type="email"]:focus,
+.form-control:focus,
+.form-select:focus,
 .search-input:focus,
 .plan-input:focus {
   border-color: #f4d14a !important;
   box-shadow: 0 0 0 0.2rem rgba(244, 209, 74, 0.22) !important;
   background: #101216 !important;
   color: var(--color-text-main) !important;
+}
+
+.page-card {
+  border: 1px solid rgba(244, 209, 74, 0.32);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(20, 20, 22, 0.9), rgba(12, 12, 14, 0.95));
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
 }

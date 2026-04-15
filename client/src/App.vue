@@ -1,8 +1,8 @@
 <template>
-  <div class="app-container">
+  <div class="app-shell">
     <div v-if="isLoading" class="global-loading-overlay">
       <div class="global-loading-modal">
-        <img src="@/pictures/logo.png" alt="Étlaptervező" class="loading-logo" />
+        <img :src="logoUrl" alt="Étlaptervező" class="loading-logo" />
         <div class="spinner-border text-warning mb-3" role="status"></div>
         <div class="loading-title">Kérlek várj egy pillanatot...</div>
         <div class="loading-subtitle">Az oldal betöltése folyamatban van.</div>
@@ -20,11 +20,7 @@
       </button>
     </div>
 
-    <div
-      v-if="isSidebarOpen"
-      class="sidebar-backdrop"
-      @click="closeSidebar"
-    ></div>
+    <div v-if="isSidebarOpen" class="sidebar-backdrop" @click="closeSidebar"></div>
 
     <Menu
       class="sidebar"
@@ -35,9 +31,9 @@
     <div class="main-content">
       <Header />
       <Breadcrumb />
-      <section class="content-shell">
+      <main class="content-shell">
         <RouterView />
-      </section>
+      </main>
     </div>
 
     <ToastContanier />
@@ -51,6 +47,7 @@ import Menu from "./components/Layout/Menu.vue";
 import Header from "./components/Layout/Header.vue";
 import Breadcrumb from "./components/Layout/Breadcrumb.vue";
 import ToastContanier from "./components/Message/ToastContanier.vue";
+import logoUrl from "@/pictures/logo.png";
 
 export default {
   components: {
@@ -62,6 +59,7 @@ export default {
   data() {
     return {
       isSidebarOpen: false,
+      logoUrl,
     };
   },
   computed: {
@@ -79,19 +77,20 @@ export default {
 </script>
 
 <style scoped>
-.app-container {
-  display: flex;
+.app-shell {
+  display: grid;
+  grid-template-columns: clamp(220px, 22vw, 280px) minmax(0, 1fr);
   min-height: 100dvh;
   width: 100%;
   position: relative;
-  overflow-x: hidden;
+  overflow: clip;
   background:
     radial-gradient(circle at 20% 0%, rgba(255, 201, 41, 0.15), transparent 36%),
     linear-gradient(140deg, #0f0f10, #1a1a1c 45%, #111111 100%);
   color: #f4d14a;
 }
 
-.app-container::before {
+.app-shell::before {
   content: "";
   position: absolute;
   inset: -50%;
@@ -103,7 +102,7 @@ export default {
   z-index: 0;
 }
 
-.app-container > * {
+.app-shell > * {
   position: relative;
   z-index: 1;
 }
@@ -171,21 +170,19 @@ export default {
 }
 
 .sidebar {
-  width: clamp(200px, 22vw, 280px);
-  height: 100dvh;
+  width: 100%;
+  min-height: 100dvh;
   background: linear-gradient(135deg, #111000, #222a00);
   box-shadow: 3px 0 15px rgba(249, 211, 66, 0.3);
   padding: 1rem;
   overflow-y: auto;
   overscroll-behavior: contain;
-  flex-shrink: 0;
   min-width: 0;
   position: sticky;
   top: 0;
   align-self: flex-start;
   z-index: 2;
 }
-
 
 .mobile-bar {
   display: none;
@@ -196,15 +193,13 @@ export default {
 }
 
 .main-content {
-  flex: 1;
   min-width: 0;
   padding: clamp(0.8rem, 2vw, 2rem);
-  height: 100dvh;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  min-height: 100dvh;
+  overflow: visible;
   overscroll-behavior: contain;
-  scrollbar-gutter: stable;
 }
 
 .content-shell {
@@ -217,12 +212,14 @@ export default {
     0 12px 32px rgba(0, 0, 0, 0.35),
     0 0 18px rgba(255, 209, 74, 0.12);
   overflow: visible;
+  min-height: 0;
 }
 
 @media (max-width: 768px) {
-  .app-container {
-    flex-direction: column;
+  .app-shell {
+    grid-template-columns: 1fr;
   }
+
   .mobile-bar {
     position: sticky;
     top: 0;
@@ -234,6 +231,7 @@ export default {
     background: linear-gradient(135deg, #111000, #222a00);
     box-shadow: 0 3px 12px rgba(249, 211, 66, 0.25);
   }
+
   .mobile-toggle {
     border: 1px solid rgba(244, 209, 74, 0.6);
     background: transparent;
@@ -244,6 +242,7 @@ export default {
     height: 44px;
     line-height: 1;
   }
+
   .sidebar {
     position: fixed;
     top: 0;
@@ -254,9 +253,11 @@ export default {
     transition: transform 0.2s ease;
     z-index: 4;
   }
+
   .sidebar.open {
     transform: translateX(0);
   }
+
   .sidebar-backdrop {
     display: block;
     position: fixed;
@@ -264,10 +265,12 @@ export default {
     background: rgba(0, 0, 0, 0.45);
     z-index: 3;
   }
+
   .main-content {
     padding: 1rem;
-    height: auto;
+    min-height: auto;
   }
+
   .content-shell {
     padding: 0.8rem;
   }

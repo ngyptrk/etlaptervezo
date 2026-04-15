@@ -1,8 +1,8 @@
-﻿<template>
+<template>
   <div class="menu-container">
     <div class="menu-header">
       <RouterLink to="/" class="logo-link">
-        <img src="../../pictures/logo.png" alt="Logo" />
+        <img :src="logoUrl" alt="Étlaptervező" />
       </RouterLink>
       <button
         class="menu-toggle"
@@ -15,23 +15,18 @@
     </div>
 
     <nav class="nav flex-column sidebar-nav">
-      <RouterLink
-        to="/"
-        class="nav-link d-flex justify-content-center sidebar-link mt-1"
-      >
+      <RouterLink to="/" class="nav-link d-flex justify-content-center sidebar-link mt-1">
         <strong>Főoldal</strong>
       </RouterLink>
 
-      <RouterLink
-        to="/about"
-        class="nav-link d-flex justify-content-center sidebar-link mt-1"
-      >
+      <RouterLink to="/about" class="nav-link d-flex justify-content-center sidebar-link mt-1">
         <strong>Rólunk</strong>
       </RouterLink>
 
       <div v-if="isLoggedIn && hasMenuAccessByName('adatok')">
         <button
           class="btn sidebar-link w-100 text-start d-flex justify-content-center mt-1"
+          type="button"
           @click="toggleSettings"
         >
           <i class="bi bi-gear">
@@ -49,7 +44,6 @@
             >
               Napok
             </RouterLink>
-
             <RouterLink
               v-if="hasMenuAccessByName('ingredient')"
               :to="{ name: 'ingredient' }"
@@ -57,7 +51,6 @@
             >
               Hozzávalók
             </RouterLink>
-
             <RouterLink
               v-if="hasMenuAccessByName('rawingredient')"
               :to="{ name: 'rawingredient' }"
@@ -65,7 +58,6 @@
             >
               Nyers hozzávalók
             </RouterLink>
-
             <RouterLink
               v-if="hasMenuAccessByName('meal')"
               :to="{ name: 'meal' }"
@@ -73,7 +65,6 @@
             >
               Étkezések
             </RouterLink>
-
             <RouterLink
               v-if="hasMenuAccessByName('unit')"
               :to="{ name: 'unit' }"
@@ -81,7 +72,6 @@
             >
               Mértékegységek
             </RouterLink>
-
             <RouterLink
               v-if="hasMenuAccessByName('weekday')"
               :to="{ name: 'weekday' }"
@@ -89,7 +79,6 @@
             >
               Hét napjai
             </RouterLink>
-
             <RouterLink
               v-if="hasMenuAccessByName('mealofday')"
               :to="{ name: 'mealofday' }"
@@ -97,7 +86,6 @@
             >
               Napi étkezések
             </RouterLink>
-
             <RouterLink
               v-if="hasMenuAccessByName('mealreq')"
               :to="{ name: 'mealreq' }"
@@ -105,7 +93,6 @@
             >
               Étkezés elvárások
             </RouterLink>
-
             <RouterLink
               v-if="hasMenuAccessByName('recipe')"
               :to="{ name: 'recipe' }"
@@ -113,7 +100,6 @@
             >
               Receptek
             </RouterLink>
-
             <RouterLink
               v-if="hasMenuAccessByName('users')"
               :to="{ name: 'users' }"
@@ -127,14 +113,12 @@
 
       <div class="mt-auto">
         <div v-if="!isLoggedIn">
-          <RouterLink
-            to="/login"
-            class="nav-link d-flex justify-content-center sidebar-link mb-2"
-          >
+          <RouterLink to="/login" class="nav-link d-flex justify-content-center sidebar-link mb-2">
             <i class="bi bi-person-fill"><strong> Belépés</strong></i>
           </RouterLink>
         </div>
       </div>
+
       <div>
         <div v-if="!isLoggedIn">
           <RouterLink
@@ -163,6 +147,7 @@
 <script>
 import { mapActions, mapState } from "pinia";
 import { useUserLoginLogoutStore } from "@/stores/userLoginLogoutStore";
+import logoUrl from "@/pictures/logo.png";
 
 export default {
   name: "Menu",
@@ -170,6 +155,7 @@ export default {
   data() {
     return {
       settingsOpen: false,
+      logoUrl,
     };
   },
   computed: {
@@ -179,9 +165,6 @@ export default {
     ...mapActions(useUserLoginLogoutStore, ["logout"]),
     toggleSettings() {
       this.settingsOpen = !this.settingsOpen;
-    },
-    onGenerate() {
-      this.$router.push({ name: "day" });
     },
     hasMenuAccessByName(name) {
       const userStore = useUserLoginLogoutStore();
@@ -200,7 +183,7 @@ export default {
       try {
         await this.logout();
         this.$router.push("/");
-      } catch (error) {
+      } catch {
         console.log("Kijelentkezési hiba!");
       }
     },
@@ -241,7 +224,6 @@ export default {
   width: 44px;
   height: 44px;
   line-height: 1;
-  display: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -308,17 +290,9 @@ export default {
     top: 0;
     z-index: 2;
   }
+
   .menu-toggle {
     display: inline-flex;
-  }
-}
-@media (max-width: 768px) {
-  .menu-container {
-    width: 100%;
-    min-height: auto;
-    position: sticky;
-    top: 0;
-    z-index: 2;
   }
 }
 

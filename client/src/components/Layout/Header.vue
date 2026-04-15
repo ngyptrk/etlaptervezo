@@ -1,21 +1,17 @@
 <template>
-  <div class="d-flex align-items-center justify-content-between w-100">
-    <div></div>
-
+  <header class="header-shell">
     <h1 class="pill-dark text-center m-0">Étlaptervező</h1>
 
-    <div>
-      <RouterLink v-if="isLoggedIn" class="pill-dark nav-link user-info" to="/userprofil">
-        Felhasználó: {{ userName }}<br>
-        Szerepkör: {{ userNameWithRole }} 
-      </RouterLink>
+    <RouterLink v-if="isLoggedIn" class="pill-dark nav-link user-info" to="/userprofil">
+      Felhasználó: {{ userName }}<br />
+      Szerepkör: {{ userNameWithRole }}
+    </RouterLink>
 
-      <div v-else class="pill-dark pill-user nav-link user-info p-1">
-        <i class="bi bi-person"></i>
-        Jelentkezz be!
-      </div>
+    <div v-else class="pill-dark pill-user nav-link user-info p-1">
+      <i class="bi bi-person"></i>
+      Jelentkezz be!
     </div>
-  </div>
+  </header>
 </template>
 
 <script>
@@ -30,6 +26,14 @@ export default {
 </script>
 
 <style>
+.header-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
 .user-info {
   white-space: pre-line;
   color: #f5c542;
@@ -54,4 +58,10 @@ export default {
   transform: translateY(0);
 }
 
+@media (max-width: 768px) {
+  .header-shell {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+}
 </style>

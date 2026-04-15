@@ -19,10 +19,7 @@
             <button
               type="button"
               class="btn-close themed-close"
-              @click="
-                hide();
-                $event.target.blur();
-              "
+              @click="hide"
             ></button>
           </div>
 
@@ -35,10 +32,7 @@
               type="button"
               class="btn themed-btn-secondary"
               v-if="no"
-              @click="
-                hide();
-                $event.target.blur();
-              "
+              @click="hide"
             >
               {{ no }}
             </button>
@@ -81,6 +75,7 @@ export default {
   },
   beforeUnmount() {
     this.cleanupBackdrop();
+    this.modal?.dispose?.();
   },
   computed: {
     modalSizeClass() {
@@ -103,7 +98,6 @@ export default {
     },
     show() {
       this.modal.show();
-      this.applyScrollLock();
       this.validated = false;
     },
     hide() {
@@ -114,13 +108,6 @@ export default {
     cleanupBackdrop() {
       document.querySelectorAll(".modal-backdrop").forEach((el) => el.remove());
       document.body.classList.remove("modal-open");
-      this.clearScrollLock();
-    },
-    applyScrollLock() {
-      // no-op: avoid layout jump
-    },
-    clearScrollLock() {
-      // no-op: avoid layout jump
     },
   },
 };

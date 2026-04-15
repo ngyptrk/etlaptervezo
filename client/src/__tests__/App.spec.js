@@ -1,11 +1,27 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from "vitest";
+import { createPinia, setActivePinia } from "pinia";
+import { useGlobalLoadingStore } from "@/stores/globalLoadingStore";
 
-import { mount } from '@vue/test-utils'
-import App from '../App.vue'
+describe("global loading store", () => {
+  beforeEach(() => {
+    setActivePinia(createPinia());
+  });
 
-describe('App', () => {
-  it('mounts renders properly', () => {
-    const wrapper = mount(App)
-    expect(wrapper.text()).toContain('You did it!')
-  })
-})
+  it("tracks pending requests and route loading", () => {
+    const store = useGlobalLoadingStore();
+
+    expect(store.isLoading).toBe(false);
+
+    store.startRequest();
+    expect(store.isLoading).toBe(true);
+
+    store.finishRequest();
+    expect(store.isLoading).toBe(false);
+
+    store.setRouteLoading(true);
+    expect(store.isLoading).toBe(true);
+
+    store.reset();
+    expect(store.isLoading).toBe(false);
+  });
+});
