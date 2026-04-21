@@ -65,6 +65,7 @@ apiClient.interceptors.response.use(
         } else {
           message = "Szerver oldali hiba történt a művelet során.";
         }
+        error.response.data.message = message;
       }
 
       toastStore.messages.push(message);

@@ -13,8 +13,18 @@ class Meal extends Model
     protected $fillable = [
         'meal',
     ];
-        protected $hidden = [
+    protected $hidden = [
         'created_at',
         'updated_at',
     ];
+
+    public function recipes()
+    {
+        return $this->hasMany(Recipe::class);
+    }
+
+    public function mealRequirements()
+    {
+        return $this->hasMany(MealRequirement::class);
+    }
 }

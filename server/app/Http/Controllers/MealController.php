@@ -62,7 +62,16 @@ class MealController extends Controller
     public function destroy(int $id)
     {
         return $this->apiResponse(function () use ($id) {
-            CurrentModel::findOrFail($id)->delete();
+            $row = CurrentModel::findOrFail($id);
+
+            if ($row->recipes()->exists() || $row->mealRequirements()->exists()) {
+                return [
+                    'restricted' => true,
+                    'message' => 'Ezt az étkezést nem tudod törölni.'
+                ];
+            }
+
+            $row->delete();
             return ['id' => $id];
         });
     }

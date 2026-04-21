@@ -1,14 +1,14 @@
 <template>
   <div class="about-page">
     <section class="hero">
-  <div class="hero-content">
-    <h1>Rólunk</h1>
-    <p class="hero-text">
-      Egy modern, testreszabható étlaprendszer, ahol te döntöd el,
-      mi kerüljön a tányérodra.
-    </p>
-  </div>
-</section>
+      <div class="hero-content">
+        <h1>Rólunk</h1>
+        <p class="hero-text">
+          Egy modern, testreszabható étlaprendszer, ahol te döntöd el,
+          mi kerüljön a tányérodra.
+        </p>
+      </div>
+    </section>
 
     <section class="story">
       <div class="content">
@@ -18,7 +18,6 @@
           interaktív rendszer megvalósítása volt, amelyben a felhasználók saját
           ízlésük szerint állíthatják össze ételeiket.
         </p>
-        
       </div>
     </section>
 
@@ -28,23 +27,22 @@
 
       <div class="cards">
         <div class="card">
-          <h3>🍕 Receptek</h3>
+          <h3>Receptek</h3>
           <p>Folyton frissülő receptek.</p>
         </div>
 
         <div class="card">
-          <h3>☀️ Napi ajánlatok</h3>
+          <h3>Napi ajánlatok</h3>
           <p>Napi étel ajánlás.</p>
         </div>
 
         <div class="card">
-          <h3>📱 Reszponzív design</h3>
+          <h3>Reszponzív design</h3>
           <p>Mobilon és asztali gépen is tökéletes élmény.</p>
         </div>
       </div>
     </section>
 
-    
     <section v-if="isAdmin" class="tech">
       <h2>Technikai információk</h2>
 
@@ -57,10 +55,11 @@
         <div><strong>API URL:</strong> {{ apiUrl }}</div>
       </div>
     </section>
+
     <section class="cta">
       <h2>Próbáld ki most!</h2>
       <p>Állítsd össze saját ételed néhány kattintással.</p>
-      <router-link to="/login" class="cta-button"> Bejelentkezés </router-link>
+      <router-link :to="ctaTarget" class="cta-button"> Kipróbálom </router-link>
     </section>
   </div>
 </template>
@@ -68,11 +67,15 @@
 <script>
 import { mapState } from "pinia";
 import { useUserLoginLogoutStore } from "@/stores/userLoginLogoutStore";
+
 export default {
   computed: {
-    ...mapState(useUserLoginLogoutStore, ["role"]),
+    ...mapState(useUserLoginLogoutStore, ["role", "isLoggedIn"]),
     isAdmin() {
       return this.role === 1;
+    },
+    ctaTarget() {
+      return this.isLoggedIn ? "/adatok/day" : "/login";
     },
   },
   data() {
@@ -211,7 +214,6 @@ export default {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-
 .cta {
   text-align: center;
   padding: 100px 20px;
@@ -246,7 +248,3 @@ export default {
   box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
 }
 </style>
-
-
-
-

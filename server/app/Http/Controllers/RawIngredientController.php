@@ -62,7 +62,16 @@ class RawIngredientController extends Controller
     public function destroy(int $id)
     {
         return $this->apiResponse(function () use ($id) {
-            CurrentModel::findOrFail($id)->delete();
+            $row = CurrentModel::findOrFail($id);
+
+            if ($row->ingredients()->exists()) {
+                return [
+                    'restricted' => true,
+                    'message' => 'Ezt az elemet nem tudod törölni.'
+                ];
+            }
+
+            $row->delete();
             return ['id' => $id];
         });
     }

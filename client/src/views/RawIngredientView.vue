@@ -28,18 +28,20 @@
           <tr>
             <th>ID</th>
             <th>Nyers hozzávaló</th>
-            <th>Művelet</th>
+            <th class="action-header">Művelet</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="item in filteredRows" :key="item.id">
             <td>{{ item.id }}</td>
-            <td>
-              <div>{{ item.raw_ingredient }}</div>
-              <div v-if="deleteErrors[item.id]" class="delete-inline-error">{{ deleteErrors[item.id] }}</div>
+            <td class="ingredient-cell">
+              <span>{{ item.raw_ingredient }}</span>
+              <span v-if="deleteErrors[item.id]" class="delete-inline-error">
+                - {{ deleteErrors[item.id] }}
+              </span>
             </td>
-            <td>
-              <div class="d-flex gap-2">
+            <td class="action-cell">
+              <div class="d-flex justify-content-center gap-2 flex-nowrap">
                 <button class="btn btn-sm btn-outline-info" @click="updateHandler(item)">
                   <i class="bi bi-pencil"></i> Módosítás
                 </button>
@@ -212,12 +214,21 @@ export default {
 
 <style scoped>
 .list-wrap { border: 1px solid rgba(244, 209, 74, 0.35); border-radius: 12px; overflow: hidden; }
+.list-table { table-layout: fixed; width: 100%; }
 .list-table thead th { background: #1e2229; color: #ffd84f; border-bottom: 1px solid #ffd84f; }
 .list-table tbody td { background: #d6d6d8; color: #141414; border-color: #b9b9bc; }
 .list-table tbody tr:nth-child(even) td { background: #cfcfd2; }
+.list-table th:nth-child(1),
+.list-table td:nth-child(1) { width: 72px; }
+.list-table th:nth-child(3),
+.list-table td:nth-child(3) { width: 240px; text-align: center; }
+.action-header { text-align: center; }
+.ingredient-cell { overflow-wrap: anywhere; word-break: break-word; }
+.action-cell { white-space: nowrap; }
 .search-wrap { position: relative; min-width: 300px; }
 .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #8a8a8a; }
 .search-input { padding-left: 34px; border: 1px solid rgba(244, 209, 74, 0.45); background: #101216; color: #f1f1f1; }
 .search-input:focus { border-color: #f4d14a; box-shadow: 0 0 0 0.2rem rgba(244, 209, 74, 0.2); background: #101216; color: #f1f1f1; }
+.delete-inline-error { display: inline; margin-left: 0.25rem; color: #e53935; font-size: 0.86rem; line-height: 1.2; }
 .empty-list { border: 1px dashed rgba(244, 209, 74, 0.5); border-radius: 12px; padding: 1rem; color: #f4d14a; }
 </style>

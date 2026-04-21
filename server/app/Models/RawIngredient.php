@@ -12,8 +12,13 @@ class RawIngredient extends Model
       protected $fillable = [
         'raw_ingredient',
     ];
-        protected $hidden = [
+    protected $hidden = [
         'created_at',
         'updated_at',
     ];
+
+    public function ingredients()
+    {
+        return $this->hasMany(Ingredient::class);
+    }
 }
