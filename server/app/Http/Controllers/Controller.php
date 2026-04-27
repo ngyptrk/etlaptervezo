@@ -31,13 +31,14 @@ abstract class Controller
             // Adatbázis constraint hiba (pl. törlés tiltott FK miatt)
             $sqlState = $e->errorInfo[0] ?? null;
             $driverCode = $e->errorInfo[1] ?? null;
-            $databaseMessage = $e->errorInfo[2] ?? $e->getMessage();
 
             if ($sqlState === '23000' || $driverCode === 1451) {
                 return response()->json([
-                    'message' => $databaseMessage,
+                    'message' => 'Ezt az elemet nem lehet törölni.',
                     'data' => null,
-                    'restricted' => true
+                    'restricted' => true,
+                    'error_code' => $driverCode,
+                    'sql_state' => $sqlState
                 ], 200, options: JSON_UNESCAPED_UNICODE);
             }
 

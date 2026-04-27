@@ -1,15 +1,13 @@
-﻿<template>
+<template>
   <div>
-    <div
-      class="d-flex align-items-center justify-content-between mb-3 gap-3 flex-wrap"
-    >
+    <div class="d-flex align-items-center justify-content-between mb-3 gap-3 flex-wrap">
       <div class="d-flex align-items-center">
         <h1 class="m-0">Hét napjai</h1>
         <span class="ms-2 text-warning">({{ filteredRows.length }})</span>
       </div>
       <div class="search-wrap">
-        <i class="bi bi-search search-icon"></i
-        ><input
+        <i class="bi bi-search search-icon"></i>
+        <input
           v-model="searchWordInput"
           type="text"
           class="form-control search-input"
@@ -20,39 +18,34 @@
         <i class="bi bi-plus-lg"></i> Hozzáadás
       </button>
     </div>
+
     <div v-if="loading" class="text-warning fw-semibold">Betöltés...</div>
-    <div v-else-if="filteredRows.length === 0" class="empty-list">
-      Nincs találat
-    </div>
+    <div v-else-if="filteredRows.length === 0" class="empty-list">Nincs találat</div>
+
     <div v-else class="list-wrap table-responsive">
       <table class="table list-table m-0">
         <thead>
           <tr>
             <th>ID</th>
             <th>Nap</th>
-            <th>Művelet</th>
+            <th class="action-header">Művelet</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="item in filteredRows" :key="item.id">
             <td>{{ item.id }}</td>
-            <td>
-              <div>{{ item.day }}</div>
-              <div v-if="deleteErrors[item.id]" class="delete-inline-error">
-                {{ deleteErrors[item.id] }}
-              </div>
+            <td class="weekday-cell">
+              <span>{{ item.day }}</span>
+              <span v-if="deleteErrors[item.id]" class="delete-inline-error">
+                - {{ deleteErrors[item.id] }}
+              </span>
             </td>
-            <td>
-              <div class="d-flex gap-2">
-                <button
-                  class="btn btn-sm btn-outline-info"
-                  @click="updateHandler(item)"
-                >
-                  <i class="bi bi-pencil"></i> Módosítás</button
-                ><button
-                  class="btn btn-sm btn-outline-danger"
-                  @click="deleteHandler(item)"
-                >
+            <td class="action-cell">
+              <div class="d-flex justify-content-end gap-2 flex-nowrap">
+                <button class="btn btn-sm btn-outline-info" @click="updateHandler(item)">
+                  <i class="bi bi-pencil"></i> Módosítás
+                </button>
+                <button class="btn btn-sm btn-outline-danger" @click="deleteHandler(item)">
                   <i class="bi bi-trash"></i> Törlés
                 </button>
               </div>
@@ -61,6 +54,7 @@
         </tbody>
       </table>
     </div>
+
     <FormWeekday
       ref="form"
       :title="formTitle"
@@ -117,10 +111,7 @@ export default {
     filteredRows() {
       if (!this.searchword) return this.rows;
       return this.rows.filter((item) =>
-        [String(item.id), item.day]
-          .join(" ")
-          .toLowerCase()
-          .includes(this.searchword)
+        [String(item.id), item.day].join(" ").toLowerCase().includes(this.searchword),
       );
     },
   },
@@ -156,6 +147,12 @@ export default {
         this.loading = false;
       }
     },
+    createHandler() {
+      this.mode = "create";
+      this.formTitle = "Új nap felvitele";
+      this.currentItem = { id: 0, day: "" };
+      this.$refs.form.show();
+    },
     updateHandler(item) {
       this.startUpdate(item);
     },
@@ -165,12 +162,6 @@ export default {
       this.currentItem = { ...item };
       this.$refs.form.show();
     },
-    createHandler() {
-      this.mode = "create";
-      this.formTitle = "Új nap felvitele";
-      this.currentItem = { id: 0, day: "" };
-      this.$refs.form.show();
-    },
     deleteHandler(item) {
       this.deleteErrors[item.id] = "";
       this.pendingDeleteId = item.id;
@@ -178,10 +169,10 @@ export default {
         title: "Törlés megerősítése",
         message: `Biztosan törölni szeretnéd ezt a napot: "${item.day}"?`,
         onConfirm: async () => {
-          const id = this.pendingDeleteId;
-          this.resetDeleteState();
-          if (!id) return;
           try {
+            const id = this.pendingDeleteId;
+            this.resetDeleteState();
+            if (!id) return;
             const res = await weekdayService.delete(id);
             const isRestricted = res?.restricted || res?.data?.restricted;
             const restrictedMessage = res?.data?.message || res?.message;
@@ -189,7 +180,6 @@ export default {
               this.deleteErrors[item.id] = restrictedMessage || "Sikertelen törlés";
               return;
             }
-            this.rows = this.rows.filter((row) => row.id !== id);
             await this.loadAll();
           } catch (err) {
             const message = err?.response?.data?.message || "Sikertelen törlés";
@@ -205,8 +195,9 @@ export default {
         await this.loadAll();
         done(true);
       } catch (err) {
-        if (err.response && err.response.status === 422)
-          this.$refs.form.setServerErrors(err.response.data.errors);
+        if (err.response && err.response.status === 422) {
+          this.$refs.form.setServerErrors(err.response.data.errors ?? {});
+        }
         done(false);
       }
     },
@@ -225,25 +216,64 @@ export default {
 .list-wrap {
   border: 1px solid rgba(244, 209, 74, 0.35);
   border-radius: 12px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
 }
+
+.list-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
 .list-table thead th {
   background: #1e2229;
   color: #ffd84f;
   border-bottom: 1px solid #ffd84f;
 }
+
 .list-table tbody td {
   background: #d6d6d8;
   color: #141414;
   border-color: #b9b9bc;
 }
+
 .list-table tbody tr:nth-child(even) td {
   background: #cfcfd2;
 }
+
+.list-table th:nth-child(1),
+.list-table td:nth-child(1) {
+  width: 72px;
+}
+
+.list-table th:nth-child(3),
+.list-table td:nth-child(3) {
+  width: 240px;
+  text-align: right;
+}
+
+.action-header {
+  text-align: right;
+  padding-right: 1rem;
+}
+
+.weekday-cell {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.action-cell {
+  white-space: nowrap;
+  text-align: right;
+  padding-right: 1rem;
+}
+
 .search-wrap {
   position: relative;
   min-width: 300px;
 }
+
 .search-icon {
   position: absolute;
   left: 10px;
@@ -251,22 +281,60 @@ export default {
   transform: translateY(-50%);
   color: #8a8a8a;
 }
+
 .search-input {
   padding-left: 34px;
   border: 1px solid rgba(244, 209, 74, 0.45);
   background: #101216;
   color: #f1f1f1;
 }
+
 .search-input:focus {
   border-color: #f4d14a;
   box-shadow: 0 0 0 0.2rem rgba(244, 209, 74, 0.2);
   background: #101216;
   color: #f1f1f1;
 }
+
+.delete-inline-error {
+  display: inline;
+  margin-left: 0.25rem;
+  color: #e53935;
+  font-size: 0.86rem;
+  line-height: 1.2;
+}
+
 .empty-list {
   border: 1px dashed rgba(244, 209, 74, 0.5);
   border-radius: 12px;
   padding: 1rem;
   color: #f4d14a;
+}
+
+@media (max-width: 768px) {
+  .list-table {
+    min-width: 720px;
+  }
+
+  .list-wrap {
+    overflow-x: scroll;
+    padding-bottom: 0.75rem;
+    scrollbar-width: auto;
+    scrollbar-color: #ffd84f #101216;
+    scrollbar-gutter: stable both-edges;
+  }
+
+  .list-wrap::-webkit-scrollbar {
+    height: 10px;
+  }
+
+  .list-wrap::-webkit-scrollbar-track {
+    background: #101216;
+  }
+
+  .list-wrap::-webkit-scrollbar-thumb {
+    background: #ffd84f;
+    border-radius: 999px;
+  }
 }
 </style>

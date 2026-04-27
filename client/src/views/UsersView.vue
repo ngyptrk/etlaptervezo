@@ -27,7 +27,7 @@
             <th>Név</th>
             <th>Email</th>
             <th>Szerepkör</th>
-            <th>Művelet</th>
+            <th class="action-header">Művelet</th>
           </tr>
         </thead>
         <tbody>
@@ -39,8 +39,8 @@
             </td>
             <td>{{ item.email }}</td>
             <td>{{ roleLabel(item.role) }}</td>
-            <td>
-              <div class="d-flex gap-2">
+            <td class="action-cell">
+              <div class="d-flex justify-content-end gap-2">
                 <button class="btn btn-sm btn-outline-info" @click="updateHandler(item)">
                   <i class="bi bi-pencil"></i> Módosítás
                 </button>
@@ -260,6 +260,17 @@ export default {
 
 .list-table tbody tr:nth-child(even) td {
   background: #cfcfd2;
+}
+
+.action-header {
+  text-align: right;
+  padding-right: 1rem;
+}
+
+.action-cell {
+  white-space: nowrap;
+  text-align: right;
+  padding-right: 1rem;
 }
 
 .search-wrap {

@@ -41,7 +41,7 @@
               </span>
             </td>
             <td class="action-cell">
-              <div class="d-flex justify-content-center gap-2 flex-nowrap">
+              <div class="d-flex justify-content-end gap-2 flex-nowrap">
                 <button class="btn btn-sm btn-outline-info" @click="updateHandler(item)">
                   <i class="bi bi-pencil"></i> Módosítás
                 </button>
@@ -216,7 +216,9 @@ export default {
 .list-wrap {
   border: 1px solid rgba(244, 209, 74, 0.35);
   border-radius: 12px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .list-table {
@@ -248,11 +250,12 @@ export default {
 .list-table th:nth-child(3),
 .list-table td:nth-child(3) {
   width: 210px;
-  text-align: center;
+  text-align: right;
 }
 
 .action-header {
-  text-align: center;
+  text-align: right;
+  padding-right: 1rem;
 }
 
 .unit-cell {
@@ -262,7 +265,8 @@ export default {
 
 .action-cell {
   white-space: nowrap;
-  text-align: center;
+  text-align: right;
+  padding-right: 1rem;
 }
 
 .search-wrap {
@@ -305,5 +309,32 @@ export default {
   border-radius: 12px;
   padding: 1rem;
   color: #f4d14a;
+}
+
+@media (max-width: 768px) {
+  .list-table {
+    min-width: 720px;
+  }
+
+  .list-wrap {
+    overflow-x: scroll;
+    padding-bottom: 0.75rem;
+    scrollbar-width: auto;
+    scrollbar-color: #ffd84f #101216;
+    scrollbar-gutter: stable both-edges;
+  }
+
+  .list-wrap::-webkit-scrollbar {
+    height: 10px;
+  }
+
+  .list-wrap::-webkit-scrollbar-track {
+    background: #101216;
+  }
+
+  .list-wrap::-webkit-scrollbar-thumb {
+    background: #ffd84f;
+    border-radius: 999px;
+  }
 }
 </style>

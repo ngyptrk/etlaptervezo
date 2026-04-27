@@ -5,38 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Meal as CurrentModel;
 use App\Http\Requests\StoreMealRequest as StoreCurrentModelRequest;
 use App\Http\Requests\UpdateMealRequest as UpdateCurrentModelRequest;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\DB;
 
 class MealController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return $this->apiResponse(
-            function () {
-                return CurrentModel::all();
-            }
-        );
+        return $this->apiResponse(function () {
+            return CurrentModel::all();
+        });
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreCurrentModelRequest $request)
     {
-        return $this->apiResponse(
-            function () use ($request) {
-                return CurrentModel::create($request->validated());
-            }
-        );
+        return $this->apiResponse(function () use ($request) {
+            return CurrentModel::create($request->validated());
+        });
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(int $id)
     {
         return $this->apiResponse(function () use ($id) {
@@ -44,9 +29,6 @@ class MealController extends Controller
         });
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateCurrentModelRequest $request, int $id)
     {
         return $this->apiResponse(function () use ($request, $id) {
@@ -56,22 +38,10 @@ class MealController extends Controller
         });
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(int $id)
     {
         return $this->apiResponse(function () use ($id) {
-            $row = CurrentModel::findOrFail($id);
-
-            if ($row->recipes()->exists() || $row->mealRequirements()->exists()) {
-                return [
-                    'restricted' => true,
-                    'message' => 'Ezt az étkezést nem tudod törölni.'
-                ];
-            }
-
-            $row->delete();
+            CurrentModel::findOrFail($id)->delete();
             return ['id' => $id];
         });
     }
