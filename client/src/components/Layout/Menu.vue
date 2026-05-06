@@ -224,7 +224,7 @@ export default {
   width: 44px;
   height: 44px;
   line-height: 1;
-  display: inline-flex;
+  display: none;
   align-items: center;
   justify-content: center;
 }

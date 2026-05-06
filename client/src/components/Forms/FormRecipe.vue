@@ -4,7 +4,7 @@
       <div v-if="serverErrors.general" class="alert alert-danger py-2">
         {{ serverErrors.general[0] }}
       </div>
-      <div class="mb-3 row pt-2">
+      <div class="recipe-form-row row pt-2">
         <label for="name" class="col-form-label col-auto pt-1 pe-0">Név:</label>
         <div class="col">
           <input
@@ -14,16 +14,16 @@
             class="form-control"
             @input="clearError('name')"
           />
-          <div v-if="!serverErrors.name" class="invalid-feedback position-absolute">
+          <div v-if="!serverErrors.name" class="invalid-feedback recipe-error">
             Kötelező mező
           </div>
-          <div v-if="serverErrors.name" class="invalid-feedback position-absolute d-block">
+          <div v-if="serverErrors.name" class="invalid-feedback recipe-error d-block">
             {{ serverErrors.name[0] }}
           </div>
         </div>
       </div>
 
-      <div class="mb-3 row">
+      <div class="recipe-form-row row">
         <label for="description" class="col-form-label col-auto pt-1 pe-0">Leírás:</label>
         <div class="col">
           <textarea
@@ -35,20 +35,20 @@
           ></textarea>
           <div
             v-if="!serverErrors.description"
-            class="invalid-feedback position-absolute"
+            class="invalid-feedback recipe-error"
           >
             Kötelező mező
           </div>
           <div
             v-if="serverErrors.description"
-            class="invalid-feedback position-absolute d-block"
+            class="invalid-feedback recipe-error d-block"
           >
             {{ serverErrors.description[0] }}
           </div>
         </div>
       </div>
 
-      <div class="mb-3 row">
+      <div class="recipe-form-row row">
         <label for="picture" class="col-form-label col-auto pt-1 pe-0">Kép (PNG):</label>
         <div class="col">
           <input
@@ -62,19 +62,19 @@
           <div v-if="formItem.picture" class="form-text text-warning">
             Jelenlegi kép: {{ formItem.picture }}
           </div>
-          <div v-if="!serverErrors.picture" class="invalid-feedback position-absolute">
+          <div v-if="!serverErrors.picture" class="invalid-feedback recipe-error">
             Kötelező mező
           </div>
           <div
             v-if="serverErrors.picture"
-            class="invalid-feedback position-absolute d-block"
+            class="invalid-feedback recipe-error d-block"
           >
             {{ serverErrors.picture[0] }}
           </div>
         </div>
       </div>
 
-      <div class="mb-3 row">
+      <div class="recipe-form-row row">
         <label for="person" class="col-form-label col-auto pt-1 pe-0">Adag:</label>
         <div class="col">
           <input
@@ -85,16 +85,16 @@
             class="form-control"
             @input="clearError('person')"
           />
-          <div v-if="!serverErrors.person" class="invalid-feedback position-absolute">
+          <div v-if="!serverErrors.person" class="invalid-feedback recipe-error">
             Kötelező mező
           </div>
-          <div v-if="serverErrors.person" class="invalid-feedback position-absolute d-block">
+          <div v-if="serverErrors.person" class="invalid-feedback recipe-error d-block">
             {{ serverErrors.person[0] }}
           </div>
         </div>
       </div>
 
-      <div class="mb-3 row">
+      <div class="recipe-form-row row">
         <label for="meal_id" class="col-form-label col-auto pt-1 pe-0">Étkezés:</label>
         <div class="col">
           <select
@@ -108,12 +108,12 @@
               {{ item.meal }}
             </option>
           </select>
-          <div v-if="!serverErrors.meal_id" class="invalid-feedback position-absolute">
+          <div v-if="!serverErrors.meal_id" class="invalid-feedback recipe-error">
             Kötelező mező
           </div>
           <div
             v-if="serverErrors.meal_id"
-            class="invalid-feedback position-absolute d-block"
+            class="invalid-feedback recipe-error d-block"
           >
             {{ serverErrors.meal_id[0] }}
           </div>
@@ -391,6 +391,25 @@ export default {
 </script>
 
 <style scoped>
+.recipe-form-row {
+  margin-bottom: 1rem;
+}
+
+.recipe-form-row > .col {
+  min-width: 0;
+}
+
+.recipe-form-row > .col-form-label {
+  flex: 0 0 88px;
+  width: 88px;
+}
+
+.recipe-error {
+  margin-top: 0.35rem;
+  line-height: 1.25;
+  white-space: normal;
+}
+
 .ingredients-divider {
   height: 1px;
   background: rgba(244, 209, 74, 0.3);

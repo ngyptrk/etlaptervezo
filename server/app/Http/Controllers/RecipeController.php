@@ -101,7 +101,12 @@ class RecipeController extends Controller
     public function destroy(int $id)
     {
         return $this->apiResponse(function () use ($id) {
-            CurrentModel::findOrFail($id)->delete();
+            DB::transaction(function () use ($id) {
+                $recipe = CurrentModel::findOrFail($id);
+                $recipe->ingredients()->delete();
+                $recipe->delete();
+            });
+
             return ['id' => $id];
         });
     }
