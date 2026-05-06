@@ -49,7 +49,7 @@
     <section class="news-section">
       <h3 class="news-title">Újdonságok</h3>
       <p class="news-template">
-        Template szöveg: ide kerülhet rövid tájékoztatás az oldal frissítéseiről.
+        A tervező mostantól, múködik. Finom étel generálást kivánok!
       </p>
     </section>
   </section>

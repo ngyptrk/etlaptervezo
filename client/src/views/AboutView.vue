@@ -15,13 +15,11 @@
         <h2>Miért hoztuk létre?</h2>
         <p>
           Ez a webalkalmazás szakmai vizsga keretében készült. Célunk egy olyan
-          interaktív rendszer megvalósítása volt, amelyben a felhasználók saját
-          ízlésük szerint állíthatják össze ételeiket.
+          interaktív rendszer megvalósítása volt, amelyben a felhasználók 1 kattintással megtudják alkotni a napi/heti/hónapi étrendjüket.
         </p>
       </div>
     </section>
 
-    <!-- FEATURES -->
     <section class="features">
       <h2>Főbb funkciók</h2>
 
@@ -100,7 +98,6 @@ export default {
   background: radial-gradient(circle at top, #2a2a00, #000000 60%);
 }
 
-/* HERO */
 
 .hero {
   text-align: center;
@@ -124,7 +121,6 @@ export default {
   line-height: 1.6;
 }
 
-/* STORY */
 
 .story {
   padding: 70px 20px;
@@ -143,7 +139,7 @@ export default {
   color: #dddddd;
 }
 
-/* FEATURES */
+
 
 .features {
   padding: 80px 20px;
@@ -171,6 +167,9 @@ export default {
   padding: 35px;
   transition: all 0.35s ease;
   border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ddd;
+  font-style: italic;
+  
 }
 
 .card:hover {

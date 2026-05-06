@@ -38,9 +38,13 @@
 
             <div class="ingredients-block mt-2">
               <div class="ingredients-title">
-                <Button @click="toggleIngredients(meal.id)"
-                  >Hozzávalók <i class="bi bi-basket"></i>
-                </Button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-warning"
+                  @click="toggleIngredients(meal.id)"
+                >
+                  Hozzávalók <i class="bi bi-basket"></i>
+                </button>
               </div>
               <div v-if="openMeals[meal.id]" class="ingredients-content">
                 <ul v-if="meal.ingredients?.length" class="ingredients-list">

@@ -22,23 +22,23 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'nullable|string|max:255',
-            'email' => 'nullable|email',
+            'name' => 'nullable|unique|string|max:255',
+            'email' => 'nullable|unique|email',
             'password' => 'nullable|string|min:6',
             'role' => 'nullable|integer|in:1,2',
             
         ];
     }
-    // public function messages(): array
-    // {
-    //     return [
-    //         'name.string' => 'A név csak szöveg lehet.',
+    public function messages(): array
+     {
+         return [
+            'name.string' => 'A név csak szöveg lehet.',
 
-    //         'email.email' => 'Az e-mail cím formátuma nem megfelelő.',
+             'email.email' => 'Az e-mail cím formátuma nem megfelelő.',
 
-    //         'password.string' => 'A jelszó csak szöveg lehet.',
+            'password.string' => 'A jelszó csak szöveg lehet.',
 
-    //         'role.string' => 'A szerepkör csak szöveg lehet.',
-    //     ];
-    // }
+             'role.string' => 'A szerepkör csak szöveg lehet.',
+         ];
+     }
 }

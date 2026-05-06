@@ -28,18 +28,16 @@ class UpdateUserSelfRequest extends FormRequest
                 'sometimes',
                 'required',
                 'string',
-                'required_without_all:email' // Ha nincs email, akkor a név kötelező
+                Rule::unique('users', 'name')->ignore($this->user()->id),
+                'required_without_all:email'
             ],
             'email' => [
                 'sometimes',
                 'required',
                 'email',
-                'required_without_all:name',  // Ha nincs név, akkor az email kötelező
-                // Fontos: az egyediség ellenőrzésekor hagyd figyelmen kívül a jelenlegi felhasználót!
-                // 'unique:users,email,' . $this->user()->id
+                'required_without_all:name',  
                 Rule::unique('users')->ignore($this->user()->id),
             ],
-            // Tiltott mező: Ha a role mező megérkezik a kérésben, a validáció elbukik.
             'role' => 'prohibited',
             'password' => 'prohibited',
         ];
@@ -49,6 +47,7 @@ class UpdateUserSelfRequest extends FormRequest
         return [
             'name.required' => 'A név megadása kötelező, ha az e-mail nincs megadva.',
             'name.string' => 'A név csak szöveg lehet.',
+            'name.unique' => 'Már van ilyen nevű felhasználó.',
             'name.required_without_all' => 'A név megadása kötelező, ha nincs e-mail.',
 
             'email.required' => 'Az e-mail megadása kötelező, ha a név nincs megadva.',
