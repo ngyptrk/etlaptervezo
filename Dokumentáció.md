@@ -51,6 +51,7 @@ Továbbá a felhasználó saját recepteket is generálhat, ami az adatbázisba 
     - Meals_requirements: Az ételek követelménye
     - WeekDays: A hét napjait tartalmazza
 
+![Táblák](image.png)
 
 
 ## Backend: 
@@ -149,6 +150,8 @@ Továbbá a felhasználó saját recepteket is generálhat, ami az adatbázisba 
 ### Autentikáció
 - A be és kijelentkezés egyszerűen történik, a saját token megadásával amit kedvünk szerint állítunk be, lejárati időpontra.
 
+![Token es login](image-1.png)
+
 ## Frontend
 #### Használt modulok:
     - HTML: az alkalmazás felépítésének és szerkezetének kialakítására.
@@ -180,14 +183,14 @@ Továbbá a felhasználó saját recepteket is generálhat, ami az adatbázisba 
 - Komponenseink a könyvtárban újrafelhasználható UI elemek vannak. Melyek egységes szép működést kínál a használónak.
 - A dizájn bootstrap, css segítségével készűlt. Ezért az oldal reszponzívan működik.
 
-### Források
-[Deep Ai link](https://deepai.org/chat/ai-code)
-[W3Schools link](https://www.w3schools.com/)
-[Bootstrap link](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
-[ChatGPT link](https://chatgpt.com/)
-[Unsplash link](https://unsplash.com/s/photos/food)
-Google alapú kép keresés
-Iskolában tanult anyagog használata
+## Források
+#### [Deep Ai link](https://deepai.org/chat/ai-code)
+#### [W3Schools link](https://www.w3schools.com/)
+#### [Bootstrap link](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+#### [ChatGPT link](https://chatgpt.com/)
+#### [Unsplash link](https://unsplash.com/s/photos/food)
+#### Google alapú kép keresés
+#### Iskolában tanult anyagog használata
 
 ## Verziókezelés:
     - GitHub
